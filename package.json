@@ -1,0 +1,22 @@
+{
+  "name": "swordandmagic",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha src/tests/*.test.js",
+    "server": "npx http-server",
+    "start": "node index.js"
+  },
+  "type": "module",
+  "author": "Human",
+  "license": "ISC",
+  "description": "Pet project",
+  "devDependencies": {
+    "mocha": "^10.7.3",
+    "start-server-and-test": "^2.0.8"
+  },
+  "dependencies": {
+    "chai": "^5.1.1",
+    "http-server": "^14.1.1"
+  }
+}
