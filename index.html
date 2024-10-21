@@ -7,24 +7,117 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="icon" href="icon.png">
     <style>
+        @font-face {
+            font-family: "PixelFont";
+            src: url("./src/assets/fonts/Planes_ValMore.ttf");
+        }
+
+        * {
+            font-family: "PixelFont";
+        }
+
+        body {
+            background-color: black;
+        }
+
+        :root {
+            --cursor: auto;
+        }
+
         #root {
             width: 100vw;
             height: 100vh;
             background-color: black;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
         }
+
+        #title {
+            font-size: 70px;
+            z-index: 7;
+            cursor: default;
+        }
+
         #gameWindow {
             border: 3px solid black;
-            background-color: #005555;
+            background-image: url("./src/assets/backgrounds/menu/pixel-art.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            top: 0;
+            position: absolute;
+            display: none;
+        }
+
+        #menu {
+            z-index: 10;
+            width: 20vw;
+            height: 60vh;
+        }
+
+        #menu div {
+            background-color: rgba(28, 27, 56, 0.7);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            border-radius: 10px;
+            border: 3px solid black;
+        }
+
+        #menu button {
+            width: 60%;
+            height: 50px;
+            background-color: rgba(28, 27, 56, 1);
+            border: 3px solid black;
+            border-radius: 10px;
+            font-size: large;
+            cursor: pointer;
+            color: white;
+        }
+
+        #menu button:hover {
+            background-color: #00b34d;
+        }
+
+        #menu button:active {
+            background-color: #00ff1a;
         }
     </style>
+    <noscript>Enable javascript to play this game</noscript>
 </head>
 
 <body style="margin: auto;">
+    <button id="start" style="text-align: center; 
+    font-size: 1000px; color: white; background-color: black;">click</button>
+
     <div id="root">
-        <canvas id="gameWindow">
-        </canvas>
-        <script type="module" src="src/main.js"></script>
+        <h1 id="title">Sword And Magic</h1>
+        <div id="menu">
+
+            <div id="mainMenu">
+                <button id="play">start</button>
+                <button id="bestiairy">bestiairy</button>
+                <button id="settings">settings</button>
+                <button id="main-menu">main menu</button>
+            </div>
+            <dialog id="settingsMenu">
+            </dialog>
+            <dialog id="gameOverMenu">
+            </dialog>
+            <dialog id="pauseMenu">
+            </dialog>
+
+        </div>
     </div>
+
+    <canvas id="gameWindow" style="cursor: var(--cursor);"><canvas>
+
+            <script type="module" src="src/main.js"></script>
 </body>
 
 </html>

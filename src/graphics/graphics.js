@@ -8,13 +8,19 @@ export const gameWindow = document.getElementById("gameWindow");
 gameWindow.width = window.innerWidth;
 gameWindow.height = window.innerHeight;
 const graphics = gameWindow.getContext("2d");
-
+// graphics.font = "bold 48px serif";
+let f = new FontFace("pixel", "url(src/assets/fonts/Planes_ValMore.ttf)");
+f.load().then(() => {
+     document.fonts.add(f);
+     graphics.font = "100px pixel";
+});
 
 export function render() {
     graphics.clearRect(0, 0, gameWindow.width, gameWindow.height);
     drawBackground();
     drawEnemies();
     drawCharacter();
+    // graphics.fillText("Hello World!", gameWindow.width / 2, gameWindow.height / 2);
     // renderHealthBar();
 }
 

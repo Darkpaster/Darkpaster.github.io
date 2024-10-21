@@ -1,7 +1,8 @@
 import { player } from "../main.js";
 import { charAttackSheet, charIdleSheet, charWalkSheet } from "./sprites.js";
 
-const scale = 3;
+const scale = 3,
+framesPerSecond = 10;
 let lastFliped = false;
 
 export function walkFrames(ctx, _flipX = false, last = false) {
