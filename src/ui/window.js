@@ -1,26 +1,16 @@
-import { gameWindow } from "../graphics/graphics.js";
-import { createButton } from "./button.js";
-
 export class Win {
-    constructor(content = "Default content.", width = gameWindow.width / 2, height = gameWindow.height / 1.5){
-        const styles = `
-        background-color: blue;
-        color: black;
-        border-radius: 2dvi;
-        opacity: 0.5;
-        width: ${width}px;
-        height: ${height}px;
-        display: flex;
-        padding: 3dvi;
-        justify-content: center;
-        align-items: space-between;
-        `;
+    constructor(type, ...content){
         this.element = document.createElement("div");
-        this.element.setAttribute("style", styles);
-        this.element.textContent = content;
-        this.element.appendChild(createButton("ok", () => this.hide()));
+        this.element.className = type;
+        content.forEach(element => {
+            this.element.appendChild(element);
+        });
+        document.getElementById("menu").appendChild(this.element);
     }
     hide(){
-        this.element.style.display = "none"
+        this.element.style.display = "none";
+    }
+    show() {
+        this.element.style.display = "block";
     }
 }

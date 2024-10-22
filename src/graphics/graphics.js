@@ -1,27 +1,62 @@
+import { pauseMusic, playMusic } from "../audio/music.js";
 import { pressAttack, pressDown, pressLeft, pressRight, pressUp } from "../io.js";
-import { renderHealthBar } from "../ui/indicators.js";
+import { gameState } from "../main.js";
+import { createButton } from "../ui/button.js";
 import { Win } from "../ui/window.js";
 import { attackFrames, idleFrames, walkFrames } from "./animations.js";
-import { backgroundSheet2, backgroundSheet3, charIdleSheet } from "./sprites.js";
+import { backgroundSheet3 } from "./sprites.js";
 
-export const gameWindow = document.getElementById("gameWindow");
-gameWindow.width = window.innerWidth;
-gameWindow.height = window.innerHeight;
-const graphics = gameWindow.getContext("2d");
-// graphics.font = "bold 48px serif";
+export const canvas = document.getElementById("canvas");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const graphics = canvas.getContext("2d");
 let f = new FontFace("pixel", "url(src/assets/fonts/Planes_ValMore.ttf)");
 f.load().then(() => {
      document.fonts.add(f);
      graphics.font = "100px pixel";
 });
 
+export const play = createButton("start");
+
+const menu = document.getElementById("menu"),
+    mainMenu = new Win("menuDiv", play, createButton("bestiary"),
+    createButton("settings"), createButton("main menu")),
+    title = document.getElementById("title");
+
+
+    menu.appendChild(mainMenu.element);
+
+
+document.getElementById("start").onclick = (event) => {
+    event.target.remove();
+    document.getElementById("root").style.display = "flex";
+    canvas.style.display = "block";
+    playMusic("main");
+};
+
+
+export function showMenu() {
+    pauseMusic();
+    title.style.display = menu.style.display = "block";
+    setBlur(true);
+
+};
+
+export function hideMenu() {
+    playMusic("garden", false);
+    setBlur(false);
+    title.style.display = menu.style.display = "none";
+}
+
 export function render() {
-    graphics.clearRect(0, 0, gameWindow.width, gameWindow.height);
+    graphics.clearRect(0, 0, canvas.width, canvas.height);
     drawBackground();
     drawEnemies();
     drawCharacter();
-    // graphics.fillText("Hello World!", gameWindow.width / 2, gameWindow.height / 2);
-    // renderHealthBar();
+}
+
+function setBlur(set) {
+    canvas.style.filter = set ? "blur(5px)" : "none";
 }
 
 function drawCharacter() {
@@ -47,5 +82,5 @@ function drawEnemies() {
 function drawBackground() {
     if (!backgroundSheet3.complete) return;
     graphics.drawImage(backgroundSheet3, 0, 0, 1920, 1080,
-        0, 0, gameWindow.width, gameWindow.height);
+        0, 0, canvas.width, canvas.height);
 }

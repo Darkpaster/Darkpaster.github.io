@@ -11,19 +11,15 @@
             font-family: "PixelFont";
             src: url("./src/assets/fonts/Planes_ValMore.ttf");
         }
-
         * {
             font-family: "PixelFont";
         }
-
         body {
             background-color: black;
         }
-
         :root {
             --cursor: auto;
         }
-
         #root {
             width: 100vw;
             height: 100vh;
@@ -39,9 +35,17 @@
             font-size: 70px;
             z-index: 7;
             cursor: default;
+            animation: titleAnimation 2s infinite alternate;
         }
-
-        #gameWindow {
+        @keyframes titleAnimation {
+            0% {
+                text-shadow: 0 0 10px #00b34d;
+            }
+            100% {
+                text-shadow: 0 0 30px #00eb66;
+            }
+        }
+        #canvas {
             border: 3px solid black;
             background-image: url("./src/assets/backgrounds/menu/pixel-art.jpg");
             background-repeat: no-repeat;
@@ -50,14 +54,12 @@
             position: absolute;
             display: none;
         }
-
         #menu {
             z-index: 10;
             width: 20vw;
             height: 60vh;
         }
-
-        #menu div {
+        .menuDiv {
             background-color: rgba(28, 27, 56, 0.7);
             width: 100%;
             height: 100%;
@@ -69,7 +71,7 @@
             border: 3px solid black;
         }
 
-        #menu button {
+        .menuButton {
             width: 60%;
             height: 50px;
             background-color: rgba(28, 27, 56, 1);
@@ -79,12 +81,11 @@
             cursor: pointer;
             color: white;
         }
-
-        #menu button:hover {
+        .menuButton:hover {
             background-color: #00b34d;
+            transition-duration: 0.3s;
         }
-
-        #menu button:active {
+        .menuButton:active {
             background-color: #00ff1a;
         }
     </style>
@@ -93,29 +94,16 @@
 
 <body style="margin: auto;">
     <button id="start" style="text-align: center; 
-    font-size: 1000px; color: white; background-color: black;">click</button>
+    font-size: 2000px; color: black; background-color: black;">click</button>
 
     <div id="root">
-        <h1 id="title">Sword And Magic</h1>
+        <h1 id="title">World Of Illusions</h1>
         <div id="menu">
-
-            <div id="mainMenu">
-                <button id="play">start</button>
-                <button id="bestiairy">bestiairy</button>
-                <button id="settings">settings</button>
-                <button id="main-menu">main menu</button>
-            </div>
-            <dialog id="settingsMenu">
-            </dialog>
-            <dialog id="gameOverMenu">
-            </dialog>
-            <dialog id="pauseMenu">
-            </dialog>
 
         </div>
     </div>
 
-    <canvas id="gameWindow" style="cursor: var(--cursor);"><canvas>
+    <canvas id="canvas" style="cursor: var(--cursor);"><canvas>
 
             <script type="module" src="src/main.js"></script>
 </body>

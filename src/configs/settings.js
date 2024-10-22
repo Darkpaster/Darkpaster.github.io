@@ -1,7 +1,7 @@
 //file for global game settigns
 const _fps = Symbol('fps');
 
-export default {
+export const settings = {
     fullScreen: false,
     language: "en",
     difficulty: "normal",
@@ -12,6 +12,9 @@ export default {
     particles: true,
 
     get fps() {
+        return this[_fps];
+    },
+    delay: function() {
         return 1000 / this[_fps];
     },
     set fps(fps) {
