@@ -7,14 +7,17 @@ export const settings = {
     difficulty: "normal",
     graphics: "high",
     soundVolume: 100,
-    musicVolume : 100,
+    musicVolume: 100,
+    defaultTileScale: 3,
+    tileSize: 16,
+
     [_fps]: 30,
     particles: true,
 
     get fps() {
         return this[_fps];
     },
-    delay: function() {
+    delay: function () {
         return 1000 / this[_fps];
     },
     set fps(fps) {

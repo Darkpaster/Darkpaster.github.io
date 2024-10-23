@@ -1,31 +1,33 @@
 import { pauseMusic, playMusic } from "../audio/music.js";
 import { pressAttack, pressDown, pressLeft, pressRight, pressUp } from "../io.js";
-import { gameState } from "../main.js";
 import { createButton } from "../ui/button.js";
 import { Win } from "../ui/window.js";
-import { attackFrames, idleFrames, walkFrames } from "./animations.js";
+import { scaledTileSize } from "../utils.js";
+import { renderPlayer } from "./animations.js";
 import { backgroundSheet3 } from "./sprites.js";
-
+import { tiles } from "./tiles.js";
+import { player } from "../main.js";
+import { spawnFloor } from "../world/spawn.js";
 export const canvas = document.getElementById("canvas");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-const graphics = canvas.getContext("2d");
+canvas.width = spawnFloor.length * scaledTileSize();
+canvas.height = spawnFloor[0].length * scaledTileSize();
+export const graphics = canvas.getContext("2d");
+
 let f = new FontFace("pixel", "url(src/assets/fonts/Planes_ValMore.ttf)");
 f.load().then(() => {
-     document.fonts.add(f);
-     graphics.font = "100px pixel";
+    document.fonts.add(f);
+    graphics.font = "100px pixel";
 });
+graphics.fillStyle = "black";
 
 export const play = createButton("start");
 
 const menu = document.getElementById("menu"),
     mainMenu = new Win("menuDiv", play, createButton("bestiary"),
-    createButton("settings"), createButton("main menu")),
+        createButton("settings"), createButton("main menu")),
     title = document.getElementById("title");
 
-
-    menu.appendChild(mainMenu.element);
-
+menu.appendChild(mainMenu.element);
 
 document.getElementById("start").onclick = (event) => {
     event.target.remove();
@@ -49,8 +51,9 @@ export function hideMenu() {
 }
 
 export function render() {
-    graphics.clearRect(0, 0, canvas.width, canvas.height);
-    drawBackground();
+    graphics.fillRect(-1000, -1000, canvas.width + 2000, canvas.height + 2000);
+    // drawBackground();
+    drawTileMap();
     drawEnemies();
     drawCharacter();
 }
@@ -61,17 +64,17 @@ function setBlur(set) {
 
 function drawCharacter() {
     if (pressLeft) {
-        walkFrames(graphics, true);
+        renderPlayer("walk", graphics);
     } else if (pressRight) {
-        walkFrames(graphics);
+        renderPlayer("walk", graphics);
     } else if (pressUp) {
-        walkFrames(graphics, false, true);
+        renderPlayer("walk", graphics);
     } else if (pressDown) {
-        walkFrames(graphics, false, true);
+        renderPlayer("walk", graphics);
     } else if (pressAttack) {
-        attackFrames(graphics);
+        renderPlayer("attack", graphics);
     } else {
-        idleFrames(graphics);
+        renderPlayer("idle", graphics);
     }
 }
 
@@ -79,8 +82,21 @@ function drawEnemies() {
 
 }
 
+function drawTileMap() {
+    for (let i = 0; i < spawnFloor.length; i++) {
+        for (let j = 0; j < spawnFloor.length; j++) {
+            const tile = spawnFloor[i][j];
+            if (!tiles[tile]) {
+                continue
+            }
+            graphics.drawImage(tiles[tile].image.tile, j * scaledTileSize(), i * scaledTileSize(),
+                scaledTileSize(), scaledTileSize());
+        }
+    }
+}
+
 function drawBackground() {
     if (!backgroundSheet3.complete) return;
     graphics.drawImage(backgroundSheet3, 0, 0, 1920, 1080,
-        0, 0, canvas.width, canvas.height);
+        0, 0, window.innerWidth, window.innerHeight);
 }

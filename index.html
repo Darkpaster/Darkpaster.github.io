@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title> Sword And Magic </title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>WoI</title>
     <link rel="icon" href="icon.png">
     <style>
         @font-face {
@@ -13,9 +12,6 @@
         }
         * {
             font-family: "PixelFont";
-        }
-        body {
-            background-color: black;
         }
         :root {
             --cursor: auto;
@@ -49,7 +45,8 @@
             border: 3px solid black;
             background-image: url("./src/assets/backgrounds/menu/pixel-art.jpg");
             background-repeat: no-repeat;
-            background-size: cover;
+            background-size: 1920px 1080px;
+            background-color: #00b34d;
             top: 0;
             position: absolute;
             display: none;
@@ -103,7 +100,7 @@
         </div>
     </div>
 
-    <canvas id="canvas" style="cursor: var(--cursor);"><canvas>
+    <canvas id="canvas"><canvas>
 
             <script type="module" src="src/main.js"></script>
 </body>

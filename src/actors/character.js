@@ -1,12 +1,14 @@
 import { pressDown, pressLeft, pressRight, pressUp } from "../io.js";
+import { scaledTileSize } from "../utils.js";
+import locationList from "../world/locationList.js";
 
 export class Player {
 	constructor(){
-		this.name = "Zoldik"
-		this.x = 700;
-		this.y = 600;
+		this.location = locationList.spawn.floor;
+		this.name = "Guts";
+		this.x = this.location.length * scaledTileSize() / 2;
+		this.y = this.location.length * scaledTileSize() / 2;
 		this.speed = 20;
-		this.direction = 0;
         // this.char = char;
 		this.health = 30;
 		this.defense = 10;
@@ -16,6 +18,7 @@ export class Player {
 		this.jumpHeight = 20;
 	}
 	update(){
+	const diff = {x: this.x, y: this.y};
 	if(pressUp){
 		this.y -= this.speed;
 	}
@@ -28,14 +31,15 @@ export class Player {
 	if(pressRight){
 		this.x += this.speed;
 	}
+	if(this.location.length * scaledTileSize() < this.y || this.y < 0) {
+		this.y = diff.y;
+	}
+	if (this.location[0].length * scaledTileSize() < this.x || this.x < 0) {
+		this.x = diff.x;
+	}
+	diff.x -= this.x;
+	diff.y -= this.y;
+
+	return diff;
 	}
 }
-
-// function selectChar(name){
-//     if(name === "warrior"){
-//         return {
-
-//             items: [new Item("stone"), new Item("sword")]
-//         }
-//     }
-// }

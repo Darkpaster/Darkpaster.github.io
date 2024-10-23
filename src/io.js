@@ -9,7 +9,6 @@ const bindings = {
 	left: "a",
 	right: "d",
 	attack: "f",
-	jump: "Space",
 	pause: "Escape",
 	fullscreen: "f11",
 	mute: "m",
@@ -25,8 +24,6 @@ document.addEventListener("keydown", (event) => {
 		pressRight = true;
 	} else if (event.key === bindings.down) {
 		pressDown = true;
-	} else if (event.key === bindings.jump) {
-		pressJump = true;
 	} else if (event.key === bindings.pause) {
 		if(gameState === "paused") {
 			play.click();
@@ -47,8 +44,6 @@ document.addEventListener("keyup", (event) => {
 		pressRight = false;
 	} else if (event.key === bindings.down) {
 		pressDown = false;
-	} else if (event.key === bindings.jump) {
-		pressJump = false;
 	} else if (event.key === bindings.pause) {
 		pressPause = false;
 	}else if (event.key === bindings.attack) {
