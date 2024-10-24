@@ -4,9 +4,9 @@ import { Win } from "../ui/window.js";
 import { scaledTileSize } from "../utils/math.js";
 import { backgroundSheet3 } from "./sprites.js";
 import { tiles } from "./tileSprites.js";
-import { Actor } from "../logic/actors/actor.js";
 import { getCurrentLocation } from "../logic/world/locationList.js";
 import { player } from "../logic/update.js";
+import { Mob } from "../logic/actors/mobs/mob.js";
 
 export const canvas = document.getElementById("canvas"),
 play = createButton("start");
@@ -56,11 +56,11 @@ function setBlur(set) {
 }
 
 function renderActors() {
-    player.image.render(player.state, graphics, player.x, player.y);
-    graphics.fillText(player.name, player.x, player.y);
-    Actor.actorList.forEach(actor => {
-        actor.image.render(actor.state, graphics, actor.x, actor.y);
-        graphics.fillText(actor.name, actor.x, actor.y);
+    player.image.render(player.renderState, graphics, player.x, player.y, player.direction);
+    // graphics.fillText(player.name, player.x, player.y);
+    Mob.mobList.forEach(mob => {
+        mob.image.render(mob.renderState, graphics, mob.x, mob.y, mob.direction);
+        graphics.fillText(mob.x + " " + mob.y, player.x, player.y);
     });
 }
 

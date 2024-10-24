@@ -54,7 +54,7 @@ export class Player extends Actor{
 
 	unEquip(item){
 		this.pickUp(item);
-		this.equipmentSlot(null); // не работает 
+		this.equipmentSlot(null); // will not work
 	}
 
 	learn(spell){
@@ -97,19 +97,23 @@ export class Player extends Actor{
 		}
 	}
 
-	update(){
+	updatePlayer(){
 	const diff = {x: this.x, y: this.y};
 	if(pressUp){
 		this.y -= this.moveSpeed;
+		this.direction = "up";
 	}
 	if(pressDown){
 		this.y += this.moveSpeed;
+		this.direction = "down";
 	}
 	if(pressLeft){
 		this.x -= this.moveSpeed;
+		this.direction = "left";
 	}
 	if(pressRight){
 		this.x += this.moveSpeed;
+		this.direction = "right";
 	}
 	if(getCurrentLocation().floor.length * scaledTileSize() < this.y || this.y < 0) {
 		this.y = diff.y;
@@ -120,9 +124,9 @@ export class Player extends Actor{
 	diff.x -= this.x;
 	diff.y -= this.y;
 	if(diff.x !== 0 || diff.y !== 0) {
-		this.state = "walking";
+		this.renderState = "walking";
 	}else{
-		this.state = "idle";
+		this.renderState = "idle";
 	}
 
 	return diff;

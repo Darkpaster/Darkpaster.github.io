@@ -15,13 +15,13 @@ export class AnimatedImageManager {
         }
     }
 
-    render(sheet, ctx, x, y) {
+    render(sheet, ctx, x, y, direction) {
         const current = this.list[sheet];
         const prevAnimation = this.currentAnimation;
         if (!current) {
             alert(sheet + " not found in AnimatedImageManager");
         }
-        this.isFlipped = current.animate(ctx, this.isFlipped, x, y);
+        this.isFlipped = current.animate(ctx, this.isFlipped, x, y, direction);
         this.currentAnimation = sheet;
         if (prevAnimation !== this.currentAnimation) {
             this.list[prevAnimation].currentFrame = 0;
@@ -40,7 +40,7 @@ export class AnimatedImage extends Image {
         this.scale = scale;
     }
 
-    animate(ctx, isFlipped, x, y) {
+    animate(ctx, isFlipped, x, y, direction) {
         if (!this.manager.flipX) {
             isFlipped = false;
         }
@@ -54,7 +54,7 @@ export class AnimatedImage extends Image {
             cutX = 0;
             cutY = this.currentFrame * spriteHeight;
         }
-        const flipX = pressLeft || isFlipped && !pressRight;
+        const flipX = direction === "left" || isFlipped && direction !== "right";
         if (flipX) {
             ctx.save();
             ctx.scale(-1, 1);

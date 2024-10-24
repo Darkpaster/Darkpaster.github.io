@@ -1,6 +1,8 @@
 import { settings } from "../configs/settings.js"
 
-export function randomString() { return Math.random().toString(36).substring(2)}
+export function randomString(...strings) {
+    return strings[Math.floor(Math.random() * strings.length)];
+}
 
 export function randomInt(min, max = 0) {
     return max > 0 ? Math.round(Math.random() * (max - min)) + min :

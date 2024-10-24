@@ -2,7 +2,6 @@ import { randomInt, scaledTileSize } from "../../utils/math.js";
 import { getCurrentLocation } from "../world/locationList.js";
 
 export class Actor {
-	static actorList = [];
 	constructor() {
 		this.name = "Unknown";
 		this.x = getCurrentLocation().floor[0].length * scaledTileSize() / 2;
@@ -23,7 +22,7 @@ export class Actor {
 		this.image = null;
 		this.attackDelay = 1;
 		this.attackRange = 10;
-		this.state = "idle";
+		this.renderState = "idle";
 		this.direction = "down";
 	}
 	getTileX(){
@@ -44,43 +43,8 @@ export class Actor {
 		}
 	}
 
-	die() {
-		Actor.actorList.splice(Actor.actorList.indexOf(this), 1);
-	}
 
 
-
-    update() {
-		const diff = { x: this.x, y: this.y };
-		if (randomInt(6) === 0) {
-			this.y -= this.moveSpeed;
-		}
-		if (randomInt(6) === 0) {
-			this.y += this.moveSpeed;
-		}
-		if (randomInt(6) === 0) {
-			this.x -= this.moveSpeed;
-		}
-		if (randomInt(6) === 0) {
-			this.x += this.moveSpeed;
-		}
-		if (getCurrentLocation().floor.length * scaledTileSize() < this.y || this.y < 0) {
-			this.y = diff.y;
-		}
-		if (getCurrentLocation().floor[0].length * scaledTileSize() < this.x || this.x < 0) {
-			this.x = diff.x;
-		}
-		diff.x -= this.x;
-		diff.y -= this.y;
-
-		if(diff.x !== 0 || diff.y !== 0) {
-			this.state = "walking";
-		}else{
-			this.state = "idle";
-		}
-
-		return diff;
-	}
 
 	// _checkCollisison(x, y) {
 	// 	const tile = currentLocation.floor[Math.floor(y / scaledTileSize())][Math.floor(x / scaledTileSize())];

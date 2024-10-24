@@ -1,9 +1,9 @@
 import { settings } from "../configs/settings.js";
 import { Camera } from "../ui/camera.js";
 import { Delay } from "../utils/time.js";
-import { Actor } from "./actors/actor.js";
 import { Player } from "./actors/mainCharacter.js";
 import { blueWitch } from "./actors/mobs/blueWitch.js";
+import { Mob } from "./actors/mobs/mob.js";
 import { Slash } from "./skills/slash.js";
 import { setCurrentLocation } from "./world/locationList.js";
 
@@ -22,9 +22,9 @@ export function init() {
 
 export function update() {
     if (updateRate.timeIsUp()) {
-        camera.update(player.update(), player.x, player.y);
-        Actor.actorList.forEach((actor) => {
-            actor.update();
+        camera.update(player.updatePlayer(), player.x, player.y);
+        Mob.mobList.forEach((mob) => {
+            mob.update();
         });
         // Actor.actorList = Actor.actorList.filter((actor) => actor.isAlive());
         
