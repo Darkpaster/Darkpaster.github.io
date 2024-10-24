@@ -1,32 +1,29 @@
 import { pauseMusic, playMusic } from "../audio/music.js";
-import { pressAttack, pressDown, pressLeft, pressRight, pressUp } from "../io.js";
 import { createButton } from "../ui/button.js";
 import { Win } from "../ui/window.js";
-import { scaledTileSize } from "../utils.js";
-import { renderPlayer } from "./animations.js";
+import { scaledTileSize } from "../utils/math.js";
 import { backgroundSheet3 } from "./sprites.js";
-import { tiles } from "./tiles.js";
-import { player } from "../main.js";
-import { spawnFloor } from "../world/spawn.js";
-export const canvas = document.getElementById("canvas");
-canvas.width = spawnFloor.length * scaledTileSize();
-canvas.height = spawnFloor[0].length * scaledTileSize();
+import { tiles } from "./tileSprites.js";
+import { Actor } from "../logic/actors/actor.js";
+import { getCurrentLocation } from "../logic/world/locationList.js";
+import { player } from "../logic/update.js";
+
+export const canvas = document.getElementById("canvas"),
+play = createButton("start");
+canvas.width = getCurrentLocation().floor.length * scaledTileSize();
+canvas.height = getCurrentLocation().floor[0].length * scaledTileSize();
 export const graphics = canvas.getContext("2d");
-
-let f = new FontFace("pixel", "url(src/assets/fonts/Planes_ValMore.ttf)");
-f.load().then(() => {
-    document.fonts.add(f);
-    graphics.font = "100px pixel";
-});
-graphics.fillStyle = "black";
-
-export const play = createButton("start");
-
 const menu = document.getElementById("menu"),
     mainMenu = new Win("menuDiv", play, createButton("bestiary"),
         createButton("settings"), createButton("main menu")),
     title = document.getElementById("title");
 
+const f = new FontFace("pixel", "url(src/assets/fonts/Planes_ValMore.ttf)");
+f.load().then(() => {
+    document.fonts.add(f);
+    graphics.font = "30px pixel";
+});
+graphics.fillStyle = "black";
 menu.appendChild(mainMenu.element);
 
 document.getElementById("start").onclick = (event) => {
@@ -36,12 +33,10 @@ document.getElementById("start").onclick = (event) => {
     playMusic("main");
 };
 
-
 export function showMenu() {
     pauseMusic();
     title.style.display = menu.style.display = "block";
     setBlur(true);
-
 };
 
 export function hideMenu() {
@@ -52,40 +47,33 @@ export function hideMenu() {
 
 export function render() {
     graphics.fillRect(-1000, -1000, canvas.width + 2000, canvas.height + 2000);
-    // drawBackground();
-    drawTileMap();
-    drawEnemies();
-    drawCharacter();
+    renderTilemap();
+    renderActors();
 }
 
 function setBlur(set) {
     canvas.style.filter = set ? "blur(5px)" : "none";
 }
 
-function drawCharacter() {
-    if (pressLeft) {
-        renderPlayer("walk", graphics);
-    } else if (pressRight) {
-        renderPlayer("walk", graphics);
-    } else if (pressUp) {
-        renderPlayer("walk", graphics);
-    } else if (pressDown) {
-        renderPlayer("walk", graphics);
-    } else if (pressAttack) {
-        renderPlayer("attack", graphics);
-    } else {
-        renderPlayer("idle", graphics);
-    }
+function renderActors() {
+    player.image.render(player.state, graphics, player.x, player.y);
+    graphics.fillText(player.name, player.x, player.y);
+    Actor.actorList.forEach(actor => {
+        actor.image.render(actor.state, graphics, actor.x, actor.y);
+        graphics.fillText(actor.name, actor.x, actor.y);
+    });
 }
 
-function drawEnemies() {
-
-}
-
-function drawTileMap() {
-    for (let i = 0; i < spawnFloor.length; i++) {
-        for (let j = 0; j < spawnFloor.length; j++) {
-            const tile = spawnFloor[i][j];
+function renderTilemap() {
+    const tilesY = Math.round(window.innerHeight / scaledTileSize() / 2) + 2;
+    const tilesX = Math.round(window.innerWidth / scaledTileSize() / 2) + 2;
+    const beforeY = player.getTileY() - tilesY;
+    const afterY = player.getTileY() + tilesY;
+    const beforeX = player.getTileX() - tilesX;
+    const afterX = player.getTileX() + tilesX;
+    for (let i = beforeY; i < afterY; i++) {
+        for (let j = beforeX; j < afterX; j++) {
+            const tile = getCurrentLocation().floor[i][j];
             if (!tiles[tile]) {
                 continue
             }

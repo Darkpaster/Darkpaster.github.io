@@ -1,8 +1,7 @@
 import { AnimatedImageManager } from "./image.js";
-import { playerSheets } from "./sprites.js";
+import { blueWitchSheet, playerSheets } from "./sprites.js";
 
-const hero = new AnimatedImageManager(playerSheets);
+export const heroImageManager = new AnimatedImageManager(playerSheets);
+export const blueWitchImageManager = new AnimatedImageManager(blueWitchSheet, true, false);
 
-export function renderPlayer(sheet, ctx) {
-    hero.render(sheet, ctx);
-}
+//hero.render(sheet, ctx, player.x, player.y);

@@ -1,23 +1,18 @@
-import { Player } from "./actors/character.js";
 import { settings } from "./configs/settings.js";
-import { graphics, hideMenu, play, render, showMenu } from "./graphics/graphics.js";
-import { pressPause } from "./io.js";
-import { Camera } from "./ui/camera.js";
+import { hideMenu, play, render, showMenu } from "./graphics/graphics.js";
+import { pressPause } from "./io/input.js";
+import { init, update } from "./logic/update.js";
+
 export let gameState = "menu";
 
-settings.fps = 20;
 
-const updateRate = 10;
-
-export const player = new Player();
-
-const camera = new Camera(player.x, player.y, graphics);
+init();
 
 play.onclick = () => {
     hideMenu();
     gameState = "playing";
     const mainLoop = setInterval(() => {
-        camera.update(player.update(), player.location, player.x, player.y);
+        update();
         render();
         if (pressPause) {
             showMenu();

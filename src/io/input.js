@@ -1,5 +1,5 @@
-import { play } from "./graphics/graphics.js";
-import { gameState } from "./main.js";
+import { play } from "../graphics/graphics.js";
+import { gameState } from "../main.js";
 
 export let pressUp, pressDown, pressLeft, pressRight,
 	pressJump, pressAttack, pressPause = false;

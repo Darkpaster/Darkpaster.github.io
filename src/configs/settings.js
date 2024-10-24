@@ -11,7 +11,7 @@ export const settings = {
     defaultTileScale: 3,
     tileSize: 16,
 
-    [_fps]: 30,
+    [_fps]: 20,
     particles: true,
 
     get fps() {

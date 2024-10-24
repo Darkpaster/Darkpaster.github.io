@@ -1,18 +1,19 @@
-import { scaledTileSize } from "../utils.js";
+import { graphics } from "../graphics/graphics.js";
+import { getCurrentLocation } from "../logic/world/locationList.js";
+import { scaledTileSize } from "../utils/math.js";
 
 export class Camera {
-    constructor(x, y, canvas) {
-        canvas.translate(-x + window.innerWidth / 2 - scaledTileSize(), -y + window.innerHeight / 2 - scaledTileSize());
-        this.canvas = canvas;
+    constructor(x, y) {
+        graphics.translate(-x + window.innerWidth / 2 - scaledTileSize(), -y + window.innerHeight / 2 - scaledTileSize());
     }
 
-    update(diff, location, x, y) {
-        this.canvas.translate(diff.x, diff.y);
-        if(location.length * scaledTileSize() < y || y < 0) {
-            this.canvas.translate(0, -diff.y);
+    update(diff, x, y) {
+        graphics.translate(diff.x, diff.y);
+        if(getCurrentLocation().floor.length * scaledTileSize() < y || y < 0) {
+            graphics.translate(0, -diff.y);
         }
-        if (location[0].length * scaledTileSize() < x || x < 0) {
-            this.canvas.translate(-diff.x, 0);
+        if (getCurrentLocation().floor[0].length * scaledTileSize() < x || x < 0) {
+            graphics.translate(-diff.x, 0);
         }
     }
 }

@@ -1,21 +1,27 @@
 import { settings } from "../configs/settings.js";
-import { pressLeft, pressRight } from "../io.js";
-import { player } from "../main.js";
+import { pressLeft, pressRight } from "../io/input.js";
+import { Delay } from "../utils/time.js";
 
 export class AnimatedImageManager {
-    constructor(list) {
+    constructor(list, flipX = true, horizontalSheet = true) {
         this.list = list;
         this.isFlipped = false;
         this.currentAnimation = "idle";
+        this.flipX = flipX;
+        this.horizontalSheet = horizontalSheet;
+
+        for (const key in this.list) {
+            this.list[key].manager = this;
+        }
     }
 
-    render(sheet, ctx) {
+    render(sheet, ctx, x, y) {
         const current = this.list[sheet];
         const prevAnimation = this.currentAnimation;
         if (!current) {
             alert(sheet + " not found in AnimatedImageManager");
         }
-        this.isFlipped = current.animate(ctx, this.isFlipped);
+        this.isFlipped = current.animate(ctx, this.isFlipped, x, y);
         this.currentAnimation = sheet;
         if (prevAnimation !== this.currentAnimation) {
             this.list[prevAnimation].currentFrame = 0;
@@ -30,35 +36,38 @@ export class AnimatedImage extends Image {
         this.src = src;
         this.framesNumber = framesNumber;
         this.currentFrame = 0;
-        this.framesRate = Math.floor(framesRate / settings.delay());
-        this.frameCounter = 0;
+        this.framesRate = new Delay(Math.floor(framesRate / settings.delay()))
         this.scale = scale;
     }
 
-    timeToSwapFrame() {
-        if (this.frameCounter > this.framesRate) {
-            this.frameCounter = 0;
+    animate(ctx, isFlipped, x, y) {
+        if (!this.manager.flipX) {
+            isFlipped = false;
         }
-        return ++this.frameCounter >= this.framesRate;
-    }
-
-    animate(ctx, isFlipped) {
-        const spriteWidth = this.width / this.framesNumber;
-        const spriteHeight = 42;
+        let spriteWidth = this.width / this.framesNumber;
+        let spriteHeight = this.height;
+        let cutX = this.currentFrame * spriteWidth;
+        let cutY = 0;
+        if(!this.manager.horizontalSheet) {
+            spriteWidth = this.width;
+            spriteHeight = this.height / this.framesNumber;
+            cutX = 0;
+            cutY = this.currentFrame * spriteHeight;
+        }
         const flipX = pressLeft || isFlipped && !pressRight;
         if (flipX) {
             ctx.save();
             ctx.scale(-1, 1);
-            ctx.drawImage(this, this.currentFrame * spriteWidth, 0, spriteWidth,
-                spriteHeight, -player.x - spriteWidth * 2, player.y,
+            ctx.drawImage(this, cutX, cutY, spriteWidth,
+                spriteHeight, -x - spriteWidth * 2, y,
                 spriteWidth * this.scale, spriteHeight * this.scale);
             ctx.restore();
         } else {
-            ctx.drawImage(this, this.currentFrame * spriteWidth, 0, spriteWidth,
-                spriteHeight, player.x, player.y, spriteWidth * this.scale, spriteHeight * this.scale);
+            ctx.drawImage(this, cutX, cutY, spriteWidth,
+                spriteHeight, x, y, spriteWidth * this.scale, spriteHeight * this.scale);
         }
 
-        if (this.timeToSwapFrame()) {
+        if (this.framesRate.timeIsUp()) {
             this.currentFrame++;
             if (this.currentFrame >= this.framesNumber) this.currentFrame = 0;
         }
