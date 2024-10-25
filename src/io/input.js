@@ -1,4 +1,5 @@
 import { play } from "../graphics/graphics.js";
+import { camera } from "../logic/update.js";
 import { gameState } from "../main.js";
 
 export let pressUp, pressDown, pressLeft, pressRight,
@@ -11,9 +12,8 @@ const bindings = {
 	attack: "f",
 	pause: "Escape",
 	fullscreen: "f11",
-	mute: "m",
-	volumeUp: "up arrow",
-	volumeDown: "down arrow"
+	zoomIn: "=",
+	zoomOut: "-"
 }
 document.addEventListener("keydown", (event) => {
 	if (event.key === bindings.left) {
@@ -25,16 +25,26 @@ document.addEventListener("keydown", (event) => {
 	} else if (event.key === bindings.down) {
 		pressDown = true;
 	} else if (event.key === bindings.pause) {
-		if(gameState === "paused") {
+		if (gameState === "paused") {
 			play.click();
 			return;
 		}
 		pressPause = true;
-	}
-	else if (event.key === bindings.attack) {
+	} else if (event.key === bindings.attack) {
 		pressAttack = true
+	} else if (event.key === bindings.fullscreen) {
+		if (document.fullscreenElement) {
+			document.exitFullscreen();
+		} else {
+			document.documentElement.requestFullscreen();
+		}
+	} if (event.key === bindings.zoomIn && camera.zoom < 4) {
+		camera.zoom += 1;
+	} else if (event.key === bindings.zoomOut && camera.zoom > 2) {
+		camera.zoom -= 1;
 	}
 })
+
 document.addEventListener("keyup", (event) => {
 	if (event.key === bindings.left) {
 		pressLeft = false;
@@ -46,7 +56,7 @@ document.addEventListener("keyup", (event) => {
 		pressDown = false;
 	} else if (event.key === bindings.pause) {
 		pressPause = false;
-	}else if (event.key === bindings.attack) {
+	} else if (event.key === bindings.attack) {
 		pressAttack = false;
 	}
 });

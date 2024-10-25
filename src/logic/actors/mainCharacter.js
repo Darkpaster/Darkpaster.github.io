@@ -97,7 +97,7 @@ export class Player extends Actor{
 		}
 	}
 
-	updatePlayer(){
+	updatePlayer(x = 0, y = 0){
 	const diff = {x: this.x, y: this.y};
 	if(pressUp){
 		this.y -= this.moveSpeed;
@@ -115,12 +115,20 @@ export class Player extends Actor{
 		this.x += this.moveSpeed;
 		this.direction = "right";
 	}
+	if(x !== 0){
+		this.x = x;
+	}
+	if(y !== 0){
+		this.y = y;
+	}
+
 	if(getCurrentLocation().floor.length * scaledTileSize() < this.y || this.y < 0) {
 		this.y = diff.y;
 	}
 	if (getCurrentLocation().floor[0].length * scaledTileSize() < this.x || this.x < 0) {
 		this.x = diff.x;
 	}
+
 	diff.x -= this.x;
 	diff.y -= this.y;
 	if(diff.x !== 0 || diff.y !== 0) {

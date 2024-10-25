@@ -1,5 +1,4 @@
 import { settings } from "../configs/settings.js";
-import { pressLeft, pressRight } from "../io/input.js";
 import { Delay } from "../utils/time.js";
 
 export class AnimatedImageManager {
@@ -25,6 +24,12 @@ export class AnimatedImageManager {
         this.currentAnimation = sheet;
         if (prevAnimation !== this.currentAnimation) {
             this.list[prevAnimation].currentFrame = 0;
+        }
+    }
+
+    update(scale){
+        for (const key in this.list) {
+            this.list[key].scale += scale;
         }
     }
 

@@ -34,13 +34,13 @@ document.getElementById("start").onclick = (event) => {
 };
 
 export function showMenu() {
-    pauseMusic();
+    // pauseMusic();
     title.style.display = menu.style.display = "block";
     setBlur(true);
 };
 
 export function hideMenu() {
-    playMusic("garden", false);
+    // playMusic("garden", false);
     setBlur(false);
     title.style.display = menu.style.display = "none";
 }
@@ -57,10 +57,10 @@ function setBlur(set) {
 
 function renderActors() {
     player.image.render(player.renderState, graphics, player.x, player.y, player.direction);
-    // graphics.fillText(player.name, player.x, player.y);
+    graphics.fillText(player.x + " " + player.y, player.x, player.y);
     Mob.mobList.forEach(mob => {
         mob.image.render(mob.renderState, graphics, mob.x, mob.y, mob.direction);
-        graphics.fillText(mob.x + " " + mob.y, player.x, player.y);
+        graphics.fillText(mob.x + " " + mob.y, mob.x, mob.y);
     });
 }
 

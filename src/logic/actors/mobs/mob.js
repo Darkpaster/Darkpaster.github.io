@@ -15,7 +15,7 @@ export class Mob extends Actor {
         Mob.mobList.push(this);
     }
 
-    update() {
+    update(x = 0, y = 0) {
 		const diff = { x: this.x, y: this.y };
 
         if (this.state === "chasing") {
@@ -24,6 +24,12 @@ export class Mob extends Actor {
             this.wander();
         } else if (this.state === "fleeing") {
             this.flee();
+        }
+        if(x !== 0){
+            this.x = x;
+        }
+        if(y !== 0){
+            this.y = y;
         }
 
 		if (getCurrentLocation().floor.length * scaledTileSize() < this.y || this.y < 0) {

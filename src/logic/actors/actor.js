@@ -1,3 +1,4 @@
+import { settings } from "../../configs/settings.js";
 import { randomInt, scaledTileSize } from "../../utils/math.js";
 import { getCurrentLocation } from "../world/locationList.js";
 
@@ -18,13 +19,17 @@ export class Actor {
 		this.evasion = 0,
 		this.criticalChance = 0,
 		this.criticalDamage = 2,
-		this.moveSpeed = 10;
+		this._moveSpeed = 3;
 		this.image = null;
 		this.attackDelay = 1;
 		this.attackRange = 10;
 		this.renderState = "idle";
 		this.direction = "down";
 	}
+	get moveSpeed() {
+		return Math.round(this._moveSpeed * settings.defaultTileScale);
+	}
+
 	getTileX(){
 		return Math.round(this.x / scaledTileSize());
 	}
