@@ -1,6 +1,6 @@
 import { pauseMusic, playMusic } from "../audio/music.js";
-import { createButton } from "../ui/button.js";
-import { Win } from "../ui/window.js";
+import { createButton } from "../ui/components/button.js";
+import { Win } from "../ui/components/window.js";
 import { scaledTileSize } from "../utils/math.js";
 import { backgroundSheet3 } from "./sprites.js";
 import { tiles } from "./tileSprites.js";
@@ -9,7 +9,7 @@ import { player } from "../logic/update.js";
 import { Mob } from "../logic/actors/mobs/mob.js";
 
 export const canvas = document.getElementById("canvas"),
-play = createButton("start");
+    play = createButton("start");
 canvas.width = getCurrentLocation().floor.length * scaledTileSize();
 canvas.height = getCurrentLocation().floor[0].length * scaledTileSize();
 export const graphics = canvas.getContext("2d");
@@ -30,7 +30,7 @@ document.getElementById("start").onclick = (event) => {
     event.target.remove();
     document.getElementById("root").style.display = "flex";
     canvas.style.display = "block";
-    playMusic("main");
+    // playMusic("main");
 };
 
 export function showMenu() {
@@ -57,10 +57,12 @@ function setBlur(set) {
 
 function renderActors() {
     player.image.render(player.renderState, graphics, player.x, player.y, player.direction);
-    graphics.fillText(player.x + " " + player.y, player.x, player.y);
+    // graphics.fillText(player.health, player.x, player.y);
+    graphics.fillRect(player.x, player.y, 5, 5);
     Mob.mobList.forEach(mob => {
         mob.image.render(mob.renderState, graphics, mob.x, mob.y, mob.direction);
-        graphics.fillText(mob.x + " " + mob.y, mob.x, mob.y);
+        // graphics.fillText(mob.health, mob.x, mob.y);
+        graphics.fillRect(mob.x, mob.y, 5, 5);
     });
 }
 

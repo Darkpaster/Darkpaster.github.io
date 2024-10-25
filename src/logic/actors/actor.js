@@ -1,5 +1,6 @@
 import { settings } from "../../configs/settings.js";
 import { randomInt, scaledTileSize } from "../../utils/math.js";
+import { TimeDelay } from "../../utils/time.js";
 import { getCurrentLocation } from "../world/locationList.js";
 
 export class Actor {
@@ -21,13 +22,18 @@ export class Actor {
 		this.criticalDamage = 2,
 		this._moveSpeed = 3;
 		this.image = null;
-		this.attackDelay = 1;
+		this.attackDelay = new TimeDelay(1500, true);
+		this.castDelay = new TimeDelay(500);
 		this.attackRange = 10;
 		this.renderState = "idle";
 		this.direction = "down";
 	}
 	get moveSpeed() {
 		return Math.round(this._moveSpeed * settings.defaultTileScale);
+	}
+
+	set moveSpeed(value) {
+		this._moveSpeed = value;
 	}
 
 	getTileX(){

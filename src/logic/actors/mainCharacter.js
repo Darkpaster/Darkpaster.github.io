@@ -37,6 +37,8 @@ export class Player extends Actor{
 		this.inventorySize = 20,
 		this.equipmentSize = 6,
 		this.skillPoints = 0;
+
+		this.moveSpeed = 5;
 	}
 
 	pickUp(item){
@@ -132,7 +134,7 @@ export class Player extends Actor{
 	diff.x -= this.x;
 	diff.y -= this.y;
 	if(diff.x !== 0 || diff.y !== 0) {
-		this.renderState = "walking";
+		this.renderState = "walk";
 	}else{
 		this.renderState = "idle";
 	}

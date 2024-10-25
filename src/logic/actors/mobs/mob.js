@@ -1,4 +1,4 @@
-import { randomInt, randomString, scaledTileSize } from "../../../utils/math.js";
+import { calculateDistance, randomInt, randomString, scaledTileSize } from "../../../utils/math.js";
 import { TimeDelay } from "../../../utils/time.js";
 import { player } from "../../update.js";
 import { getCurrentLocation } from "../../world/locationList.js";
@@ -16,52 +16,67 @@ export class Mob extends Actor {
     }
 
     update(x = 0, y = 0) {
-		const diff = { x: this.x, y: this.y };
+        const diff = { x: this.x, y: this.y };
+
+
+        if (calculateDistance(player, this) < scaledTileSize() * 6) {
+            this.state = "chasing";
+        } else {
+            this.state = "wondering";
+        }
 
         if (this.state === "chasing") {
+            if (this.attack()) {
+                return
+            }
             this.chase();
         } else if (this.state === "wondering") {
             this.wander();
         } else if (this.state === "fleeing") {
             this.flee();
         }
-        if(x !== 0){
+        if (x !== 0) {
             this.x = x;
         }
-        if(y !== 0){
+        if (y !== 0) {
             this.y = y;
         }
 
-		if (getCurrentLocation().floor.length * scaledTileSize() < this.y || this.y < 0) {
-			this.y = diff.y;
-		}
-		if (getCurrentLocation().floor[0].length * scaledTileSize() < this.x || this.x < 0) {
-			this.x = diff.x;
-		}
-		diff.x -= this.x;
-		diff.y -= this.y;
+        if (getCurrentLocation().floor.length * scaledTileSize() < this.y || this.y < 0) {
+            this.y = diff.y;
+        }
+        if (getCurrentLocation().floor[0].length * scaledTileSize() < this.x || this.x < 0) {
+            this.x = diff.x;
+        }
+        diff.x -= this.x;
+        diff.y -= this.y;
 
-		if(diff.x !== 0 || diff.y !== 0) {
-			this.renderState = "walking";
-		}else{
-			this.renderState = "idle";
-		}
+        if (diff.x !== 0 || diff.y !== 0) {
+            this.renderState = "walk";
+        } else {
+            this.renderState = "idle";
+        }
 
-		return diff;
-	}
+        return diff;
+    }
 
     chase() {
-        if (this.x < player.x) {
-            this.x += this.moveSpeed;
+        const dist1 = player.x - scaledTileSize() * 2,
+            dist2 = player.x + scaledTileSize() * 2,
+            dist3 = player.y - scaledTileSize() * 2,
+            dist4 = player.y + scaledTileSize() * 2;
+        if (this.x < dist1) {
+            this.x += Math.min(this.moveSpeed, dist1 - this.x);
             this.direction = "right";
-        } else if (this.x > player.x) {
-            this.x -= this.moveSpeed;
+        } else if (this.x > dist2) {
+            this.x -= Math.min(this.moveSpeed, dist2 - player.x);
             this.direction = "left";
-        } else if (this.y < player.y) {
-            this.y += this.moveSpeed;
+        }
+        if (this.y < dist3) {
+            this.y += Math.min(this.moveSpeed, dist3 - this.y);
             this.direction = "down";
-        } else if (this.y > player.y) {
-            this.y -= this.moveSpeed;
+        } else if (this.y > dist4) {
+            this.y -= Math.min(this.moveSpeed, dist4 - player.y);
             this.direction = "up";
         }
     }
@@ -70,13 +85,13 @@ export class Mob extends Actor {
         if (!this.timer.timeIsUp()) {
             direction = this.direction;
             // this.timer.setDelay(randomInt(1000, 3000));
-        }else {
-            if(randomInt(1) === 1){
+        } else {
+            if (randomInt(1) === 1) {
                 this.idle = !this.idle;
                 return
             }
         }
-        if(this.idle){
+        if (this.idle) {
             return
         }
         //  this.timer.duration = randomInt(1000, 3000);
@@ -115,9 +130,33 @@ export class Mob extends Actor {
         }
     }
 
+    attack() {
+        if (calculateDistance(player, this) < scaledTileSize() * 3) {
+            if (this.castDelay.timeIsUp()) {
 
-	die() {
-		Mob.mobList.splice(Mob.mobList.indexOf(this), 1);
-	}
+                if (this.attackDelay.timeIsUp()) {
+                    if (this.attackDelay.getLeftTimePercent() < 0.5) {
+                        player.dealDamage(randomInt(this.minDamage, this.maxDamage));
+                    }
+                    return false;
+                }
+            }else{
+                if(this.castDelay.getLeftTimePercent() > 0.95){
+                    this.renderState = "charge";
+                    return true;
+                }
+            }
+            this.renderState = "attack";
+            return true;
+        }else{
+            this.attackDelay.reset();
+            this.castDelay.reset();
+        }
+    }
+
+
+    die() {
+        Mob.mobList.splice(Mob.mobList.indexOf(this), 1);
+    }
 
 }
