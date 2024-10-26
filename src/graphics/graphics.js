@@ -9,6 +9,7 @@ import { player } from "../logic/update.js";
 import { Mob } from "../logic/actors/mobs/mob.js";
 
 export const canvas = document.getElementById("canvas"),
+    floatTextList = [],
     play = createButton("start");
 canvas.width = getCurrentLocation().floor.length * scaledTileSize();
 canvas.height = getCurrentLocation().floor[0].length * scaledTileSize();
@@ -21,9 +22,9 @@ const menu = document.getElementById("menu"),
 const f = new FontFace("pixel", "url(src/assets/fonts/Planes_ValMore.ttf)");
 f.load().then(() => {
     document.fonts.add(f);
-    graphics.font = "30px pixel";
+    graphics.font = "20px pixel";
 });
-graphics.fillStyle = "black";
+
 menu.appendChild(mainMenu.element);
 
 document.getElementById("start").onclick = (event) => {
@@ -46,9 +47,11 @@ export function hideMenu() {
 }
 
 export function render() {
+    graphics.fillStyle = "black";
     graphics.fillRect(-1000, -1000, canvas.width + 2000, canvas.height + 2000);
     renderTilemap();
     renderActors();
+    renderText();
 }
 
 function setBlur(set) {
@@ -57,13 +60,27 @@ function setBlur(set) {
 
 function renderActors() {
     player.image.render(player.renderState, graphics, player.x, player.y, player.direction);
-    // graphics.fillText(player.health, player.x, player.y);
-    graphics.fillRect(player.x, player.y, 5, 5);
+    graphics.fillText(player.health, player.x, player.y);
     Mob.mobList.forEach(mob => {
         mob.image.render(mob.renderState, graphics, mob.x, mob.y, mob.direction);
-        // graphics.fillText(mob.health, mob.x, mob.y);
-        graphics.fillRect(mob.x, mob.y, 5, 5);
+        graphics.fillText(mob.health, mob.x, mob.y);
+        // graphics.fillRect(mob.x, mob.y, 3, 3);
     });
+}
+
+function renderText() {
+    let length = floatTextList.length;
+    if (!length) {
+        return
+    }
+    while (length--) {
+        const text = floatTextList[length];
+        // alert(text.x + " " + text.y + "\n" + text.text);
+        text.render(graphics);
+        if(text.update()) {
+            floatTextList.splice(floatTextList.indexOf(text), 1);
+        }
+    }
 }
 
 function renderTilemap() {

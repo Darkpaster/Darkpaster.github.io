@@ -1,7 +1,10 @@
 import { settings } from "../../configs/settings.js";
+import { FloatText } from "../../graphics/floatText.js";
+import { floatTextList } from "../../graphics/graphics.js";
 import { randomInt, scaledTileSize } from "../../utils/math.js";
-import { TimeDelay } from "../../utils/time.js";
+import { CallbackTimer } from "../../utils/time.js";
 import { getCurrentLocation } from "../world/locationList.js";
+import { Player } from "./mainCharacter.js";
 
 export class Actor {
 	constructor() {
@@ -22,11 +25,12 @@ export class Actor {
 		this.criticalDamage = 2,
 		this._moveSpeed = 3;
 		this.image = null;
-		this.attackDelay = new TimeDelay(1500, true);
-		this.castDelay = new TimeDelay(500);
+		this.attackDelay = new CallbackTimer(() => {console.log("Attack!")}, 1000);
 		this.attackRange = 10;
 		this.renderState = "idle";
 		this.direction = "down";
+		this.spellBook = [];
+		this.target = null;
 	}
 	get moveSpeed() {
 		return Math.round(this._moveSpeed * settings.defaultTileScale);
@@ -49,9 +53,8 @@ export class Actor {
 			return;
 		}
 		this.health -= damage;
-		if (this.health <= 0) {
-			this.die();
-		}
+		floatTextList.push(new FloatText(damage, this.x, this.y, this instanceof Player));
+
 	}
 
 

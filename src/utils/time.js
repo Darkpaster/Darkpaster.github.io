@@ -49,28 +49,47 @@ export class TimeDelay {
 
 }
 
-// export class setCallBack {
-//     constructor(callback, delayTime) {
-//         this.callback = callback;
-//         this.delayTime = delayTime;
-//         this.startTime = null;
-//         this.isCalled = false;
-//         this.isStarted = false;
-//         this.start();
-//     }
-//     start() {
-//         this.startTime = Date.now();
-//         this.isStarted = true;
-//         this.isCalled = false;
-//         this.loop();
-//     }
-//     loop() {
-//         if (this.isStarted) {
-//             if (Date.now() - this.startTime > this.delayTime) {
-//                 this.isStarted = false;
-//                 this.isCalled = true;
-//                 this.callback();
-//             }
-//         }
-//     }
-// }
+export class CallbackTimer {
+    constructor(callback = () => {}, delay = 1000, cooldown = null) {
+        this.callback = callback;
+        this.delay = delay;
+        this.id = null;
+        this.cooldown = cooldown;
+        this.done = false;
+    }
+
+    start(initCallback = null) {
+        if(this.cooldown?.id && !this.cooldown.done) { //начало отсчёта кулдауна (до завершения)
+            return;
+        }
+        this.done = false;
+        this.id = setTimeout(() => {
+            this.callback();
+            this.done = true;
+            this.stop();
+        }, 
+            this.delay);
+
+        if(this.cooldown) {
+            this.cooldown.restart();
+        }
+    }
+
+    setCallback(callback) {
+        this.callback = callback;
+    }
+
+    setDelay(delay) {
+        this.delay = delay;
+    }
+
+    stop() {
+        clearTimeout(this.id);
+        this.id = null;
+    }
+
+    restart() {
+        this.stop();
+        this.start();
+    }
+}

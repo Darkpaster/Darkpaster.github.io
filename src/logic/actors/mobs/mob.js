@@ -12,6 +12,7 @@ export class Mob extends Actor {
         this.state = "wondering";
         this.timer = new TimeDelay(1000);
         this.idle = true;
+        this.agroRadius = scaledTileSize() * 8;
         Mob.mobList.push(this);
     }
 
@@ -19,17 +20,19 @@ export class Mob extends Actor {
         const diff = { x: this.x, y: this.y };
 
 
-        if (calculateDistance(player, this) < scaledTileSize() * 6) {
+        if (calculateDistance(player, this) < this.agroRadius) {
             this.state = "chasing";
+            this.target = player;
         } else {
             this.state = "wondering";
+            this.target = null;
         }
 
         if (this.state === "chasing") {
-            if (this.attack()) {
-                return
+            
+            if(!this.attackEvents()) {
+                this.chase();
             }
-            this.chase();
         } else if (this.state === "wondering") {
             this.wander();
         } else if (this.state === "fleeing") {
@@ -54,7 +57,10 @@ export class Mob extends Actor {
         if (diff.x !== 0 || diff.y !== 0) {
             this.renderState = "walk";
         } else {
-            this.renderState = "idle";
+            if(this.renderState === "idle"){
+                this.renderState = "idle";
+            }
+
         }
 
         return diff;
@@ -130,28 +136,15 @@ export class Mob extends Actor {
         }
     }
 
-    attack() {
-        if (calculateDistance(player, this) < scaledTileSize() * 3) {
-            if (this.castDelay.timeIsUp()) {
+    attackEvents() {
+        let success = false;
+        this.spellBook.forEach(spell => {
+            success = spell.useSkill(this, player);
+        })
+        return success;
+    }
 
-                if (this.attackDelay.timeIsUp()) {
-                    if (this.attackDelay.getLeftTimePercent() < 0.5) {
-                        player.dealDamage(randomInt(this.minDamage, this.maxDamage));
-                    }
-                    return false;
-                }
-            }else{
-                if(this.castDelay.getLeftTimePercent() > 0.95){
-                    this.renderState = "charge";
-                    return true;
-                }
-            }
-            this.renderState = "attack";
-            return true;
-        }else{
-            this.attackDelay.reset();
-            this.castDelay.reset();
-        }
+    autoAttack() {
     }
 
 

@@ -7,11 +7,11 @@ import { Actor } from "./actor.js";
 export class Player extends Actor{
 	constructor(){
 		super();
-		this.health = 120;
+		this.x += 800;
+		this.health = 1000;
 		this.image = heroImageManager;
 		this.name = "Guts";
 		this.inventory = [];
-		this.spellBook = [];
 		this.equipment = {
 			head: null,
 			body: null,
