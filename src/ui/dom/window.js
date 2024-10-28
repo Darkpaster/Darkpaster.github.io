@@ -2,15 +2,18 @@ export class Win {
     constructor(type, ...content){
         this.element = document.createElement("div");
         this.element.className = type;
-        content.forEach(element => {
+        for (const element of content) {
             this.element.appendChild(element);
-        });
-        document.getElementById("menu").appendChild(this.element);
+        }
     }
     hide(){
         this.element.style.display = "none";
     }
+
+    isHidden(){
+        return this.element.style.display === "none";
+    }
     show() {
-        this.element.style.display = "block";
+        this.element.style.display = "flex";
     }
 }

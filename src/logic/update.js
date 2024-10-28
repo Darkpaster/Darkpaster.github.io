@@ -1,5 +1,6 @@
 import { settings } from "../configs/settings.js";
 import { Camera } from "../ui/camera.js";
+import { updateInGameUI } from "../ui/components.js";
 import { scaledTileSize } from "../utils/math.js";
 import { Delay } from "../utils/time.js";
 import { Player } from "./actors/mainCharacter.js";
@@ -24,22 +25,21 @@ export function init() {
 export function update() {
     if (updateRate.timeIsUp()) {
         camera.update(player.updatePlayer(), player.x, player.y);
-        Mob.mobList.forEach((mob) => {
+        updateInGameUI();
+        for (const mob of Mob.mobList) {
             mob.update();
-        });
+        }
         // Actor.actorList = Actor.actorList.filter((actor) => actor.isAlive());
-
     }
 }
 
 export function updateZoom(zoomIn) {
-
     const prevPosX = player.getTileX();
     const prevPosY = player.getTileY();
     const prevPos = [];
-    Mob.mobList.forEach((mob) => {
+    for (const mob of Mob.mobList) {
         prevPos.push({ x: mob.getTileX(), y: mob.getTileY() });
-    });
+    }
 
     settings.defaultTileScale += zoomIn ? 1 : -1;
 
@@ -56,5 +56,4 @@ export function updateZoom(zoomIn) {
         mob.image.update(zoomIn ? 1 : -1);
         mob.update(offsetX, offsetY);
     }
-
 }

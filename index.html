@@ -10,12 +10,15 @@
             font-family: "PixelFont";
             src: url("./src/assets/fonts/Planes_ValMore.ttf");
         }
+
         * {
             font-family: "PixelFont";
         }
+
         :root {
             --cursor: auto;
         }
+
         #root {
             width: 100vw;
             height: 100vh;
@@ -25,6 +28,9 @@
             align-items: center;
             flex-direction: column;
             color: white;
+            background-image: url("./src/assets/backgrounds/menu/pixel-art.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         #title {
@@ -34,28 +40,30 @@
             user-select: none;
             animation: titleAnimation 2s infinite alternate;
         }
+
         @keyframes titleAnimation {
-            0% {
+            from {
                 text-shadow: 0 0 10px #00b34d;
             }
-            100% {
-                text-shadow: 0 0 30px #00eb66;
+            to {
+                text-shadow: 0 0 30px #00b34d;
             }
         }
+
         #canvas {
             border: 3px solid black;
-            background-image: url("./src/assets/backgrounds/menu/pixel-art.jpg");
-            background-repeat: no-repeat;
-            background-size: 1920px 1080px;
+
             top: 0;
             position: absolute;
             display: none;
         }
+
         #menu {
             z-index: 10;
             width: 20vw;
             height: 60vh;
         }
+
         .menuDiv {
             background-color: rgba(28, 27, 56, 0.7);
             width: 100%;
@@ -68,6 +76,49 @@
             border: 3px solid black;
         }
 
+        .inventoryDiv {
+            background-color: rgba(28, 27, 56, 0.7);
+            width: 30vw;
+            height: 30vw;
+            position: absolute;
+            margin: 50px;
+            right: 0;
+            bottom: 0;
+            border-radius: 10px;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: flex-start;
+            align-items: flex-start;
+            align-content: start;
+            border: 2px solid black;
+            z-index: 5;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .stat-bar {
+            width: 25vw;
+            height: 6vh;
+            position: absolute;
+            margin: 20px;
+            left: 0;
+            top: 0;
+            z-index: 5;
+        }
+
+        .inventoryDiv::-webkit-scrollbar-thumb {
+            background-color: rgba(49, 47, 112, 0.7);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .inventoryDiv::-webkit-scrollbar-track {
+            background-color: rgba(28, 27, 56, 0.7);
+            border-radius: 10px;
+        }
+        .inventoryDiv::-webkit-scrollbar {
+            background-color: rgba(28, 27, 56, 0.7);
+        }
+        
         .menuButton {
             width: 60%;
             height: 50px;
@@ -78,10 +129,24 @@
             cursor: pointer;
             color: white;
         }
+
+        .hidden {
+            display: none;
+        }
+
+        .cell {
+            width: 10%;
+            height: 10%;
+            border: 3px solid black;
+            border-radius: 10px;
+            background-color: rgba(28, 27, 56, 0.7);
+        }
+
         .menuButton:hover {
             background-color: #00b34d;
             transition-duration: 0.3s;
         }
+
         .menuButton:active {
             background-color: #00ff1a;
         }
@@ -90,7 +155,7 @@
 </head>
 
 <body style="margin: auto;">
-    <button id="start" style="text-align: center; 
+    <button id="init" style="text-align: center; 
     font-size: 2000px; color: black; background-color: black;">click</button>
 
     <div id="root">

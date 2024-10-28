@@ -138,9 +138,9 @@ export class Mob extends Actor {
 
     attackEvents() {
         let success = false;
-        this.spellBook.forEach(spell => {
+        for (const spell of this.spellBook) {
             success = spell.useSkill(this, player);
-        })
+        }
         return success;
     }
 

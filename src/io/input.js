@@ -1,62 +1,73 @@
-import { play } from "../graphics/graphics.js";
 import { camera } from "../logic/update.js";
-import { gameState } from "../main.js";
+import { clickAt } from "../ui/components.js";
+
 
 export let pressUp, pressDown, pressLeft, pressRight,
-	pressJump, pressAttack, pressPause = false;
+	pressAttack = false;
 const bindings = {
 	up: "w",
 	down: "s",
 	left: "a",
 	right: "d",
-	attack: "f",
 	pause: "Escape",
+	inventory: "b",
 	fullscreen: "f11",
 	zoomIn: "=",
 	zoomOut: "-"
 }
 document.addEventListener("keydown", (event) => {
-	if (event.key === bindings.left) {
-		pressLeft = true;
-	} else if (event.key === bindings.up) {
-		pressUp = true;
-	} else if (event.key === bindings.right) {
-		pressRight = true;
-	} else if (event.key === bindings.down) {
-		pressDown = true;
-	} else if (event.key === bindings.pause) {
-		if (gameState === "paused") {
-			play.click();
-			return;
-		}
-		pressPause = true;
-	} else if (event.key === bindings.attack) {
-		pressAttack = true
-	} else if (event.key === bindings.fullscreen) {
-		if (document.fullscreenElement) {
-			document.exitFullscreen();
-		} else {
-			document.documentElement.requestFullscreen();
-		}
-	} if (event.key === bindings.zoomIn && camera.zoom < 4) {
-		camera.zoom += 1;
-	} else if (event.key === bindings.zoomOut && camera.zoom > 2) {
-		camera.zoom -= 1;
+	switch (event.key) {
+		case bindings.left:
+			pressLeft = true;
+			break;
+		case bindings.up:
+			pressUp = true;
+			break;
+		case bindings.right:
+			pressRight = true;
+			break;
+		case bindings.down:
+			pressDown = true;
+			break;
+		case bindings.pause:
+			clickAt("resume");
+			return
+		case bindings.inventory:
+			clickAt("open-close-inventory");
+			break;
+		case bindings.fullscreen:
+			if (document.fullscreenElement) {
+				document.exitFullscreen();
+			} else {
+				document.documentElement.requestFullscreen();
+			}
+			break;
+		case bindings.zoomIn:
+			if (camera.zoom < 4) {
+				camera.zoom += 1;
+			}
+			break;
+		case bindings.zoomOut:
+			if (camera.zoom > 2) {
+				camera.zoom -= 1;
+			}
+			break;
 	}
 })
 
 document.addEventListener("keyup", (event) => {
-	if (event.key === bindings.left) {
-		pressLeft = false;
-	} else if (event.key === bindings.up) {
-		pressUp = false;
-	} else if (event.key === bindings.right) {
-		pressRight = false;
-	} else if (event.key === bindings.down) {
-		pressDown = false;
-	} else if (event.key === bindings.pause) {
-		pressPause = false;
-	} else if (event.key === bindings.attack) {
-		pressAttack = false;
+	switch (event.key) {
+		case bindings.left:
+			pressLeft = false;
+			break;
+		case bindings.up:
+			pressUp = false;
+			break;
+		case bindings.right:
+			pressRight = false;
+			break;
+		case bindings.down:
+			pressDown = false;
+			break;
 	}
 });

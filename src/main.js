@@ -1,23 +1,25 @@
 import { settings } from "./configs/settings.js";
-import { hideMenu, play, render, showMenu } from "./graphics/graphics.js";
-import { pressPause } from "./io/input.js";
+import { render } from "./graphics/graphics.js";
 import { init, update } from "./logic/update.js";
+import { initComponents } from "./ui/components.js";
 
 export let gameState = "menu";
 
-
 init();
 
-play.onclick = () => {
-    hideMenu();
+initComponents();
+
+let mainLoop = null;
+export function game(){
     gameState = "playing";
-    const mainLoop = setInterval(() => {
+    mainLoop = setInterval(() => {
         update();
         render();
-        if (pressPause) {
-            showMenu();
-            gameState = "paused";
-            clearInterval(mainLoop);
-        }
     }, settings.delay());
 };
+
+export function pauseLoop() {
+    gameState = "paused";
+    clearInterval(mainLoop);
+}
+
