@@ -34,4 +34,4 @@ export const tiles = {
         walkable: true,
         image: new tileImage(mainTileSet, 7, 4)
     },
-}
+};

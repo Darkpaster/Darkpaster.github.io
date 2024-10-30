@@ -3,8 +3,10 @@ import { tiles } from "./tileSprites.js";
 import { getCurrentLocation } from "../logic/world/locationList.js";
 import { player } from "../logic/update.js";
 import { Mob } from "../logic/actors/mobs/mob.js";
+import { initKeyboard } from "../io/input.js";
 
-const canvas = document.getElementById("canvas");
+export const canvas = document.getElementById("canvas");
+initKeyboard();
 export const floatTextList = [];
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
@@ -23,6 +25,8 @@ document.getElementById("init").onclick = (event) => {
     // playMusic("main");
 };
 
+
+
 export function render() {
     renderTilemap();
     renderActors();
@@ -38,6 +42,8 @@ export function hideCanvas() {
 }
 export function showCanvas() {
     canvas.style.display = "block";
+    canvas.setAttribute('tabindex','0');
+    canvas.focus();
 }
 
 function renderActors() {

@@ -1,7 +1,6 @@
 import { camera } from "../logic/update.js";
 import { clickAt } from "../ui/components.js";
 
-
 export let pressUp, pressDown, pressLeft, pressRight,
 	pressAttack = false;
 const bindings = {
@@ -15,7 +14,10 @@ const bindings = {
 	zoomIn: "=",
 	zoomOut: "-"
 }
-document.addEventListener("keydown", (event) => {
+
+export function initKeyboard() {
+
+canvas.addEventListener("keydown", (event) => {
 	switch (event.key) {
 		case bindings.left:
 			pressLeft = true;
@@ -29,19 +31,13 @@ document.addEventListener("keydown", (event) => {
 		case bindings.down:
 			pressDown = true;
 			break;
-		case bindings.pause:
-			clickAt("resume");
-			return
-		case bindings.inventory:
-			clickAt("open-close-inventory");
-			break;
-		case bindings.fullscreen:
-			if (document.fullscreenElement) {
-				document.exitFullscreen();
-			} else {
-				document.documentElement.requestFullscreen();
-			}
-			break;
+		// case bindings.fullscreen:
+		// 	if (document.fullscreenElement) {
+		// 		document.exitFullscreen();
+		// 	} else {
+		// 		document.documentElement.requestFullscreen();
+		// 	}
+		// 	break;
 		case bindings.zoomIn:
 			if (camera.zoom < 4) {
 				camera.zoom += 1;
@@ -55,7 +51,7 @@ document.addEventListener("keydown", (event) => {
 	}
 })
 
-document.addEventListener("keyup", (event) => {
+canvas.addEventListener("keyup", (event) => {
 	switch (event.key) {
 		case bindings.left:
 			pressLeft = false;
@@ -69,5 +65,17 @@ document.addEventListener("keyup", (event) => {
 		case bindings.down:
 			pressDown = false;
 			break;
+		case bindings.pause:
+			clickAt("resume");
+			return
+		case bindings.inventory:
+			clickAt("open-close-inventory");
+			break;
+		case "e":
+			alert(document.activeElement);
+			break;
 	}
 });
+
+
+}

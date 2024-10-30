@@ -2,17 +2,17 @@ import { TimeDelay } from "../utils/time.js";
 
 
 export class FloatText {
-    constructor(text, x, y, player) {
+    constructor(text, x, y, color) {
         this.x = x;
         this.y = y;
         this.text = text;
         this.lifeTime = new TimeDelay(1500);
-        this.fillStyle = player ? "red" : "orange";
+        this.fillStyle = color;
     }
 
     render(ctx) {
         ctx.fillStyle = this.fillStyle;
-        ctx.fillText("-"+this.text, this.x, this.y);
+        ctx.fillText(this.text, this.x, this.y);
     }
 
     update() {

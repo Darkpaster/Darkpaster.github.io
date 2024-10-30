@@ -1,17 +1,26 @@
 import { blueWitchImageManager, heroImageManager } from "../../graphics/animations.js";
 import { pressDown, pressLeft, pressRight, pressUp } from "../../io/input.js";
 import { scaledTileSize } from "../../utils/math.js";
+import { Potion } from "../items/potions/potion.js";
+import { smallPotionOfHealing } from "../items/potions/smallPotionOfHealing.js";
 import { getCurrentLocation } from "../world/locationList.js";
 import { Actor } from "./actor.js";
 
-export class Player extends Actor{
-	constructor(){
+export class Player extends Actor {
+	constructor() {
 		super();
-		this.x += 800;
+		this.x += scaledTileSize() * 10;
+		this.offsetX = 0;
+		this.offsetY = 0;
 		this.health = 1000;
+		this.maxHealth = 1000;
 		this.image = heroImageManager;
 		this.name = "Guts";
-		this.inventory = [];
+		this.inventory = new Array(100);
+		this.inventory[0] = new Potion();
+		this.inventory[22] = new smallPotionOfHealing();
+		this.inventory[3] = new Potion();
+		this.inventory[7] = new smallPotionOfHealing();
 		this.equipment = {
 			head: null,
 			body: null,
@@ -25,120 +34,129 @@ export class Player extends Actor{
 			ring2: null
 		};
 		this.strength = 10,
-		this.dexterity = 10,
-		this.intelligence = 10,
-		this.wisdom = 10,
-		this.constitution = 10,
-		this.charisma = 10,
-		this.luck = 10,
-		this.experience = 0,
-		this.level = 1,
-		this.gold = 0,
-		this.inventorySize = 20,
-		this.equipmentSize = 6,
-		this.skillPoints = 0;
+			this.dexterity = 10,
+			this.intelligence = 10,
+			this.wisdom = 10,
+			this.constitution = 10,
+			this.charisma = 10,
+			this.luck = 10,
+			this.experience = 0,
+			this.level = 1,
+			this.gold = 0,
+			this.inventorySize = 20,
+			this.equipmentSize = 6,
+			this.skillPoints = 0;
 
 		this.moveSpeed = 5;
 	}
 
-	pickUp(item){
+	pickUp(item) {
 		this.inventory.push(item);
 	}
 
-	drop(item){
+	drop(item) {
 		this.inventory.splice(this.inventory.indexOf(item), 1);
 	}
 
-	equip(item){
+	equip(item) {
 		this.equipmentSlot(item);
 		this.drop(item);
 	}
 
-	unEquip(item){
+	unEquip(item) {
 		this.pickUp(item);
 		this.equipmentSlot(null); // will not work
 	}
 
-	learn(spell){
+	learn(spell) {
 		this.spellBook.push(spell);
 	}
 
-	equipmentSlot(item){
-		if(item.type === "head"){
+	equipmentSlot(item) {
+		if (item.type === "head") {
 			this.equipment.head = item;
 		}
-		if(item.type === "body"){
+		if (item.type === "body") {
 			this.equipment.body = item;
 		}
-		if(item.type === "legs"){
+		if (item.type === "legs") {
 			this.equipment.legs = item;
 		}
-		if(item.type === "boots"){
+		if (item.type === "boots") {
 			this.equipment.boots = item;
 		}
-		if(item.type === "arms"){
+		if (item.type === "arms") {
 			this.equipment.arms = item;
 		}
-		if(item.type === "weapon"){
+		if (item.type === "weapon") {
 			this.equipment.weapon = item;
 		}
-		if(item.type === "shield"){
+		if (item.type === "shield") {
 			this.equipment.shield = item;
 		}
-		if(item.type === "accessory"){
+		if (item.type === "accessory") {
 			this.equipment.accessory = item;
 		}
-		if(item.type === "ring"){
-			if(this.equipment.ring1 === null){
+		if (item.type === "ring") {
+			if (this.equipment.ring1 === null) {
 				this.equipment.ring1 = item;
-			}else if(this.equipment.ring2 === null){
+			} else if (this.equipment.ring2 === null) {
 				this.equipment.ring2 = item;
-			}else{
+			} else {
 				this.equipment.ring1 = item;
 			}
 		}
 	}
 
-	updatePlayer(x = 0, y = 0){
-	const diff = {x: this.x, y: this.y};
-	if(pressUp){
-		this.y -= this.moveSpeed;
-		this.direction = "up";
-	}
-	if(pressDown){
-		this.y += this.moveSpeed;
-		this.direction = "down";
-	}
-	if(pressLeft){
-		this.x -= this.moveSpeed;
-		this.direction = "left";
-	}
-	if(pressRight){
-		this.x += this.moveSpeed;
-		this.direction = "right";
-	}
-	if(x !== 0){
-		this.x = x;
-	}
-	if(y !== 0){
-		this.y = y;
-	}
+	updatePlayer(x = 0, y = 0) {
+		// if (this.x % scaledTileSize() !== 0) {
+		// 	this.x -= this.offsetX;
+		// 	return
+		// }
+		// if (this.y % scaledTileSize() !== 0) {
+		// 	this.y -= this.offsetY;
+		// 	return
+		// }
+		const beforeX = this.x;
+		const beforeY = this.y;
+		if (pressUp) {
+			this.y -= this.moveSpeed;
+			this.direction = "up";
+		}
+		if (pressDown) {
+			this.y += this.moveSpeed;
+			this.direction = "down";
+		}
+		if (pressLeft) {
+			this.x -= this.moveSpeed;
+			this.direction = "left";
+		}
+		if (pressRight) {
+			this.x += this.moveSpeed;
+			this.direction = "right";
+		}
+		if (x !== 0) {
+			this.x = x;
+		}
+		if (y !== 0) {
+			this.y = y;
+		}
 
-	if(getCurrentLocation().floor.length * scaledTileSize() < this.y || this.y < 0) {
-		this.y = diff.y;
-	}
-	if (getCurrentLocation().floor[0].length * scaledTileSize() < this.x || this.x < 0) {
-		this.x = diff.x;
-	}
+		if (getCurrentLocation().floor.length * scaledTileSize() < this.y || this.y < 0) {
+			this.y = diff.y;
+		}
+		if (getCurrentLocation().floor[0].length * scaledTileSize() < this.x || this.x < 0) {
+			this.x = diff.x;
+		}
 
-	diff.x -= this.x;
-	diff.y -= this.y;
-	if(diff.x !== 0 || diff.y !== 0) {
-		this.renderState = "walk";
-	}else{
-		this.renderState = "idle";
-	}
+		this.offsetX = beforeX - this.x;
+		this.offsetY = beforeY - this.y;
+		if (this.offsetX !== 0 || this.offsetY !== 0) {
+			this.renderState = "walk";
+		} else {
+			this.renderState = "idle";
+		}
 
-	return diff;
+		return {x: this.offsetX, y: this.offsetX}; //причина бага с камерой
 	}
 }

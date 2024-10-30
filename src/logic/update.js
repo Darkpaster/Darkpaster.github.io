@@ -1,4 +1,5 @@
 import { settings } from "../configs/settings.js";
+import { canvas } from "../graphics/graphics.js";
 import { Camera } from "../ui/camera.js";
 import { updateInGameUI } from "../ui/components.js";
 import { scaledTileSize } from "../utils/math.js";
@@ -7,7 +8,7 @@ import { Player } from "./actors/mainCharacter.js";
 import { blueWitch } from "./actors/mobs/blueWitch.js";
 import { Mob } from "./actors/mobs/mob.js";
 import { Slash } from "./skills/slash.js";
-import { getCurrentLocation, setCurrentLocation } from "./world/locationList.js";
+import { setCurrentLocation } from "./world/locationList.js";
 
 const updateRate = new Delay(Math.round(100 / settings.delay()));
 
@@ -30,6 +31,9 @@ export function update() {
             mob.update();
         }
         // Actor.actorList = Actor.actorList.filter((actor) => actor.isAlive());
+    }
+    if (canvas.id !== document.activeElement.id){
+        canvas.focus();
     }
 }
 

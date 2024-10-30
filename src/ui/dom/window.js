@@ -13,7 +13,7 @@ export class Win {
     isHidden(){
         return this.element.style.display === "none";
     }
-    show() {
-        this.element.style.display = "flex";
+    show(value = "flex") {
+        this.element.style.display = value;
     }
 }

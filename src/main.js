@@ -3,7 +3,14 @@ import { render } from "./graphics/graphics.js";
 import { init, update } from "./logic/update.js";
 import { initComponents } from "./ui/components.js";
 
-export let gameState = "menu";
+let gameState = "menu";
+
+export function getState() {
+    return gameState;
+}
+export function setState(state) {
+    gameState = state;
+}
 
 init();
 

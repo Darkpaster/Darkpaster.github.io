@@ -22,12 +22,8 @@ export const firstCharacter = {
         attack: new AnimatedImage("attack", "src/assets/character/blueWitch/B_witch_attack.png", 9, true),
         charge: new AnimatedImage("charge", "src/assets/character/blueWitch/B_witch_charge.png", 5),
         death: new AnimatedImage("death", "src/assets/character/blueWitch/B_witch_death.png", 12, true),
-    },
-backgroundSheet1 = new StaticImage("src/assets/backgrounds/Battleground1.png"),
-    backgroundSheet2 = new StaticImage("src/assets/backgrounds/Battleground2.png"),
-    backgroundSheet3 = new StaticImage("src/assets/backgrounds/Battleground3.png"),
-    backgroundSheet4 = new StaticImage("src/assets/backgrounds/Battleground4.png"),
-    menuBackgroundSheet = new StaticImage("src/assets/backgrounds/menu/pixel-art.jpg");
+    };
+
 
 
 

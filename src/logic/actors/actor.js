@@ -9,23 +9,23 @@ import { Player } from "./mainCharacter.js";
 export class Actor {
 	constructor() {
 		this.name = "Unknown";
-		this.x = getCurrentLocation().floor[0].length * scaledTileSize() / 2;
-		this.y = getCurrentLocation().floor.length * scaledTileSize() / 2;
+		this.x = getCurrentLocation().floor[0].length / 2 * scaledTileSize();
+		this.y = getCurrentLocation().floor.length / 2 * scaledTileSize();
 		this.health = 100,
-		this.maxHealth = 100,
-		this.maxDamage = 5;
+			this.maxHealth = 100,
+			this.maxDamage = 5;
 		this.minDamage = 2;
 		this.mana = 0,
-		this.maxMana = 0,
-		this.defense = 0,
-		this.magicDefense = 0,
-		this.accuracy = 0,
-		this.evasion = 0,
-		this.criticalChance = 0,
-		this.criticalDamage = 2,
-		this._moveSpeed = 3;
+			this.maxMana = 0,
+			this.defense = 0,
+			this.magicDefense = 0,
+			this.accuracy = 0,
+			this.evasion = 0,
+			this.criticalChance = 0,
+			this.criticalDamage = 2,
+			this._moveSpeed = 3;
 		this.image = null;
-		this.attackDelay = new CallbackTimer(() => {console.log("Attack!")}, 1000);
+		this.attackDelay = new CallbackTimer(() => { console.log("Attack!") }, 1000);
 		this.attackRange = 10;
 		this.renderState = "idle";
 		this.direction = "down";
@@ -40,10 +40,10 @@ export class Actor {
 		this._moveSpeed = value;
 	}
 
-	getTileX(){
+	getTileX() {
 		return Math.round(this.x / scaledTileSize());
 	}
-	getTileY(){
+	getTileY() {
 		return Math.round(this.y / scaledTileSize());
 	}
 
@@ -53,8 +53,7 @@ export class Actor {
 			return;
 		}
 		this.health -= damage;
-		floatTextList.push(new FloatText(damage, this.x, this.y, this instanceof Player));
-
+		floatTextList.push(new FloatText(damage, this.x, this.y, "red"));
 	}
 
 
