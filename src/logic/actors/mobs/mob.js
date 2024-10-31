@@ -1,36 +1,91 @@
-import { calculateDistance, randomInt, randomString, scaledTileSize } from "../../../utils/math.js";
+import { tiles } from "../../../graphics/tileSprites.js";
+import { calcDistance, calcDistanceX, calcDistanceY, randomInt, scaledTileSize } from "../../../utils/math.js";
 import { TimeDelay } from "../../../utils/time.js";
 import { player } from "../../update.js";
 import { getCurrentLocation } from "../../world/locationList.js";
-import { Actor } from "../actor.js";
 
+import { Actor } from "../actor.js";
 
 export class Mob extends Actor {
     static mobList = [];
+
+    #offsetX = 0;
+    #offsetY = 0;
     constructor() {
         super();
         this.state = "wondering";
         this.timer = new TimeDelay(1000);
         this.idle = true;
-        this.agroRadius = scaledTileSize() * 8;
+        this._agroRadius = 6;
         Mob.mobList.push(this);
     }
 
-    update(x = 0, y = 0) {
+    get agroRadius() {
+        return scaledTileSize() * this._agroRadius;
+    }
+
+    set agroRadius(r) {
+        this._agroRadius = r;
+    }
+
+    update() {
+        const scaledTile = scaledTileSize();
+
+        let cnt = false;
+
+        if (this.x % scaledTile !== 0) {
+            this.x -= this.#offsetX;
+            cnt = true;
+        }
+        if (this.y % scaledTile !== 0) {
+            this.y -= this.#offsetY;
+            cnt = true;
+        }
+
+        if (cnt) {
+            return { x: this.#offsetX, y: this.#offsetY }
+        }
+
         const diff = { x: this.x, y: this.y };
 
+        this.setState();
+        this.events();
 
-        if (calculateDistance(player, this) < this.agroRadius) {
-            this.state = "chasing";
-            this.target = player;
+        const collision = this.collision(Mob.mobList);
+		if (collision.x) {
+			this.x = diff.x;
+		}
+		if (collision.y) {
+			this.y = diff.y;
+		}
+
+        this.#offsetX = diff.x = diff.x - this.x;
+        this.#offsetY = diff.y = diff.y - this.y;
+
+        return diff;
+    }
+
+    setState() {
+        if (calcDistance(player, this) < this.agroRadius) {
+            // if(this.checkVisibility) {
+                this.state = "chasing";
+                this.target = player;
+            // }
         } else {
             this.state = "wondering";
             this.target = null;
         }
+    }
 
+    checkVisibility() {
+        const directPath = this.getDirectPathTiles();
+
+        return directPath.every((value) => value.walkable);
+    }
+
+    events() {
         if (this.state === "chasing") {
-            
-            if(!this.attackEvents()) {
+            if (!this.attackEvents()) {
                 this.chase();
             }
         } else if (this.state === "wondering") {
@@ -38,85 +93,73 @@ export class Mob extends Actor {
         } else if (this.state === "fleeing") {
             this.flee();
         }
-        if (x !== 0) {
-            this.x = x;
-        }
-        if (y !== 0) {
-            this.y = y;
-        }
-
-        if (getCurrentLocation().floor.length * scaledTileSize() < this.y || this.y < 0) {
-            this.y = diff.y;
-        }
-        if (getCurrentLocation().floor[0].length * scaledTileSize() < this.x || this.x < 0) {
-            this.x = diff.x;
-        }
-        diff.x -= this.x;
-        diff.y -= this.y;
-
-        if (diff.x !== 0 || diff.y !== 0) {
-            this.renderState = "walk";
-        } else {
-            if(this.renderState === "idle"){
-                this.renderState = "idle";
-            }
-
-        }
-
-        return diff;
     }
+
 
     chase() {
-        const dist1 = player.x - scaledTileSize() * 2,
-            dist2 = player.x + scaledTileSize() * 2,
-            dist3 = player.y - scaledTileSize() * 2,
-            dist4 = player.y + scaledTileSize() * 2;
-        if (this.x < dist1) {
-            this.x += Math.min(this.moveSpeed, dist1 - this.x);
+        if (player.x - this.x > 0) {
+            this.x += this.moveSpeed;
             this.direction = "right";
-        } else if (this.x > dist2) {
-            this.x -= Math.min(this.moveSpeed, dist2 - player.x);
+        } else if (player.x - this.x < 0) {
+            this.x -= this.moveSpeed;
             this.direction = "left";
         }
-        if (this.y < dist3) {
-            this.y += Math.min(this.moveSpeed, dist3 - this.y);
-            this.direction = "down";
-        } else if (this.y > dist4) {
-            this.y -= Math.min(this.moveSpeed, dist4 - player.y);
-            this.direction = "up";
+        if (player.y - this.y > 0) {
+            this.y += this.moveSpeed;
+        } else if (player.y - this.y < 0) {
+            this.y -= this.moveSpeed;
         }
     }
-    wander() {
-        let direction = randomString("right", "left", "down", "up");
-        if (!this.timer.timeIsUp()) {
-            direction = this.direction;
-            // this.timer.setDelay(randomInt(1000, 3000));
-        } else {
-            if (randomInt(1) === 1) {
-                this.idle = !this.idle;
-                return
+
+    calcPath() {
+
+    }
+
+    getDirectPathTiles() {
+        const ray = {x: player.x, y: player.y}
+        const tilesNum = Math.floor(calcDistance(player, this) / scaledTileSize());
+        const pathX = calcDistanceX(player, this);
+        const pathY = calcDistanceY(player, this);
+        const offsetX = pathX / tilesNum || 0;
+        const offsetY = pathY / tilesNum || 0;
+        const foundTiles = [];
+        const pX = player.x - this.x < 0;
+        const pY = player.y - this.y < 0;
+        for (let i = 1; i <= tilesNum; i++) {
+            if (pX) {
+                ray.x += offsetX;
+            }else {
+                ray.x -= offsetX;
             }
+            if (pY) {
+                ray.y += offsetY;
+            }else {
+                ray.y -= offsetY;
+            }
+            const tileX = Math.floor(ray.x / scaledTileSize());
+            const tileY = Math.floor(ray.y / scaledTileSize());
+            // alert(getCurrentLocation().floor[tileY][tileX]);
+            foundTiles.push(tiles[getCurrentLocation().floor[tileY][tileX]].props);
         }
-        if (this.idle) {
-            return
-        }
-        //  this.timer.duration = randomInt(1000, 3000);
+        return foundTiles;
+    }
+
+    wander() {
+        let direction = randomInt(200);
         switch (direction) {
-            case "right":
+            case 0:
                 this.x += this.moveSpeed / 2;
                 this.direction = "right";
                 break;
-            case "left":
+            case 1:
                 this.x -= this.moveSpeed / 2;
                 this.direction = "left";
                 break;
-            case "down":
+            case 2:
                 this.y += this.moveSpeed / 2;
-                this.direction = "down";
                 break;
-            case "up":
+            case 3:
                 this.y -= this.moveSpeed / 2;
-                this.direction = "up";
                 break;
         }
     }
@@ -129,14 +172,24 @@ export class Mob extends Actor {
             this.direction = "right";
         } else if (this.y < player.y) {
             this.y -= this.moveSpeed;
-            this.direction = "up";
         } else if (this.y > player.y) {
             this.y += this.moveSpeed;
-            this.direction = "down";
         }
     }
 
+    inRangeOfAttack(target = player) {
+        return calcDistance(target, this) < scaledTileSize() * this.attackRange * 1.5;
+    }
+
     attackEvents() {
+        if (this.inRangeOfAttack()){
+        this.autoAttack();
+        return true
+        }
+        return false
+    }
+
+    spellEvents() {
         let success = false;
         for (const spell of this.spellBook) {
             success = spell.useSkill(this, player);
@@ -145,6 +198,9 @@ export class Mob extends Actor {
     }
 
     autoAttack() {
+        if (this.attackDelay.timeIsUp()) {
+            player.dealDamage(randomInt(this.minDamage, this.maxDamage));
+        }
     }
 
 

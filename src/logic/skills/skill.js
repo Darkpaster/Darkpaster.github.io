@@ -1,4 +1,4 @@
-import { calculateDistance, randomInt, scaledTileSize } from "../../utils/math.js";
+import { calcDistance, randomInt, scaledTileSize } from "../../utils/math.js";
 import { CallbackTimer } from "../../utils/time.js";
 import { init } from "../update.js";
 
@@ -24,7 +24,7 @@ export class Skill {
         if(this.owner.image.currentAnimation.disposable) {
             this.owner.renderState = "idle";
         }
-        if (this.range < calculateDistance(this.owner, this.owner.target) / scaledTileSize()) {
+        if (this.range < calcDistance(this.owner, this.owner.target) / scaledTileSize()) {
             this.stop();
             return false;
         }

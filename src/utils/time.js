@@ -19,6 +19,7 @@ export class TimeDelay {
     constructor(delayTime, atStartNoDelay = false) {
         this.delayTime = delayTime;
         this.startTime = null;
+        this.atStartNoDelay = atStartNoDelay;
     }
     timeIsUp() {
         if (this.startTime === null) {
@@ -50,7 +51,7 @@ export class TimeDelay {
 }
 
 export class CallbackTimer {
-    constructor(callback = () => {}, delay = 1000, cooldown = null) {
+    constructor(callback = () => {console.log("default")}, delay = 1000, cooldown = null) {
         this.callback = callback;
         this.delay = delay;
         this.id = null;

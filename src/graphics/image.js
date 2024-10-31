@@ -1,4 +1,5 @@
 import { settings } from "../configs/settings.js";
+import { scaledTileSize } from "../utils/math.js";
 import { Delay } from "../utils/time.js";
 
 export class AnimatedImageManager {
@@ -64,25 +65,25 @@ export class AnimatedImage extends Image {
         let spriteHeight = this.height;
         let cutX = this.currentFrame * spriteWidth;
         let cutY = 0;
-        if (!this.manager.horizontalSheet) {
-            spriteWidth = this.width;
-            spriteHeight = this.height / this.framesNumber;
-            cutX = 0;
-            cutY = this.currentFrame * spriteHeight;
-        }
-        const renderXOffset = spriteWidth * this.scale / 2;
-        const renderYOffset = spriteHeight * this.scale / 2;
+        // if (!this.manager.horizontalSheet) {
+        //     spriteWidth = this.width;
+        //     spriteHeight = this.height / this.framesNumber;
+        //     cutX = 0;
+        //     cutY = this.currentFrame * spriteHeight;
+        // }
+        // const renderXOffset = spriteWidth * this.scale / 2;
+        // const renderYOffset = spriteHeight * this.scale / 2;
         const flipX = direction === "left" || isFlipped && direction !== "right";
         if (flipX) {
             ctx.save();
             ctx.scale(-1, 1);
             ctx.drawImage(this, cutX, cutY, spriteWidth,
-                spriteHeight, -x - Math.min(spriteWidth, spriteHeight) * 2 + renderXOffset, y - renderYOffset,
+                spriteHeight, -x - scaledTileSize(), y,
                 spriteWidth * this.scale, spriteHeight * this.scale);
             ctx.restore();
         } else {
             ctx.drawImage(this, cutX, cutY, spriteWidth,
-                spriteHeight, x - renderXOffset, y - renderYOffset, spriteWidth * this.scale, spriteHeight * this.scale);
+                spriteHeight, x, y, spriteWidth * this.scale, spriteHeight * this.scale);
         }
 
         if (this.framesRate.timeIsUp()) {

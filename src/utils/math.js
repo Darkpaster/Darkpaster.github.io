@@ -13,6 +13,13 @@ export function scaledTileSize() {
     return settings.tileSize * settings.defaultTileScale;
 }
 
-export function calculateDistance(actor1, actor2) {
-    return Math.sqrt(Math.pow(actor2.x - actor1.x, 2) + Math.pow(actor2.y - actor1.y, 2));
+export function calcDistance(entity1, entity2) {
+    return Math.sqrt(Math.pow(entity2.x - entity1.x, 2) + Math.pow(entity2.y - entity1.y, 2));
+}
+
+export function calcDistanceX(entity1, entity2) {
+    return Math.abs(entity1.x - entity2.x);
+}
+export function calcDistanceY(entity1, entity2) {
+    return Math.abs(entity1.y - entity2.y);
 }

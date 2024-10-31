@@ -1,10 +1,10 @@
 import { settings } from "../../configs/settings.js";
 import { FloatText } from "../../graphics/floatText.js";
 import { floatTextList } from "../../graphics/graphics.js";
-import { randomInt, scaledTileSize } from "../../utils/math.js";
-import { CallbackTimer } from "../../utils/time.js";
+import { getTile } from "../../graphics/tileSprites.js";
+import { scaledTileSize } from "../../utils/math.js";
+import { TimeDelay } from "../../utils/time.js";
 import { getCurrentLocation } from "../world/locationList.js";
-import { Player } from "./mainCharacter.js";
 
 export class Actor {
 	constructor() {
@@ -23,10 +23,10 @@ export class Actor {
 			this.evasion = 0,
 			this.criticalChance = 0,
 			this.criticalDamage = 2,
-			this._moveSpeed = 3;
+			this._moveSpeed = 2;
 		this.image = null;
-		this.attackDelay = new CallbackTimer(() => { console.log("Attack!") }, 1000);
-		this.attackRange = 10;
+		this.attackDelay = new TimeDelay(2000, true);
+		this.attackRange = 1;
 		this.renderState = "idle";
 		this.direction = "down";
 		this.spellBook = [];
@@ -40,11 +40,20 @@ export class Actor {
 		this._moveSpeed = value;
 	}
 
-	getTileX() {
-		return Math.round(this.x / scaledTileSize());
+	getPosX() {
+		return Math.floor(this.x / scaledTileSize());
 	}
-	getTileY() {
-		return Math.round(this.y / scaledTileSize());
+	getPosY() {
+		return Math.floor(this.y / scaledTileSize());
+	}
+
+	setCoordinates(x, y) {
+		const result = { x: this.x, y: this.y }
+		this.x = x;
+		this.y = y;
+		result.x -= this.x;
+		result.y -= this.y;
+		return result
 	}
 
 	dealDamage(damage) {
@@ -56,14 +65,33 @@ export class Actor {
 		floatTextList.push(new FloatText(damage, this.x, this.y, "red"));
 	}
 
+	getPosTile() {
+		return getTile(this)
+	}
 
+	collision(mobs) {
+		const stop = {x: false, y: false};
 
+		const scaledTile = scaledTileSize();
+		if (getCurrentLocation().floor.length * scaledTile < this.y || this.y < 0) {
+			stop.y = true;
+		}
+		if (getCurrentLocation().floor[0].length * scaledTile < this.x || this.x < 0) {
+			stop.x = true;
+		}
 
-	// _checkCollisison(x, y) {
-	// 	const tile = currentLocation.floor[Math.floor(y / scaledTileSize())][Math.floor(x / scaledTileSize())];
-	// 	if (tile.solid) {
-	// 		return true;
-	// 	}
-	// 	return false;
-	// }
+		const tileX = this.getPosX();
+		const tileY = this.getPosY();
+
+		for (const mob of mobs) {
+			if (this === mob) {
+				continue
+			}
+			if (mob.getPosX() === tileX && mob.getPosY() === tileY) {
+				stop.x = stop.y = true;
+			}
+		}
+
+		return stop
+	}
 }

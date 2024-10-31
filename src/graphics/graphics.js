@@ -47,11 +47,12 @@ export function showCanvas() {
 }
 
 function renderActors() {
+    graphics.fillStyle = "blue";
     player.image.render(player.renderState, graphics, player.x, player.y, player.direction);
-    graphics.fillText(player.health, player.x, player.y);
+    graphics.fillText(player.name, player.x, player.y);
     for (const mob of Mob.mobList) {
         mob.image.render(mob.renderState, graphics, mob.x, mob.y, mob.direction);
-        graphics.fillText(mob.health, mob.x, mob.y);
+        graphics.fillText(mob.name, mob.x, mob.y);
     }
 }
 
@@ -72,10 +73,10 @@ function renderText() {
 function renderTilemap() {
     const tilesY = Math.round(window.innerHeight / scaledTileSize() / 2) + 2;
     const tilesX = Math.round(window.innerWidth / scaledTileSize() / 2) + 2;
-    const beforeY = player.getTileY() - tilesY + 2;
-    const afterY = player.getTileY() + tilesY;
-    const beforeX = player.getTileX() - tilesX + 2;
-    const afterX = player.getTileX() + tilesX;
+    const beforeY = player.getPosY() - tilesY + 2;
+    const afterY = player.getPosY() + tilesY;
+    const beforeX = player.getPosX() - tilesX + 2;
+    const afterX = player.getPosX() + tilesX;
     graphics.fillStyle = "black";
     for (let i = beforeY; i < afterY; i++) {
         for (let j = beforeX; j < afterX; j++) {

@@ -1,20 +1,20 @@
-import { blueWitchImageManager, heroImageManager } from "../../graphics/animations.js";
+import { villagerManager } from "../../graphics/animations.js";
 import { pressDown, pressLeft, pressRight, pressUp } from "../../io/input.js";
 import { scaledTileSize } from "../../utils/math.js";
 import { Potion } from "../items/potions/potion.js";
 import { smallPotionOfHealing } from "../items/potions/smallPotionOfHealing.js";
-import { getCurrentLocation } from "../world/locationList.js";
 import { Actor } from "./actor.js";
+import { Mob } from "./mobs/mob.js";
 
 export class Player extends Actor {
+	#offsetX = 0;
+	#offsetY = 0;
 	constructor() {
 		super();
-		this.x += scaledTileSize() * 10;
-		this.offsetX = 0;
-		this.offsetY = 0;
+		this.x += scaledTileSize() * 20;
 		this.health = 1000;
 		this.maxHealth = 1000;
-		this.image = heroImageManager;
+		this.image = villagerManager;
 		this.name = "Guts";
 		this.inventory = new Array(100);
 		this.inventory[0] = new Potion();
@@ -47,7 +47,7 @@ export class Player extends Actor {
 			this.equipmentSize = 6,
 			this.skillPoints = 0;
 
-		this.moveSpeed = 5;
+		this.moveSpeed = 4;
 	}
 
 	pickUp(item) {
@@ -108,55 +108,54 @@ export class Player extends Actor {
 		}
 	}
 
-	updatePlayer(x = 0, y = 0) {
-		// if (this.x % scaledTileSize() !== 0) {
-		// 	this.x -= this.offsetX;
-		// 	return
-		// }
-		// if (this.y % scaledTileSize() !== 0) {
-		// 	this.y -= this.offsetY;
-		// 	return
-		// }
-		const beforeX = this.x;
-		const beforeY = this.y;
+
+	updatePlayer() {
+		let cnt = false;
+		if (this.x % scaledTileSize() !== 0) {
+			this.x -= this.#offsetX;
+			cnt = true;
+		}
+		if (this.y % scaledTileSize() !== 0) {
+			this.y -= this.#offsetY;
+			cnt = true;
+		}
+		if (cnt) {
+			return {x: this.#offsetX, y: this.#offsetY}
+		}
+
+		const cameraDiff = {x: this.x, y: this.y}
 		if (pressUp) {
 			this.y -= this.moveSpeed;
-			this.direction = "up";
-		}
-		if (pressDown) {
+		}else if (pressDown) {
 			this.y += this.moveSpeed;
-			this.direction = "down";
 		}
 		if (pressLeft) {
-			this.x -= this.moveSpeed;
 			this.direction = "left";
-		}
-		if (pressRight) {
-			this.x += this.moveSpeed;
+			this.x -= this.moveSpeed;
+		}else if (pressRight) {
 			this.direction = "right";
-		}
-		if (x !== 0) {
-			this.x = x;
-		}
-		if (y !== 0) {
-			this.y = y;
+			this.x += this.moveSpeed;
 		}
 
-		if (getCurrentLocation().floor.length * scaledTileSize() < this.y || this.y < 0) {
-			this.y = diff.y;
+
+		const collision = this.collision(Mob.mobList);
+		if (collision.x) {
+			this.x = cameraDiff.x;
 		}
-		if (getCurrentLocation().floor[0].length * scaledTileSize() < this.x || this.x < 0) {
-			this.x = diff.x;
+		if (collision.y) {
+			this.y = cameraDiff.y;
 		}
 
-		this.offsetX = beforeX - this.x;
-		this.offsetY = beforeY - this.y;
-		if (this.offsetX !== 0 || this.offsetY !== 0) {
+
+		this.#offsetX = cameraDiff.x = cameraDiff.x - this.x;
+		this.#offsetY = cameraDiff.y = cameraDiff.y - this.y;
+
+		if (this.#offsetX !== 0 || this.#offsetY !== 0) {
 			this.renderState = "walk";
 		} else {
 			this.renderState = "idle";
 		}
 
-		return {x: this.offsetX, y: this.offsetX}; //причина бага с камерой
+		return cameraDiff;
 	}
 }

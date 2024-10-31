@@ -1,9 +1,10 @@
+import { randomInt, scaledTileSize } from "../utils/math.js";
 import { TimeDelay } from "../utils/time.js";
 
 
 export class FloatText {
     constructor(text, x, y, color) {
-        this.x = x;
+        this.x = randomInt(x, x + scaledTileSize());
         this.y = y;
         this.text = text;
         this.lifeTime = new TimeDelay(1500);
