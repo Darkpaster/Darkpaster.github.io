@@ -7,20 +7,20 @@ import { Actor } from "./actor.js";
 import { Mob } from "./mobs/mob.js";
 
 export class Player extends Actor {
-	#offsetX = 0;
-	#offsetY = 0;
 	constructor() {
 		super();
 		this.x += scaledTileSize() * 20;
-		this.health = 1000;
-		this.maxHealth = 1000;
+		this.HP = 1000;
+		this.HT = 1000;
+		this.AA = false;
 		this.image = villagerManager;
 		this.name = "Guts";
-		this.inventory = new Array(100);
-		this.inventory[0] = new Potion();
-		this.inventory[22] = new smallPotionOfHealing();
-		this.inventory[3] = new Potion();
-		this.inventory[7] = new smallPotionOfHealing();
+		this.inventory = new Array(200);
+		for (let i = 0; i < this.inventory.length; i++) {
+			// this.inventory[0] = new Potion();
+			this.inventory[i] = new smallPotionOfHealing();
+		}
+
 		this.equipment = {
 			head: null,
 			body: null,
@@ -108,35 +108,51 @@ export class Player extends Actor {
 		}
 	}
 
-
 	updatePlayer() {
 		let cnt = false;
 		if (this.x % scaledTileSize() !== 0) {
-			this.x -= this.#offsetX;
+			this.x -= this.offsetX;
 			cnt = true;
 		}
 		if (this.y % scaledTileSize() !== 0) {
-			this.y -= this.#offsetY;
+			this.y -= this.offsetY;
 			cnt = true;
 		}
 		if (cnt) {
-			return {x: this.#offsetX, y: this.#offsetY}
+			return { x: this.offsetX, y: this.offsetY }
 		}
 
-		const cameraDiff = {x: this.x, y: this.y}
+		if (this.AA) {
+			this.attackEvents();
+		}
+
+		this.nextPosY = this.getPosY();
+
+		const cameraDiff = { x: this.x, y: this.y }
 		if (pressUp) {
 			this.y -= this.moveSpeed;
-		}else if (pressDown) {
+		} else if (pressDown) {
 			this.y += this.moveSpeed;
 		}
 		if (pressLeft) {
 			this.direction = "left";
 			this.x -= this.moveSpeed;
-		}else if (pressRight) {
+		} else if (pressRight) {
 			this.direction = "right";
 			this.x += this.moveSpeed;
 		}
 
+
+		if (cameraDiff.x - this.x < 0) {
+			this.nextPosX = this.getPosX() + 1;
+		} else {
+			this.nextPosX = this.getPosX();
+		}
+		if (cameraDiff.y - this.y < 0) {
+			this.nextPosY = this.getPosY() + 1;
+		} else {
+			this.nextPosY = this.getPosY();
+		}
 
 		const collision = this.collision(Mob.mobList);
 		if (collision.x) {
@@ -146,15 +162,9 @@ export class Player extends Actor {
 			this.y = cameraDiff.y;
 		}
 
+		this.offsetX = cameraDiff.x = cameraDiff.x - this.x;
+		this.offsetY = cameraDiff.y = cameraDiff.y - this.y;
 
-		this.#offsetX = cameraDiff.x = cameraDiff.x - this.x;
-		this.#offsetY = cameraDiff.y = cameraDiff.y - this.y;
-
-		if (this.#offsetX !== 0 || this.#offsetY !== 0) {
-			this.renderState = "walk";
-		} else {
-			this.renderState = "idle";
-		}
 
 		return cameraDiff;
 	}

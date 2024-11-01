@@ -33,9 +33,13 @@ const menu = document.getElementById("menu"),
         }
     }, "hidden")),
     panel = new Win("panel-div"),
-    health = createProgressBar("health", "stat-bar", 1000, 1000);
+    health = createProgressBar("health", "stat-bar", 1000, 1000),
+    targetHealth = createProgressBar("target-health", "stat-bar-enemy", 100, 100);
 health.style.accentColor = "green";
+targetHealth.style.accentColor = "green";
 health.style.backgroundColor = "grey";
+targetHealth.style.backgroundColor = "grey";
+
 
 function updateInventory() {
     const items = inventory.element.children;
@@ -126,6 +130,7 @@ function getRarityColor(rarity) {
 
 function onPauseResume(resume) {
     if (resume) {
+        menu.style.display = "block";
         pauseLoop();
         pauseMenu.show();
         setBlur(true);
@@ -135,6 +140,7 @@ function onPauseResume(resume) {
         canvas.removeAttribute('tabindex');
     } else {
         pauseMenu.hide();
+        menu.style.display = "none";
         title.style.display = "none";
         setBlur(false);
         blurInterface(false);
@@ -156,6 +162,7 @@ function onMainMenu() {
 
 function gameInit() {
     mainMenu.hide();
+    menu.style.display = "none";
     title.style.display = "none";
     showCanvas();
     hideInterface(false);
@@ -168,6 +175,7 @@ function hideAllWindows() {
 }
 function hideInterface(hide) {
     health.style.display = !hide ? "block" : "none";
+    targetHealth.style.display = !hide ? "block" : "none";
     if(hide) {
         panel.hide();
     }else {
@@ -176,11 +184,19 @@ function hideInterface(hide) {
 }
 function blurInterface(set) {
     health.style.filter = 
-    panel.element.style.filter = set ? "blur(5px)" : "none";
+    panel.element.style.filter =
+    targetHealth.style.filter = set ? "blur(5px)" : "none";
 }
 
 export function updateInGameUI() {
-    health.value = player.health;
+    health.value = player.HP;
+    if (!player.target) {
+        targetHealth.style.display = "none";
+    }else {
+        targetHealth.style.display = "block";
+        targetHealth.value = player.target.HP;
+    }
+    // targetHealth.maxValue = player.target?.HT;
     updateInventory();
 }
 
@@ -194,8 +210,10 @@ export function initComponents() {
     initInventory();
     initPanel();
     root.appendChild(inventory.element);
-    health.maxValue = player.maxHealth;
+    health.maxValue = player.HT;
+    targetHealth.maxValue = player.target?.HT;
     root.appendChild(health);
+    root.appendChild(targetHealth);
     root.appendChild(itemInfo.element);
     // root.appendChild(panel.element); // не централизованная и не обновляемая панель
 }

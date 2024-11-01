@@ -9,11 +9,10 @@ import { Actor } from "../actor.js";
 export class Mob extends Actor {
     static mobList = [];
 
-    #offsetX = 0;
-    #offsetY = 0;
+
     constructor() {
         super();
-        this.state = "wondering";
+        this.state = "wandering";
         this.timer = new TimeDelay(1000);
         this.idle = true;
         this._agroRadius = 6;
@@ -28,22 +27,33 @@ export class Mob extends Actor {
         this._agroRadius = r;
     }
 
+    static getMobsOnTile(x, y) {
+        const result = []
+        for (const mob of Mob.mobList) {
+            if (mob.getPosX() === Math.floor(x / scaledTileSize())
+                && mob.getPosY() === Math.floor(y / scaledTileSize())) {
+                result.push(mob);
+            }
+        }
+        return result
+    }
+
     update() {
         const scaledTile = scaledTileSize();
 
         let cnt = false;
 
         if (this.x % scaledTile !== 0) {
-            this.x -= this.#offsetX;
+            this.x -= this.offsetX;
             cnt = true;
         }
         if (this.y % scaledTile !== 0) {
-            this.y -= this.#offsetY;
+            this.y -= this.offsetY;
             cnt = true;
         }
 
         if (cnt) {
-            return { x: this.#offsetX, y: this.#offsetY }
+            return { x: this.offsetX, y: this.offsetY }
         }
 
         const diff = { x: this.x, y: this.y };
@@ -51,28 +61,58 @@ export class Mob extends Actor {
         this.setState();
         this.events();
 
-        const collision = this.collision(Mob.mobList);
-		if (collision.x) {
-			this.x = diff.x;
-		}
-		if (collision.y) {
-			this.y = diff.y;
-		}
+        const tempDiffX = diff.x - this.x;
+        const tempDiffY = diff.y - this.y;
 
-        this.#offsetX = diff.x = diff.x - this.x;
-        this.#offsetY = diff.y = diff.y - this.y;
+        if (tempDiffX < 0) {
+            this.nextPosX = this.getPosX() + 1;
+        } else {
+            this.nextPosX = this.getPosX();
+        }
+        if (tempDiffY < 0) {
+            this.nextPosY = this.getPosY() + 1;
+        } else {
+            this.nextPosY = this.getPosY();
+        }
+
+        const collision = this.collision(Mob.mobList);
+        if (collision.x) {
+            this.x = diff.x;
+            this.nextPosX = this.getPosX();
+        }
+        if (collision.y) {
+            this.y = diff.y;
+            this.nextPosY = this.getPosY();
+        }
+
+        this.offsetX = diff.x = diff.x - this.x;
+        this.offsetY = diff.y = diff.y - this.y;
 
         return diff;
     }
 
+    // #testCollision() {
+    //     const rtrn = false;
+    //     const collision = this.collision(Mob.mobList);
+    //     if (collision.x) {
+    //         this.x = diff.x;
+    //         rtrn = true;
+    //     }
+    //     if (collision.y) {
+    //         this.y = diff.y;
+    //         rtrn = true;
+    //     }
+    //     return rtrn;
+    // }
+
     setState() {
         if (calcDistance(player, this) < this.agroRadius) {
             // if(this.checkVisibility) {
-                this.state = "chasing";
-                this.target = player;
+            this.state = "chasing";
+            this.target = player;
             // }
         } else {
-            this.state = "wondering";
+            this.state = "wandering";
             this.target = null;
         }
     }
@@ -88,7 +128,7 @@ export class Mob extends Actor {
             if (!this.attackEvents()) {
                 this.chase();
             }
-        } else if (this.state === "wondering") {
+        } else if (this.state === "wandering") {
             this.wander();
         } else if (this.state === "fleeing") {
             this.flee();
@@ -116,7 +156,7 @@ export class Mob extends Actor {
     }
 
     getDirectPathTiles() {
-        const ray = {x: player.x, y: player.y}
+        const ray = { x: player.x, y: player.y }
         const tilesNum = Math.floor(calcDistance(player, this) / scaledTileSize());
         const pathX = calcDistanceX(player, this);
         const pathY = calcDistanceY(player, this);
@@ -128,12 +168,12 @@ export class Mob extends Actor {
         for (let i = 1; i <= tilesNum; i++) {
             if (pX) {
                 ray.x += offsetX;
-            }else {
+            } else {
                 ray.x -= offsetX;
             }
             if (pY) {
                 ray.y += offsetY;
-            }else {
+            } else {
                 ray.y -= offsetY;
             }
             const tileX = Math.floor(ray.x / scaledTileSize());
@@ -177,30 +217,12 @@ export class Mob extends Actor {
         }
     }
 
-    inRangeOfAttack(target = player) {
-        return calcDistance(target, this) < scaledTileSize() * this.attackRange * 1.5;
-    }
-
-    attackEvents() {
-        if (this.inRangeOfAttack()){
-        this.autoAttack();
-        return true
-        }
-        return false
-    }
-
     spellEvents() {
         let success = false;
         for (const spell of this.spellBook) {
             success = spell.useSkill(this, player);
         }
         return success;
-    }
-
-    autoAttack() {
-        if (this.attackDelay.timeIsUp()) {
-            player.dealDamage(randomInt(this.minDamage, this.maxDamage));
-        }
     }
 
 

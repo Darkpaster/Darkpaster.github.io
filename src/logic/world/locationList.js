@@ -2,6 +2,8 @@ import { spawnFloor, spawnObjects } from "./spawn.js";
 
 let currentLocation = null;
 
+export const droppedItems = [];
+
 const locations = {
     spawn: {
         floor: spawnFloor,

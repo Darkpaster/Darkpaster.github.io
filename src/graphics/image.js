@@ -79,11 +79,11 @@ export class AnimatedImage extends Image {
             ctx.scale(-1, 1);
             ctx.drawImage(this, cutX, cutY, spriteWidth,
                 spriteHeight, -x - scaledTileSize(), y,
-                spriteWidth * this.scale, spriteHeight * this.scale);
+                spriteWidth * settings.defaultTileScale, spriteHeight * settings.defaultTileScale);
             ctx.restore();
         } else {
             ctx.drawImage(this, cutX, cutY, spriteWidth,
-                spriteHeight, x, y, spriteWidth * this.scale, spriteHeight * this.scale);
+                spriteHeight, x, y, spriteWidth * settings.defaultTileScale, spriteHeight * settings.defaultTileScale);
         }
 
         if (this.framesRate.timeIsUp()) {

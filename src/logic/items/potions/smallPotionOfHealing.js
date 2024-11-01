@@ -16,8 +16,8 @@ export class smallPotionOfHealing extends Potion {
     }
 
     onUse() {
-        const value = Math.min(randomInt(10, 15), player.maxHealth - player.health);
-        player.health += value;
+        const value = Math.min(randomInt(10, 15), player.HT - player.HP);
+        player.HP += value;
         floatTextList.push(new FloatText(value, player.x, player.y, "green"));
     }
 }

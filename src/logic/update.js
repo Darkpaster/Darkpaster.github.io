@@ -2,7 +2,7 @@ import { settings } from "../configs/settings.js";
 import { canvas } from "../graphics/graphics.js";
 import { Camera } from "../ui/camera.js";
 import { updateInGameUI } from "../ui/components.js";
-import { scaledTileSize } from "../utils/math.js";
+import { randomInt, scaledTileSize } from "../utils/math.js";
 import { Delay } from "../utils/time.js";
 import { Player } from "./actors/mainCharacter.js";
 import { madBoar } from "./actors/mobs/enemies/madBoar.js";
@@ -20,8 +20,10 @@ export function init() {
     player = new Player();
     camera = new Camera(player.x, player.y);
     player.learn(new Slash());
-    new madBoar();
-    new madBoar(3);
+    for (let index = 0; index < 5; index++) {
+        new madBoar(randomInt(1, 6));
+    }
+
 }
 
 export function update() {

@@ -4,6 +4,7 @@ import { getCurrentLocation } from "../logic/world/locationList.js";
 import { player } from "../logic/update.js";
 import { Mob } from "../logic/actors/mobs/mob.js";
 import { initKeyboard } from "../io/input.js";
+import { selector1 } from "./staticSprites.js";
 
 export const canvas = document.getElementById("canvas");
 initKeyboard();
@@ -49,11 +50,14 @@ export function showCanvas() {
 function renderActors() {
     graphics.fillStyle = "blue";
     player.image.render(player.renderState, graphics, player.x, player.y, player.direction);
-    graphics.fillText(player.name, player.x, player.y);
     for (const mob of Mob.mobList) {
         mob.image.render(mob.renderState, graphics, mob.x, mob.y, mob.direction);
         graphics.fillText(mob.name, mob.x, mob.y);
     }
+    graphics.drawImage(selector1.tile, player.target?.x, player.target?.y, scaledTileSize(), scaledTileSize());
+    graphics.fillText(player.name, player.x, player.y);
+    // graphics.fillText("+", player.nextPosX * scaledTileSize() + scaledTileSize() / 3
+    // , player.nextPosY * scaledTileSize() + scaledTileSize() / 2);
 }
 
 function renderText() {
