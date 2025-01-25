@@ -8,14 +8,19 @@ import { Actor } from "../actor.js";
 
 export class Mob extends Actor {
     static mobList = [];
+    static states = {
+        WANDERING: "wandering",
+        CHASING: "chasing",
+        FLEEING: "fleeing"
+    }
 
 
     constructor() {
         super();
-        this.state = "wandering";
+        this.state = Mob.states.WANDERING;
         this.timer = new TimeDelay(1000);
         this.idle = true;
-        this._agroRadius = 6;
+        this._agroRadius = 5;
         Mob.mobList.push(this);
     }
 
@@ -108,11 +113,11 @@ export class Mob extends Actor {
     setState() {
         if (calcDistance(player, this) < this.agroRadius) {
             // if(this.checkVisibility) {
-            this.state = "chasing";
+            this.state = Mob.states.CHASING;
             this.target = player;
             // }
         } else {
-            this.state = "wandering";
+            this.state = Mob.states.WANDERING;
             this.target = null;
         }
     }
@@ -124,13 +129,13 @@ export class Mob extends Actor {
     }
 
     events() {
-        if (this.state === "chasing") {
+        if (this.state === Mob.states.CHASING) {
             if (!this.attackEvents()) {
                 this.chase();
             }
-        } else if (this.state === "wandering") {
+        } else if (this.state === Mob.states.WANDERING) {
             this.wander();
-        } else if (this.state === "fleeing") {
+        } else if (this.state === Mob.states.FLEEING) {
             this.flee();
         }
     }
@@ -223,6 +228,14 @@ export class Mob extends Actor {
             success = spell.useSkill(this, player);
         }
         return success;
+    }
+
+    dealDamage(damage) {
+        super.dealDamage(damage);
+        if (this.HP <= 0) {
+            this.die();
+            player.target = null;
+        }
     }
 
 

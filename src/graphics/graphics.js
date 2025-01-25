@@ -85,6 +85,7 @@ function renderTilemap() {
     for (let i = beforeY; i < afterY; i++) {
         for (let j = beforeX; j < afterX; j++) {
             const tile = getCurrentLocation().floor[i][j];
+            const wall = getCurrentLocation().objects[i][j];
             if (!tiles[tile]) {
                 graphics.fillRect(j * scaledTileSize(), i * scaledTileSize(),
                 scaledTileSize(), scaledTileSize());
@@ -92,6 +93,10 @@ function renderTilemap() {
             }
             graphics.drawImage(tiles[tile].image.tile, j * scaledTileSize(), i * scaledTileSize(),
                 scaledTileSize(), scaledTileSize());
+            if (tiles[wall]) {
+                graphics.drawImage(tiles[wall].image.tile, j * scaledTileSize(), i * scaledTileSize(),
+                scaledTileSize(), scaledTileSize());
+            }
         }
     }
 }

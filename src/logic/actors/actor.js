@@ -1,11 +1,11 @@
 import { settings } from "../../configs/settings.js";
 import { FloatText } from "../../graphics/floatText.js";
 import { floatTextList } from "../../graphics/graphics.js";
-import { getActorTile, getTile } from "../../graphics/tileSprites.js";
+import { getActorTile, getTile, getWallTile } from "../../graphics/tileSprites.js";
 import { calcDistance, randomInt, scaledTileSize } from "../../utils/math.js";
 import { TimeDelay } from "../../utils/time.js";
 import { getCurrentLocation } from "../world/locationList.js";
-import { Player } from "./mainCharacter.js";
+import { Player } from "./player.js";
 
 export class Actor {
 	constructor() {
@@ -35,7 +35,6 @@ export class Actor {
 		this.attackRange = 1;
 		this.renderState = "idle";
 		this.direction = "down";
-		this.spellBook = [];
 		this.target = null;
 	}
 	get moveSpeed() {
@@ -65,10 +64,16 @@ export class Actor {
 	dealDamage(damage) {
 		const realDamage = damage - this.defense;
 		if (realDamage < 0) {
-			return;
+			realDamage = 0;
 		}
 		this.HP -= damage;
 		floatTextList.push(new FloatText(damage, this.x, this.y, this instanceof Player ? "red" : "orange"));
+	}
+
+	heal(value) {
+		const realValue = Math.min(value, this.HT - this.HP);
+        this.HP += realValue;
+        floatTextList.push(new FloatText(value, this.x, this.y, "green"));
 	}
 
 	autoAttack() {
@@ -82,6 +87,10 @@ export class Actor {
     }
 
     attackEvents() {
+		if (this.target == null) {
+			console.log(123);
+			return false
+		}
         if (this.inRangeOfAttack()) {
             this.autoAttack();
             return true
@@ -90,7 +99,7 @@ export class Actor {
     }
 
 	getPosTile() {
-		return getActorTile(this)
+		return getActorTile(this);
 	}
 
 	collision(mobs) {
@@ -106,7 +115,7 @@ export class Actor {
 		// 	}
 		// }
 
-		if (!getTile(this.nextPosX, this.nextPosY).props.isWalkable) {
+		if (getWallTile(this.nextPosX, this.nextPosY)) {
 			stop.x = stop.y = true;
 		}
 

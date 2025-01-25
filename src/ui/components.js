@@ -47,10 +47,10 @@ function updateInventory() {
         const item = items.item(i + 1);
         const hasItem = Boolean(player.inventory[i]);
         const wasItem = item.textContent === " ";
-        if (hasItem === wasItem){
+        if (hasItem === wasItem) {
             continue
         }
-        if(hasItem) {
+        if (hasItem) {
             const realItem = player.inventory[i];
             item.textContent = " ";
             item.style.cursor = "pointer";
@@ -66,7 +66,7 @@ function updateInventory() {
                 player.inventory[i] = null;
                 removeInfoWindow();
             }
-        }else {
+        } else {
             item.textContent = "";
             item.style.cursor = "default";
             item.style.backgroundImage = "";
@@ -79,6 +79,40 @@ function updateInventory() {
 }
 
 function updatePanel() {
+    const skills = panel.element.children;
+    for (let i = 0; i < player.spellBook.length; i++) {
+        const skill = skills.item(i);
+        const hasSkill = Boolean(player.spellBook[i]);
+        const wasSkill = skill.textContent === " ";
+        if (hasSkill === wasSkill) {
+            continue
+        }
+        if (hasSkill) {
+            const realSkill = player.spellBook[i];
+            skill.textContent = i + 1 + " ";
+            skill.style.cursor = "pointer";
+            skill.style.backgroundImage = `url(${realSkill.icon})`;
+            skill.style.borderColor = "black";
+            skill.onmouseenter = () => {
+                createInfoWindow(realSkill, skill);
+            };
+            skill.onmouseleave = removeInfoWindow;
+
+            skill.onclick = () => {
+                realSkill.useSkill();
+                // player.spellBook[i] = null;
+                // removeInfoWindow();
+            }
+        } else {
+            skill.textContent = i + 1;
+            skill.style.cursor = "default";
+            skill.style.backgroundImage = "";
+            skill.style.borderColor = "black";
+            skill.onmouseenter = null;
+            skill.onmouseleave = null;
+            skill.onclick = null;
+        }
+    }
 
 }
 
@@ -111,10 +145,11 @@ function initInventory() {
 function initPanel() {
     for (let i = 0; i < 10; i++) {
         const cell = createButton(`skill ${i}`, null, "cell");
-        cell.textContent = i;
+        cell.textContent = i + 1;
         cell.style.height = "100%";
         panel.element.appendChild(cell);
     }
+    panel.element.children.item(9).textContent = 0;
 }
 
 function getRarityColor(rarity) {
@@ -176,28 +211,29 @@ function hideAllWindows() {
 function hideInterface(hide) {
     health.style.display = !hide ? "block" : "none";
     targetHealth.style.display = !hide ? "block" : "none";
-    if(hide) {
+    if (hide) {
         panel.hide();
-    }else {
+    } else {
         panel.show();
     }
 }
 function blurInterface(set) {
-    health.style.filter = 
-    panel.element.style.filter =
-    targetHealth.style.filter = set ? "blur(5px)" : "none";
+    health.style.filter =
+        panel.element.style.filter =
+        targetHealth.style.filter = set ? "blur(5px)" : "none";
 }
 
 export function updateInGameUI() {
     health.value = player.HP;
     if (!player.target) {
         targetHealth.style.display = "none";
-    }else {
+    } else {
         targetHealth.style.display = "block";
         targetHealth.value = player.target.HP;
     }
     // targetHealth.maxValue = player.target?.HT;
     updateInventory();
+    updatePanel();
 }
 
 export function initComponents() {
@@ -215,7 +251,7 @@ export function initComponents() {
     root.appendChild(health);
     root.appendChild(targetHealth);
     root.appendChild(itemInfo.element);
-    // root.appendChild(panel.element); // не централизованная и не обновляемая панель
+    root.appendChild(panel.element); // не централизованная и не обновляемая панель
 }
 
 

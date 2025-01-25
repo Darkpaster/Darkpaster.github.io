@@ -1,9 +1,12 @@
+import { slash } from "../../graphics/paths.js";
 import { Skill } from "./skill.js";
 
 export class Slash extends Skill {
-    constructor() {
-          super();
+    constructor(owner) {
+          super(owner);
+          this.icon = slash;
           this.name = "Slash";
-          this.damage = 10;
+          this.minDamage = 70;
+          this.maxDamage = 100;
      }
 }

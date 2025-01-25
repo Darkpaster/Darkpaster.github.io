@@ -4,7 +4,7 @@ import { Camera } from "../ui/camera.js";
 import { updateInGameUI } from "../ui/components.js";
 import { randomInt, scaledTileSize } from "../utils/math.js";
 import { Delay } from "../utils/time.js";
-import { Player } from "./actors/mainCharacter.js";
+import { Player } from "./actors/player.js";
 import { madBoar } from "./actors/mobs/enemies/madBoar.js";
 import { Mob } from "./actors/mobs/mob.js";
 import { Slash } from "./skills/slash.js";

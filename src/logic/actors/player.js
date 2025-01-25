@@ -1,8 +1,9 @@
 import { villagerManager } from "../../graphics/animations.js";
 import { pressDown, pressLeft, pressRight, pressUp } from "../../io/input.js";
-import { scaledTileSize } from "../../utils/math.js";
-import { Potion } from "../items/potions/potion.js";
-import { smallPotionOfHealing } from "../items/potions/smallPotionOfHealing.js";
+import { calcDistance, scaledTileSize } from "../../utils/math.js";
+import { smallPotionOfHealing } from "../items/consumable/potions/smallPotionOfHealing.js";
+import { FrostWave } from "../skills/frostWave.js";
+import { Slash } from "../skills/slash.js";
 import { Actor } from "./actor.js";
 import { Mob } from "./mobs/mob.js";
 
@@ -12,10 +13,13 @@ export class Player extends Actor {
 		this.x += scaledTileSize() * 20;
 		this.HP = 1000;
 		this.HT = 1000;
+		this.minDamage = 10;
+		this.maxDamage = 50;
 		this.AA = false;
 		this.image = villagerManager;
 		this.name = "Guts";
 		this.inventory = new Array(200);
+		this.spellBook = [new Slash(this), new FrostWave(this)];
 		for (let i = 0; i < this.inventory.length; i++) {
 			// this.inventory[0] = new Potion();
 			this.inventory[i] = new smallPotionOfHealing();
@@ -72,7 +76,7 @@ export class Player extends Actor {
 		this.spellBook.push(spell);
 	}
 
-	equipmentSlot(item) {
+	equipmentSlot(item) { // switch is better choice
 		if (item.type === "head") {
 			this.equipment.head = item;
 		}
@@ -167,5 +171,21 @@ export class Player extends Actor {
 
 
 		return cameraDiff;
+	}
+	
+	selectNearestTarget() {
+		let nearest = this.target || {x: 0, y: 0};
+		for (const mob of Mob.mobList) {
+			const dist = calcDistance(mob, this);
+			if (dist < 430) {
+				if (dist < calcDistance(nearest, this)) {
+					nearest = mob;
+				}
+			}
+		}
+		if (nearest.x === 0) {
+			return
+		}
+		this.target = nearest;
 	}
 }

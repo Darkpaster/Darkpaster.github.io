@@ -4,7 +4,7 @@ import { clickAt } from "../ui/components.js";
 import { scaledTileSize } from "../utils/math.js";
 
 export let pressUp, pressDown, pressLeft, pressRight,
-	pressAttack = false;
+	pressShift, pressAttack = false;
 const bindings = {
 	up: "w",
 	down: "s",
@@ -14,7 +14,9 @@ const bindings = {
 	inventory: "b",
 	fullscreen: "f11",
 	zoomIn: "=",
-	zoomOut: "-"
+	zoomOut: "-",
+	tab: "Tab",
+	shift: "Shift"
 }
 
 function clickOffsetX() {
@@ -27,7 +29,11 @@ function clickOffsetY() {
 export function initKeyboard() {
 	canvas.onclick = event => {
 		player.target = Mob.getMobsOnTile(event.clientX + clickOffsetX(),
-			event.clientY + clickOffsetY())[0];
+			event.clientY + clickOffsetY())[0] || null;
+	}
+
+	canvas.oncontextmenu = event => {
+		event.preventDefault();
 	}
 
 	canvas.addEventListener("keydown", event => {
@@ -61,10 +67,19 @@ export function initKeyboard() {
 					camera.zoom -= 1;
 				}
 				break;
+			case bindings.tab:
+				event.preventDefault();
+				player.selectNearestTarget();
+				break;
+			case bindings.shift:
+				// event.preventDefault();
+				pressShift = true;
+				break;
 		}
 	})
 
 	canvas.addEventListener("keyup", event => {
+
 		switch (event.key) {
 			case bindings.left:
 				pressLeft = false;
@@ -77,6 +92,9 @@ export function initKeyboard() {
 				break;
 			case bindings.down:
 				pressDown = false;
+				break;
+			case bindings.shift:
+				pressShift = false;
 				break;
 			case bindings.pause:
 				clickAt("resume");
