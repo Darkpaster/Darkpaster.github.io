@@ -4,15 +4,16 @@ class Message {
         this.author = author + ": ";
         this.content = content;
     }
-    add() {
+    add(color) {
+        this.color = color;
         if (!Message.logList.includes(this)){
             Message.logList.push(this);
         }
     }
 }
 
-export function log(author, content) {
-new Message(author, content).add();
+export function log(author, content, color = "white") {
+new Message(author, content).add(color);
 }
 
 export function getLogHistory() {

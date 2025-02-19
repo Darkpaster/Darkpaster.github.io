@@ -1,3 +1,4 @@
+import { pauseMusic, playMusic, resumeMusic } from "../audio/music.js";
 import { canvas, hideCanvas, setBlur, showCanvas } from "../graphics/graphics.js";
 import { getLogHistory, log } from "../logic/logs.js";
 import { player } from "../logic/update.js";
@@ -36,7 +37,7 @@ const menu = document.getElementById("menu"),
     }, "hidden")),
     panel = new Win("panel-div"),
     chat = new Win("chat-div", chatInput),
-    health = createProgressBar("health", "stat-bar", 1000, 1000),
+    health = createProgressBar("health", "stat-bar", 500, 500),
     targetHealth = createProgressBar("target-health", "stat-bar-enemy", 100, 100);
 
 
@@ -87,15 +88,24 @@ function updatePanel() {
     const skills = panel.element.children;
     for (let i = 0; i < player.spellBook.length; i++) {
         const skill = skills.item(i);
+        const realSkill = player.spellBook[i];
         const hasSkill = Boolean(player.spellBook[i]);
-        const wasSkill = skill.textContent === i + 1 + " ";
+        if (hasSkill) {
+            const left = realSkill.process.cooldown.getLeftTime();
+            if(left > 0) {
+                skill.style.fontSize = "20px";
+                skill.textContent = (left / 1000).toFixed(1);
+            }else {
+                skill.style.fontSize = "15px";
+                skill.textContent = i + 1;
+            }
+        }
+        const wasSkill = skill.style.cursor === "pointer";
         if (hasSkill === wasSkill) {
             continue
         }
         if (hasSkill) {
-            console.log(i)
-            const realSkill = player.spellBook[i];
-            skill.textContent = i + 1 + " ";
+            skill.textContent = i + 1;
             skill.style.cursor = "pointer";
             skill.style.backgroundImage = `url(${realSkill.icon})`;
             skill.style.borderColor = "black";
@@ -133,6 +143,7 @@ function updateChat() {
         const span = document.createElement("span");
         const msg = msgList[msgList.length - (1 + i)];
         span.innerText = msg.author + msg.content;
+        span.style.color = msg.color;
         chat.element.appendChild(span);
     }
 }
@@ -189,12 +200,14 @@ function onPauseResume(resume) {
         menu.style.display = "block";
         pauseLoop();
         pauseMenu.show();
+        pauseMusic();
         setBlur(true);
         blurInterface(true);
         title.style.display = "block";
         hideAllWindows();
         canvas.removeAttribute('tabindex');
     } else {
+        resumeMusic();
         pauseMenu.hide();
         menu.style.display = "none";
         title.style.display = "none";
@@ -209,6 +222,7 @@ function onMainMenu() {
     setBlur(false);
     blurInterface(false);
     hideInterface(true);
+    playMusic("main");
     pauseLoop();
     hideCanvas();
     title.style.display = "block";
@@ -222,6 +236,7 @@ function gameInit() {
     title.style.display = "none";
     showCanvas();
     hideInterface(false);
+    playMusic("garden");
     game();
 }
 

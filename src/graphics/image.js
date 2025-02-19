@@ -1,6 +1,7 @@
 import { settings } from "../configs/settings.js";
 import { scaledTileSize } from "../utils/math.js";
 import { Delay } from "../utils/time.js";
+import { effectList } from "./graphics.js";
 
 export class AnimatedImageManager {
     constructor(list, flipX = true, horizontalSheet = true) {
@@ -42,14 +43,13 @@ export class AnimatedImageManager {
 
 export class AnimatedImage extends Image {
     constructor(name, src, framesNumber, disposable = false,
-        framesRate = 400, scale = settings.defaultTileScale) {
+        framesRate = 400) {
         super();
         this.name = name;
         this.src = src;
         this.framesNumber = framesNumber;
         this.currentFrame = 0;
         this.framesRate = new Delay(Math.floor(framesRate / settings.delay()))
-        this.scale = scale;
         this.disposable = disposable;
         this.endOfAnimation = false;
     }
@@ -99,6 +99,41 @@ export class AnimatedImage extends Image {
         return flipX;
     }
 
+}
+
+export class AnimatedEffect extends Image {
+    constructor(src, framesNumber, framesRate = 200, scale = settings.defaultTileScale) {
+        super();
+        this.name = "name";
+        this.src = src;
+        this.framesNumber = framesNumber;
+        this.framesRate = new Delay(Math.floor(framesRate / settings.delay()));
+        this.currentFrame = 0;
+    }
+
+    create(x, y) {
+        this.ax = x;
+        this.ay = y;
+        effectList.push(this);
+    }
+
+    animate(ctx) {
+        let spriteWidth = this.width / this.framesNumber;
+        let spriteHeight = this.height;
+        let cutX = this.currentFrame * spriteWidth;
+        let cutY = 0;
+        ctx.drawImage(this, cutX, cutY, spriteWidth,
+            spriteHeight, this.ax, this.ay, scaledTileSize(), scaledTileSize());
+
+        if (this.framesRate.timeIsUp()) {
+            this.currentFrame++;
+            if (this.currentFrame >= this.framesNumber) {
+                this.currentFrame = 0;
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 export class StaticImage extends Image {

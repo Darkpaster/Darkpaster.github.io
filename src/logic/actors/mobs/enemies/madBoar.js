@@ -4,11 +4,12 @@ import { Mob } from "./../mob.js";
 
 
 export class madBoar extends Mob {
-    constructor(ff = 0) {
+    constructor() {
         super();
-        this.x += scaledTileSize() * 6 + ff * scaledTileSize();
         this.name = "Mad boar";
         this.image = madBoarManager;
+        this.minDamage = 10;
+        this.maxDamage = 20;
         // this.spellBook.push(new FrostWave(this));
     }
 }

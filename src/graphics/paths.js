@@ -6,6 +6,9 @@ slash = "src/assets/skill-icons/tile140.png",
 autoAttack = "src/assets/skill-icons/tile127.png",
 defaultSkill = "src/assets/skill-icons/tile190.png";
 
+export const
+attackEffect = "src/assets/effects/magic/3_2.png";
+
 
 export const
 chicken = "src/assets/creatures/mobs/animal/Clucking Chicken/CluckingChicken.png",

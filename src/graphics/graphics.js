@@ -5,10 +5,13 @@ import { player } from "../logic/update.js";
 import { Mob } from "../logic/actors/mobs/mob.js";
 import { initKeyboard } from "../io/input.js";
 import { selector1 } from "./staticSprites.js";
+import { settings } from "../configs/settings.js";
+import { playMusic } from "../audio/music.js";
 
 export const canvas = document.getElementById("canvas");
 initKeyboard();
 export const floatTextList = [];
+export const effectList = [];
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 export const graphics = canvas.getContext("2d");
@@ -23,14 +26,16 @@ document.getElementById("init").onclick = (event) => {
     event.target.remove();
     document.getElementById("root").style.display = "flex";
     canvas.style.display = "block";
-    // playMusic("main");
+    playMusic("main");
 };
 
 
 
 export function render() {
+    graphics.font = 7 * settings.defaultTileScale + "px pixel";
     renderTilemap();
     renderActors();
+    renderEffects();
     renderText();
 }
 
@@ -43,7 +48,7 @@ export function hideCanvas() {
 }
 export function showCanvas() {
     canvas.style.display = "block";
-    canvas.setAttribute('tabindex','0');
+    canvas.setAttribute('tabindex', '0');
     canvas.focus();
 }
 
@@ -60,6 +65,14 @@ function renderActors() {
     // , player.nextPosY * scaledTileSize() + scaledTileSize() / 2);
 }
 
+function renderEffects() {
+    for (const effect of effectList) {
+        if (effect.animate(graphics)) {
+            effectList.splice(effectList.indexOf(effect), 1);
+        }
+    }
+}
+
 function renderText() {
     let length = floatTextList.length;
     if (!length) {
@@ -68,7 +81,7 @@ function renderText() {
     while (length--) {
         const text = floatTextList[length];
         text.render(graphics);
-        if(text.update()) {
+        if (text.update()) {
             floatTextList.splice(floatTextList.indexOf(text), 1);
         }
     }
@@ -88,14 +101,14 @@ function renderTilemap() {
             const wall = getCurrentLocation().objects[i][j];
             if (!tiles[tile]) {
                 graphics.fillRect(j * scaledTileSize(), i * scaledTileSize(),
-                scaledTileSize(), scaledTileSize());
+                    scaledTileSize(), scaledTileSize());
                 continue
             }
             graphics.drawImage(tiles[tile].image.tile, j * scaledTileSize(), i * scaledTileSize(),
                 scaledTileSize(), scaledTileSize());
             if (tiles[wall]) {
                 graphics.drawImage(tiles[wall].image.tile, j * scaledTileSize(), i * scaledTileSize(),
-                scaledTileSize(), scaledTileSize());
+                    scaledTileSize(), scaledTileSize());
             }
         }
     }

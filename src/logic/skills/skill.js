@@ -1,6 +1,7 @@
 import { defaultSkill } from "../../graphics/paths.js";
 import { calcDistance, randomInt, scaledTileSize } from "../../utils/math.js";
 import { CallbackTimer } from "../../utils/time.js";
+import { log } from "../logs.js";
 
 
 export class Skill {
@@ -13,7 +14,9 @@ export class Skill {
         this.bind = null;
         this.name = "Unknown skill";
         this.icon = defaultSkill;
+        this.animation = null;
         this.description = "No description";
+        this.note = "";
         this.minDamage = 2;
         this.maxDamage = 6;
         this.damageType = Skill.damageType.PHYSICAL;
@@ -24,7 +27,8 @@ export class Skill {
         this.cooldown = 5000;
         this.process = new CallbackTimer(() => {
             this.execute();
-            owner.renderState = "attack";
+            // this.owner.
+            // owner.renderState = "attack";
         },
             this.delay, new CallbackTimer(() => { }, this.cooldown));
     }
@@ -35,8 +39,15 @@ export class Skill {
         }
         if (this.range < calcDistance(this.owner, this.owner.target) / scaledTileSize()) {
             this.stop();
+            log("system", `${this.owner.target.name} is out of range!`, "red");
             return false;
         }
+        if (this.process.cooldown.getLeftTime() > 0) {
+            log("system", `${this.name} is on cooldown!`, "red");
+        }else {
+            this.animation.create(this.owner.target.x, this.owner.target.y);
+        }
+
 
         if (!this.process.id) {
             this.process.start();
@@ -45,13 +56,11 @@ export class Skill {
             }
         } else {
             if (!this.process.cooldown.done) {
-                this.owner.renderState = "charge";
+
             }
 
         }
-
         return true
-
     }
 
     execute() {
@@ -60,12 +69,16 @@ export class Skill {
         if (this.owner.target.defenseType === this.damageType) {
             realDamage = this.damage - target.defense;
         }
-        this.owner.target.dealDamage(realDamage);
+        this.owner.target.dealDamage(realDamage, this.owner);
     }
 
     stop() {
         if (this.process) {
             this.process.stop();
         }
+    }
+
+    left() {
+        this.process.cooldown
     }
 }

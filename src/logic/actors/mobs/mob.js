@@ -1,4 +1,4 @@
-import { tiles } from "../../../graphics/tileSprites.js";
+import { getWallTile, tiles } from "../../../graphics/tileSprites.js";
 import { calcDistance, calcDistanceX, calcDistanceY, randomInt, scaledTileSize } from "../../../utils/math.js";
 import { TimeDelay } from "../../../utils/time.js";
 import { player } from "../../update.js";
@@ -14,14 +14,28 @@ export class Mob extends Actor {
         FLEEING: "fleeing"
     }
 
-
     constructor() {
         super();
         this.state = Mob.states.WANDERING;
         this.timer = new TimeDelay(1000);
         this.idle = true;
         this._agroRadius = 5;
+
+        this.spawn();
+    }
+
+    spawn() {
         Mob.mobList.push(this);
+        this.x = scaledTileSize() * randomInt(getCurrentLocation().floor[0].length - 1);
+        this.y = scaledTileSize() * randomInt(getCurrentLocation().floor[0].length - 1);
+
+        let cond = getWallTile(this.getPosX(), this.getPosY()).props.isWalkable;
+        while (!cond) {
+            this.x = scaledTileSize() * randomInt(getCurrentLocation().floor[0].length - 1);
+            this.y = scaledTileSize() * randomInt(getCurrentLocation().floor[0].length - 1);
+            const test = getWallTile(this.getPosX(), this.getPosY());
+            cond = test.props.isWalkable;
+        }
     }
 
     get agroRadius() {
@@ -230,8 +244,8 @@ export class Mob extends Actor {
         return success;
     }
 
-    dealDamage(damage) {
-        super.dealDamage(damage);
+    dealDamage(damage, source = null) {
+        super.dealDamage(damage, source);
         if (this.HP <= 0) {
             this.die();
             player.target = null;

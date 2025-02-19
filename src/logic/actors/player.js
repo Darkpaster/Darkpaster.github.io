@@ -11,10 +11,11 @@ export class Player extends Actor {
 	constructor() {
 		super();
 		this.x += scaledTileSize() * 20;
-		this.HP = 1000;
-		this.HT = 1000;
-		this.minDamage = 10;
-		this.maxDamage = 50;
+		this.HP = 500;
+		this.HT = 500;
+		this.minDamage = 15;
+		this.maxDamage = 35;
+		this.criticalChance = 0.3;
 		this.AA = true;
 		this.image = villagerManager;
 		this.name = "Guts";

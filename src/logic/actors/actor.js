@@ -27,7 +27,7 @@ export class Actor {
 		this.magicDefense = 0;
 		this.accuracy = 0;
 		this.evasion = 0;
-		this.criticalChance = 0;
+		this.criticalChance = 0.05;
 		this.criticalDamage = 2;
 		this._moveSpeed = 2;
 		this.image = null;
@@ -61,13 +61,21 @@ export class Actor {
 		return result
 	}
 
-	dealDamage(damage) {
-		const realDamage = damage - this.defense;
+	dealDamage(damage, source = null) {
+		let realDamage = damage;
+		let crit = false;
+		if (source) {
+			if (source.criticalChance > Math.random()) {
+				realDamage *= source.criticalDamage;
+				crit = true;
+			}
+		}
+		realDamage -= this.defense;
 		if (realDamage < 0) {
 			realDamage = 0;
 		}
-		this.HP -= damage;
-		floatTextList.push(new FloatText(damage, this.x, this.y, this instanceof Player ? "red" : "orange"));
+		this.HP -= realDamage;
+		floatTextList.push(new FloatText(realDamage, this.x, this.y, this instanceof Player ? "red" : "orange", crit));
 	}
 
 	heal(value) {
@@ -78,7 +86,7 @@ export class Actor {
 
 	autoAttack() {
 		if (this.attackDelay.timeIsUp()) {
-			this.target.dealDamage(randomInt(this.minDamage, this.maxDamage));
+			this.target.dealDamage(randomInt(this.minDamage, this.maxDamage), this);
 		}
 	}
 
@@ -92,7 +100,7 @@ export class Actor {
 			return false
 		}
         if (this.inRangeOfAttack()) {
-			this.renderState = "attack";
+			// this.renderState = "attack";
             this.autoAttack();
             return true
         }
@@ -116,7 +124,7 @@ export class Actor {
 		// 	}
 		// }
 
-		if (getWallTile(this.nextPosX, this.nextPosY)) {
+		if (!getWallTile(this.nextPosX, this.nextPosY).props.isWalkable) {
 			stop.x = stop.y = true;
 		}
 

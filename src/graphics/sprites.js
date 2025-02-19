@@ -1,5 +1,5 @@
-import { AnimatedImage } from "./image.js";
-import { madBoar, runningWolf, villagerDrunk } from "./paths.js";
+import { AnimatedEffect, AnimatedImage } from "./image.js";
+import { attackEffect, madBoar, runningWolf, villagerDrunk } from "./paths.js";
 
 export const zombie = {
         idle: new AnimatedImage("idle", "src/assets/character/basic asset pack/Basic Undead Animations/Mutilated Stumbler/MutilatedStumbler.png", 4),
@@ -12,12 +12,10 @@ export const zombie = {
     boar = {
         idle: new AnimatedImage("idle", madBoar, 4),
         walk: new AnimatedImage("walk", madBoar, 4),
-        attack: new AnimatedImage("attack", madBoar, 4),
     },
     villager = {
         idle: new AnimatedImage("idle", villagerDrunk, 4),
         walk: new AnimatedImage("walk", villagerDrunk, 4),
-        attack: new AnimatedImage("attack", villagerDrunk, 4),
     },
     loading = {
         idle: new AnimatedImage("idle", runningWolf, 4),
@@ -26,5 +24,5 @@ export const zombie = {
 
 
 
-
+export const slashEffect = new AnimatedEffect(attackEffect, 8, 100);
     

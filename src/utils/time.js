@@ -57,6 +57,7 @@ export class CallbackTimer {
         this.id = null;
         this.cooldown = cooldown;
         this.done = false;
+        this.startTime = 0;
     }
 
     start(initCallback = null) {
@@ -64,6 +65,7 @@ export class CallbackTimer {
             return;
         }
         this.done = false;
+        this.startTime = Date.now();
         this.id = setTimeout(() => {
             this.callback();
             this.done = true;
@@ -92,5 +94,13 @@ export class CallbackTimer {
     restart() {
         this.stop();
         this.start();
+    }
+
+    getLeftTime() {
+        return this.delay - (Date.now() - this.startTime);
+    }
+
+    getLeftTimePercent() {
+        return (this.delay - (Date.now() - this.startTime)) / this.delay;
     }
 }

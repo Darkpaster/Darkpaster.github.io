@@ -20,10 +20,9 @@ export function init() {
     player = new Player();
     camera = new Camera(player.x, player.y);
     player.learn(new Slash());
-    for (let index = 0; index < 5; index++) {
-        new madBoar(randomInt(1, 6));
+    for (let index = 0; index < 50; index++) {
+        new madBoar();
     }
-
 }
 
 export function update() {
