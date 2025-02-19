@@ -16,7 +16,12 @@ const bindings = {
 	zoomIn: "=",
 	zoomOut: "-",
 	tab: "Tab",
-	shift: "Shift"
+	shift: "Shift",
+	enter: "Enter",
+	b1: "1",
+	b2: "2",
+	b3: "3",
+	b4: "4",
 }
 
 function clickOffsetX() {
@@ -75,6 +80,9 @@ export function initKeyboard() {
 				// event.preventDefault();
 				pressShift = true;
 				break;
+			case bindings.b1:
+				clickAt("skill-0");
+				break;
 		}
 	})
 
@@ -104,6 +112,9 @@ export function initKeyboard() {
 				break;
 			case "e":
 				player.AA = !player.AA;
+				break;
+			case bindings.enter:
+				// document.getElementById
 				break;
 		}
 	});

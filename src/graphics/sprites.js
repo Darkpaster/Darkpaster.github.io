@@ -12,10 +12,12 @@ export const zombie = {
     boar = {
         idle: new AnimatedImage("idle", madBoar, 4),
         walk: new AnimatedImage("walk", madBoar, 4),
+        attack: new AnimatedImage("attack", madBoar, 4),
     },
     villager = {
         idle: new AnimatedImage("idle", villagerDrunk, 4),
         walk: new AnimatedImage("walk", villagerDrunk, 4),
+        attack: new AnimatedImage("attack", villagerDrunk, 4),
     },
     loading = {
         idle: new AnimatedImage("idle", runningWolf, 4),

@@ -42,7 +42,7 @@ export class AnimatedImageManager {
 
 export class AnimatedImage extends Image {
     constructor(name, src, framesNumber, disposable = false,
-        framesRate = 200, scale = settings.defaultTileScale) {
+        framesRate = 400, scale = settings.defaultTileScale) {
         super();
         this.name = name;
         this.src = src;

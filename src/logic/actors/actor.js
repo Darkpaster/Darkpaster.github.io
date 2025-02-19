@@ -88,10 +88,11 @@ export class Actor {
 
     attackEvents() {
 		if (this.target == null) {
-			console.log(123);
+			// console.log(123);
 			return false
 		}
         if (this.inRangeOfAttack()) {
+			this.renderState = "attack";
             this.autoAttack();
             return true
         }

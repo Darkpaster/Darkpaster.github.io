@@ -15,12 +15,12 @@ export class Player extends Actor {
 		this.HT = 1000;
 		this.minDamage = 10;
 		this.maxDamage = 50;
-		this.AA = false;
+		this.AA = true;
 		this.image = villagerManager;
 		this.name = "Guts";
 		this.inventory = new Array(200);
-		this.spellBook = [new Slash(this), new FrostWave(this)];
-		for (let i = 0; i < this.inventory.length; i++) {
+		this.spellBook = [new Slash(this), null, null, null, null, null, null, null];
+		for (let i = 0; i < this.inventory.length / 10; i++) {
 			// this.inventory[0] = new Potion();
 			this.inventory[i] = new smallPotionOfHealing();
 		}

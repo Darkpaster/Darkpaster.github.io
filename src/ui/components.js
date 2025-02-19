@@ -1,4 +1,5 @@
 import { canvas, hideCanvas, setBlur, showCanvas } from "../graphics/graphics.js";
+import { getLogHistory, log } from "../logic/logs.js";
 import { player } from "../logic/update.js";
 import { game, pauseLoop } from "../main.js";
 import { createButton } from "./dom/button.js";
@@ -8,6 +9,7 @@ import { Win } from "./dom/window.js";
 const menu = document.getElementById("menu"),
     itemInfo = new Win("item-info"),
     root = document.getElementById("root"),
+    chatInput = document.createElement("input"),
     title = document.getElementById("title"),
 
     mainMenu = new Win("menuDiv", createButton("new game", () => {
@@ -33,14 +35,17 @@ const menu = document.getElementById("menu"),
         }
     }, "hidden")),
     panel = new Win("panel-div"),
+    chat = new Win("chat-div", chatInput),
     health = createProgressBar("health", "stat-bar", 1000, 1000),
     targetHealth = createProgressBar("target-health", "stat-bar-enemy", 100, 100);
+
+
 health.style.accentColor = "green";
 targetHealth.style.accentColor = "green";
 health.style.backgroundColor = "grey";
 targetHealth.style.backgroundColor = "grey";
 
-
+chatInput.id = "chat-input";
 function updateInventory() {
     const items = inventory.element.children;
     for (let i = 0; i < player.inventory.length; i++) {
@@ -83,11 +88,12 @@ function updatePanel() {
     for (let i = 0; i < player.spellBook.length; i++) {
         const skill = skills.item(i);
         const hasSkill = Boolean(player.spellBook[i]);
-        const wasSkill = skill.textContent === " ";
+        const wasSkill = skill.textContent === i + 1 + " ";
         if (hasSkill === wasSkill) {
             continue
         }
         if (hasSkill) {
+            console.log(i)
             const realSkill = player.spellBook[i];
             skill.textContent = i + 1 + " ";
             skill.style.cursor = "pointer";
@@ -114,6 +120,21 @@ function updatePanel() {
         }
     }
 
+}
+
+function updateChat() {
+    const msgList = getLogHistory();
+    const spans = chat.element.children;
+    const newMsg = msgList.length - spans.length - 1;
+    if (!newMsg) {
+        return
+    }
+    for (let i = newMsg; i > 0; i--) {
+        const span = document.createElement("span");
+        const msg = msgList[msgList.length - (1 + i)];
+        span.innerText = msg.author + msg.content;
+        chat.element.appendChild(span);
+    }
 }
 
 function createInfoWindow(realItem, htmlItem) {
@@ -213,14 +234,17 @@ function hideInterface(hide) {
     targetHealth.style.display = !hide ? "block" : "none";
     if (hide) {
         panel.hide();
+        chat.hide();
     } else {
         panel.show();
+        chat.show();
     }
 }
 function blurInterface(set) {
     health.style.filter =
         panel.element.style.filter =
-        targetHealth.style.filter = set ? "blur(5px)" : "none";
+        targetHealth.style.filter =
+        chat.element.style.filter = set ? "blur(5px)" : "none";
 }
 
 export function updateInGameUI() {
@@ -234,6 +258,7 @@ export function updateInGameUI() {
     // targetHealth.maxValue = player.target?.HT;
     updateInventory();
     updatePanel();
+    updateChat();
 }
 
 export function initComponents() {
@@ -251,7 +276,10 @@ export function initComponents() {
     root.appendChild(health);
     root.appendChild(targetHealth);
     root.appendChild(itemInfo.element);
-    root.appendChild(panel.element); // не централизованная и не обновляемая панель
+    root.appendChild(panel.element); // перетаскивание спелов и предметов, выбрасывание, стаки
+    root.appendChild(chat.element);
+    // log("system", "Server reload for 5 minutes!");
+    // log("system", "Server reload for 1 minutes!");
 }
 
 
