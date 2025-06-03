@@ -1,0 +1,126 @@
+---
+import { getCollection } from 'astro:content';
+
+// Get all topics and organize them by category
+const allTopics: any[] = await getCollection('topics');
+const topicsByCategory = allTopics.reduce((acc, topic) => {
+  const category = topic.data.category || 'other';
+  if (!acc[category]) {
+    acc[category] = [];
+  }
+  acc[category].push(topic);
+  return acc;
+}, {} as Record<string, typeof allTopics>);
+
+// Sort topics within each category by level and title
+Object.keys(topicsByCategory).forEach(category => {
+  topicsByCategory[category].sort((a, b) => {
+    if (a.data.level !== b.data.level) {
+      return a.data.level - b.data.level;
+    }
+    return a.data.title.localeCompare(b.data.title, 'ru');
+  });
+});
+
+const categoryNames = {
+  cognition: '🧠 Познание',
+  society: '🏛️ Общество',
+  technology: '⚙️ Технологии',
+  philosophy: '💭 Философия',
+  meta: '📋 META',
+  other: '📁 Прочее'
+};
+---
+
+<nav class="p-4">
+  <!-- Header -->
+  <div class="mb-6">
+    <h2 class="text-lg font-bold mb-2">Навигация</h2>
+    <div class="space-y-2">
+      <a href="/" class="btn btn-ghost btn-sm w-full justify-start">
+        🏠 Главная
+      </a>
+      <a href="/about" class="btn btn-ghost btn-sm w-full justify-start">
+        📖 О проекте
+      </a>
+      <a href="/graph" class="btn btn-ghost btn-sm w-full justify-start">
+        🕸️ Граф знаний
+      </a>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="mb-6">
+    <div class="form-control">
+      <input
+        type="text"
+        placeholder="Поиск по темам..."
+        class="input input-bordered input-sm w-full"
+        id="search-input"
+      />
+    </div>
+  </div>
+
+  <!-- Topics by category -->
+  <div class="space-y-4">
+    {Object.entries(topicsByCategory).map(([category, topics]) => (
+      <div class="collapse collapse-arrow bg-base-100 border border-base-300">
+        <input type="checkbox" class="peer" checked={category === 'meta'} />
+        <div class="collapse-title text-sm font-medium">
+          {categoryNames[category as keyof typeof categoryNames] || `📁 ${category}`}
+          <span class="badge badge-sm badge-outline ml-2">{topics.length}</span>
+        </div>
+        <div class="collapse-content">
+          <div class="space-y-1 pt-2">
+            {topics.map(topic => (
+              <a
+                href={`/topics/${topic.slug}`}
+                class="flex items-center gap-2 p-2 rounded hover:bg-base-200 transition-colors text-sm topic-link"
+                data-search-text={topic.data.title.toLowerCase()}
+              >
+                <span class="badge badge-xs badge-primary">{topic.data.level}</span>
+                <span class="flex-1 truncate">{topic.data.title}</span>
+                {topic.data.meme && <span class="text-xs opacity-60">🖼️</span>}
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Stats -->
+  <div class="mt-6 p-3 bg-base-200 rounded-lg">
+    <div class="text-xs text-base-content/70 space-y-1">
+      <div>Всего тем: <span class="font-medium">{allTopics.length}</span></div>
+      <div>Категорий: <span class="font-medium">{Object.keys(topicsByCategory).length}</span></div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Simple search functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-input') as HTMLInputElement;
+    const topicLinks = document.querySelectorAll('.topic-link') as NodeListOf<HTMLElement>;
+
+    if (searchInput && topicLinks.length > 0) {
+      searchInput.addEventListener('input', (e) => {
+        const query = (e.target as HTMLInputElement).value.toLowerCase();
+
+        topicLinks.forEach(link => {
+          const searchText = link.getAttribute('data-search-text') || '';
+          const visible = searchText.includes(query);
+          link.style.display = visible ? 'flex' : 'none';
+        });
+
+        // Show/hide category sections based on visible items
+        document.querySelectorAll('.collapse').forEach(collapse => {
+          const visibleLinks = collapse.querySelectorAll('.topic-link[style*="flex"]');
+          const hasVisibleItems = visibleLinks.length > 0 || query === '';
+          (collapse as HTMLElement).style.display = hasVisibleItems ? 'block' : 'none';
+        });
+      });
+    }
+  });
+</script>

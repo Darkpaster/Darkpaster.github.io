@@ -1,0 +1,120 @@
+---
+import Navigation from '@/components/Navigation.astro';
+import ThemeToggle from '@/components/ThemeToggle.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description = "Система знаний и размышлений", image } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Обязательно импортируем глобальные стили -->
+    <link rel="stylesheet" href="/src/styles/global.css">
+
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {image && <meta property="og:image" content={new URL(image, Astro.url)} />}
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    {image && <meta property="twitter:image" content={new URL(image, Astro.url)} />}
+
+    <!-- KaTeX CSS for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblOHI/4vqZlHHK4R" crossorigin="anonymous">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  </head>
+  <body class="min-h-screen bg-base-100 text-base-content">
+    <div class="drawer lg:drawer-open">
+      <input id="drawer-toggle" type="checkbox" class="drawer-toggle" />
+
+      <!-- Page content -->
+      <div class="drawer-content flex flex-col">
+        <!-- Header -->
+        <header class="navbar bg-base-200/50 backdrop-blur border-b border-base-300">
+          <div class="navbar-start">
+            <label for="drawer-toggle" class="btn btn-square btn-ghost lg:hidden">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </label>
+            <a href="/" class="btn btn-ghost normal-case text-xl font-bold">
+              🧠 HumanityOS
+            </a>
+          </div>
+
+          <div class="navbar-end">
+            <ThemeToggle />
+          </div>
+        </header>
+
+        <!-- Main content -->
+        <main class="flex-1 p-4 lg:p-8">
+          <slot />
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer footer-center p-6 bg-base-200 text-base-content">
+          <div>
+            <p class="text-sm opacity-70">
+              © 2024 HumanityOS. Все материалы доступны свободно при указании источника.
+            </p>
+          </div>
+        </footer>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="drawer-side">
+        <label for="drawer-toggle" class="drawer-overlay"></label>
+        <aside class="w-80 min-h-full bg-base-200">
+          <Navigation />
+        </aside>
+      </div>
+    </div>
+
+    <script>
+      // Theme persistence
+      const theme = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+
+      // Theme toggle functionality
+      document.addEventListener('DOMContentLoaded', () => {
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+          themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

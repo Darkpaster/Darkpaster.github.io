@@ -1,0 +1,118 @@
+---
+export interface Props {
+    title: string;
+    description?: string;
+    slug: string;
+    tags: string[];
+    level: number;
+    meme?: string;
+    category?: string;
+    difficulty?: string;
+}
+
+const {
+    title,
+    description,
+    slug,
+    tags,
+    level,
+    meme,
+    category,
+    difficulty
+} = Astro.props;
+
+const levelColors = {
+    1: 'badge-success',
+    2: 'badge-info',
+    3: 'badge-warning',
+    4: 'badge-error',
+    5: 'badge-secondary'
+};
+
+const categoryIcons = {
+    cognition: '🧠',
+    society: '🏛️',
+    technology: '⚙️',
+    philosophy: '💭',
+    meta: '📋'
+};
+---
+
+<div class="card bg-base-100 shadow-lg hover:shadow-xl transition-all duration-300 border border-base-300 hover:border-primary/50">
+    <!-- Meme image if available -->
+    {meme && (
+            <figure class="px-4 pt-4">
+                <img
+                        src={meme}
+                        alt={`Мем для темы: ${title}`}
+                        class="rounded-lg h-48 w-full object-cover"
+                        loading="lazy"
+                />
+            </figure>
+    )}
+
+    <div class="card-body">
+        <!-- Header with badges -->
+        <div class="flex flex-wrap items-center gap-2 mb-2">
+      <span class={`badge ${levelColors[level as keyof typeof levelColors] || 'badge-outline'}`}>
+        Ур. {level}
+      </span>
+
+            {category && (
+                    <span class="badge badge-outline">
+          {categoryIcons[category as keyof typeof categoryIcons]} {category}
+        </span>
+            )}
+
+            {difficulty && (
+                    <span class="badge badge-secondary badge-sm">
+          {difficulty}
+        </span>
+            )}
+        </div>
+
+        <!-- Title -->
+        <h3 class="card-title text-lg">
+            <a href={slug} class="hover:text-primary transition-colors">
+                {title}
+            </a>
+        </h3>
+
+        <!-- Description -->
+        {description && (
+                <p class="text-base-content/70 text-sm line-clamp-3">
+                    {description}
+                </p>
+        )}
+
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-1 mt-2">
+            {tags.slice(0, 3).map(tag => (
+                    <span class="badge badge-ghost badge-sm">
+          {tag}
+        </span>
+            ))}
+            {tags.length > 3 && (
+                    <span class="badge badge-ghost badge-sm">
+          +{tags.length - 3}
+        </span>
+            )}
+        </div>
+
+        <!-- Actions -->
+        <div class="card-actions justify-end mt-4">
+            <a href={slug} class="btn btn-primary btn-sm">
+                Читать
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>

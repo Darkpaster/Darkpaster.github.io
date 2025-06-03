@@ -1,0 +1,161 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import MemeEmbed from '@/components/MemeEmbed.astro';
+import TopicCard from '@/components/TopicCard.astro';
+import { getCollection } from 'astro:content';
+
+export interface Props {
+  frontmatter: {
+    title: string;
+    description?: string;
+    level: number;
+    tags: string[];
+    related?: string[];
+    meme?: string;
+    category?: string;
+    difficulty?: string;
+    publishedAt?: Date;
+    updatedAt?: Date;
+  };
+}
+
+const { frontmatter } = Astro.props;
+
+// Get related topics
+let relatedTopics: any[] = [];
+if (frontmatter.related) {
+  const allTopics = await getCollection('topics');
+  relatedTopics = allTopics.filter(topic =>
+    frontmatter.related?.some(relatedSlug =>
+      `/topics/${topic.slug}` === relatedSlug || topic.slug === relatedSlug.replace('/topics/', '')
+    )
+  );
+}
+
+// Calculate reading time (rough estimate)
+const readingTime = Math.ceil((Astro.slots.render('default')?.length || 1000) / 200);
+---
+
+<BaseLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  image={frontmatter.meme}
+>
+  <article class="max-w-4xl mx-auto">
+    <!-- Header -->
+    <header class="mb-8">
+      <div class="flex flex-wrap items-center gap-2 text-sm text-base-content/70 mb-4">
+        <span class="badge badge-primary">Уровень {frontmatter.level}</span>
+        {frontmatter.difficulty && (
+          <span class="badge badge-secondary">{frontmatter.difficulty}</span>
+        )}
+        {frontmatter.category && (
+          <span class="badge badge-accent">{frontmatter.category}</span>
+        )}
+        <span class="badge badge-outline">{readingTime} мин. чтения</span>
+      </div>
+
+      <h1 class="text-4xl lg:text-5xl font-bold mb-4">
+        {frontmatter.title}
+      </h1>
+
+      {frontmatter.description && (
+        <p class="text-xl text-base-content/80 leading-relaxed mb-6">
+          {frontmatter.description}
+        </p>
+      )}
+
+      <!-- Tags -->
+      <div class="flex flex-wrap gap-2 mb-6">
+        {frontmatter.tags.map(tag => (
+          <span class="badge badge-outline">{tag}</span>
+        ))}
+      </div>
+
+      <!-- Dates -->
+      {(frontmatter.publishedAt || frontmatter.updatedAt) && (
+        <div class="text-sm text-base-content/60">
+          {frontmatter.publishedAt && (
+            <span>Опубликовано: {frontmatter.publishedAt.toLocaleDateString('ru-RU')}</span>
+          )}
+          {frontmatter.updatedAt && frontmatter.updatedAt !== frontmatter.publishedAt && (
+            <span class="ml-4">Обновлено: {frontmatter.updatedAt.toLocaleDateString('ru-RU')}</span>
+          )}
+        </div>
+      )}
+    </header>
+
+    <!-- Featured meme -->
+    {frontmatter.meme && (
+      <div class="mb-8">
+        <MemeEmbed
+          src={frontmatter.meme}
+          alt={`Мем для темы: ${frontmatter.title}`}
+          caption="Иллюстрация к теме"
+        />
+      </div>
+    )}
+
+    <!-- Content -->
+    <div class="prose prose-lg max-w-none">
+      <slot />
+    </div>
+
+    <!-- Related topics -->
+    {relatedTopics.length > 0 && (
+      <section class="mt-12 pt-8 border-t border-base-300">
+        <h2 class="text-2xl font-bold mb-6">Связанные темы</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {relatedTopics.map(topic => (
+            <TopicCard
+              title={topic.data.title}
+              description={topic.data.description}
+              slug={`/topics/${topic.slug}`}
+              tags={topic.data.tags}
+              level={topic.data.level}
+              meme={topic.data.meme}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Navigation -->
+    <nav class="mt-12 pt-8 border-t border-base-300">
+      <div class="flex justify-between items-center">
+        <a href="/" class="btn btn-outline">
+          ← К дереву тем
+        </a>
+        <a href="/graph" class="btn btn-primary">
+          Граф знаний →
+        </a>
+      </div>
+    </nav>
+  </article>
+</BaseLayout>
+
+
+<style>
+  @reference "../styles/global.css";
+
+    .prose {
+      @apply text-base-content;
+    }
+
+    .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+      @apply text-base-content font-bold;
+    }
+
+
+    .prose code {
+        @apply bg-base-200 text-base-content px-1 py-0.5 rounded text-sm;
+    }
+
+    .prose pre {
+        @apply bg-base-300 overflow-x-auto;
+    }
+
+    .prose pre code {
+        @apply bg-transparent p-0;
+    }
+</style>

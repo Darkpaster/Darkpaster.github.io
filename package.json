@@ -1,14 +1,30 @@
 {
-  "name": "humanityos",
+  "name": "humanityOS",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
+    "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "generate-graph": "node scripts/generate-graph.js",
+    "optimize-images": "node scripts/optimize-images.js"
   },
   "dependencies": {
-    "astro": "^5.8.0"
+    "@astrojs/mdx": "^4.3.0",
+    "@astrojs/sitemap": "^3.0.0",
+    "@tailwindcss/vite": "^4.1.8",
+    "astro": "^5.8.0",
+    "gray-matter": "^4.0.3",
+    "rehype-katex": "^7.0.0",
+    "remark-math": "^6.0.0",
+    "tailwindcss": "^4.1.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "autoprefixer": "^10.4.21",
+    "daisyui": "^5.0.43",
+    "typescript": "^5.0.0"
   }
 }

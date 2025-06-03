@@ -1,11 +1,229 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import TopicCard from '@/components/TopicCard.astro';
+import { getCollection } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Get all topics
+const allTopics: any[] = await getCollection('topics', ({ data }) => {
+	return !data.draft;
+});
+
+// Sort topics by level and then by title
+const sortedTopics = allTopics.sort((a, b) => {
+	if (a.data.level !== b.data.level) {
+		return a.data.level - b.data.level;
+	}
+	return a.data.title.localeCompare(b.data.title, 'ru');
+});
+
+// Group topics by category for featured sections
+const topicsByCategory = allTopics.reduce((acc, topic) => {
+	const category = topic.data.category || 'other';
+	if (!acc[category]) {
+		acc[category] = [];
+	}
+	acc[category].push(topic);
+	return acc;
+}, {} as Record<string, typeof allTopics>);
+
+// Get featured topics (level 1-2 topics from each category)
+const featuredTopics = Object.values(topicsByCategory)
+	.flat()
+	.filter(topic => topic.data.level <= 2)
+	.slice(0, 6);
+
+const stats = {
+	totalTopics: allTopics.length,
+	categories: Object.keys(topicsByCategory).length,
+	avgLevel: Math.round(allTopics.reduce((sum, topic) => sum + topic.data.level, 0) / allTopics.length * 10) / 10
+};
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout
+	title="HumanityOS - Главная"
+	description="Система знаний и размышлений: критический анализ современного мира и предложения по его улучшению"
+>
+	<!-- Hero Section -->
+	<section class="hero min-h-[60vh] bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10 rounded-2xl mb-12">
+		<div class="hero-content text-center">
+			<div class="max-w-4xl">
+				<h1 class="text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+					🌳 HumanityOS
+				</h1>
+				<p class="text-xl lg:text-2xl mb-8 text-base-content/80 leading-relaxed">
+					Альтернативная система знаний о мире: критический анализ современности
+					и предложения по рациональному улучшению ключевых систем
+				</p>
+				<div class="flex flex-wrap justify-center gap-4">
+					<a href="#featured" class="btn btn-primary btn-lg">
+						Начать изучение
+					</a>
+					<a href="/about" class="btn btn-outline btn-lg">
+						О проекте
+					</a>
+					<a href="/graph" class="btn btn-secondary btn-lg">
+						Граф знаний
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Stats -->
+	<section class="mb-12">
+		<div class="stats stats-vertical lg:stats-horizontal shadow w-full">
+			<div class="stat">
+				<div class="stat-figure text-primary">
+					<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+						<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+					</svg>
+				</div>
+				<div class="stat-title">Всего тем</div>
+				<div class="stat-value text-primary">{stats.totalTopics}</div>
+				<div class="stat-desc">Глубокий анализ</div>
+			</div>
+
+			<div class="stat">
+				<div class="stat-figure text-secondary">
+					<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+						<path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+					</svg>
+				</div>
+				<div class="stat-title">Категорий</div>
+				<div class="stat-value text-secondary">{stats.categories}</div>
+				<div class="stat-desc">Систематизация</div>
+			</div>
+
+			<div class="stat">
+				<div class="stat-figure text-accent">
+					<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+						<path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+					</svg>
+				</div>
+				<div class="stat-title">Ср. сложность</div>
+				<div class="stat-value text-accent">{stats.avgLevel}</div>
+				<div class="stat-desc">Из 5 уровней</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Featured Topics -->
+	<section id="featured" class="mb-12">
+		<div class="flex items-center justify-between mb-8">
+			<h2 class="text-3xl font-bold">🌟 Рекомендуемое для начала</h2>
+			<a href="#all-topics" class="btn btn-ghost">
+				Все темы →
+			</a>
+		</div>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+			{featuredTopics.map(topic => (
+				<TopicCard
+					title={topic.data.title}
+					description={topic.data.description}
+					slug={`/topics/${topic.slug}`}
+					tags={topic.data.tags}
+					level={topic.data.level}
+					meme={topic.data.meme}
+					category={topic.data.category}
+					difficulty={topic.data.difficulty}
+				/>
+			))}
+		</div>
+	</section>
+
+	<!-- Categories Overview -->
+	<section class="mb-12">
+		<h2 class="text-3xl font-bold mb-8">📚 Категории знаний</h2>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+			{Object.entries(topicsByCategory).map(([category, topics]) => {
+				const categoryInfo = {
+					cognition: { icon: '🧠', name: 'Познание', desc: 'Мышление, восприятие, язык' },
+					society: { icon: '🏛️', name: 'Общество', desc: 'Социальные системы и структуры' },
+					technology: { icon: '⚙️', name: 'Технологии', desc: 'Инновации и их влияние' },
+					philosophy: { icon: '💭', name: 'Философия', desc: 'Фундаментальные вопросы' },
+					meta: { icon: '📋', name: 'META', desc: 'О проекте и методологии' }
+				}[category] || { icon: '📁', name: category, desc: 'Разное' };
+
+				return (
+					<div class="card bg-base-100 shadow-lg border border-base-300 hover:border-primary/50 transition-colors">
+						<div class="card-body">
+							<h3 class="card-title">
+								<span class="text-2xl">{categoryInfo.icon}</span>
+								{categoryInfo.name}
+							</h3>
+							<p class="text-base-content/70">{categoryInfo.desc}</p>
+							<div class="card-actions justify-between items-center mt-4">
+								<span class="badge badge-outline">{topics.length} тем</span>
+								<button class="btn btn-primary btn-sm" onclick={`toggleCategory('${category}')`}>
+									Развернуть
+								</button>
+							</div>
+
+							<!-- Hidden topics list -->
+							<div id={`category-${category}`} class="hidden mt-4 space-y-2">
+								{topics.slice(0, 5).map(topic => (
+									<a
+										href={`/topics/${topic.slug}`}
+										class="flex items-center gap-2 p-2 rounded hover:bg-base-200 transition-colors text-sm"
+									>
+										<span class="badge badge-xs badge-primary">{topic.data.level}</span>
+										<span class="flex-1">{topic.data.title}</span>
+									</a>
+								))}
+								{topics.length > 5 && (
+									<div class="text-center text-sm text-base-content/60">
+										И еще {topics.length - 5} тем...
+									</div>
+								)}
+							</div>
+						</div>
+					</div>
+				);
+			})}
+		</div>
+	</section>
+
+	<!-- All Topics -->
+	<section id="all-topics">
+		<h2 class="text-3xl font-bold mb-8">📖 Все темы</h2>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+			{sortedTopics.map(topic => (
+				<TopicCard
+					title={topic.data.title}
+					description={topic.data.description}
+					slug={`/topics/${topic.slug}`}
+					tags={topic.data.tags}
+					level={topic.data.level}
+					meme={topic.data.meme}
+					category={topic.data.category}
+					difficulty={topic.data.difficulty}
+				/>
+			))}
+		</div>
+	</section>
+</BaseLayout>
+
+<script>
+	function toggleCategory(category: string) {
+		const element = document.getElementById(`category-${category}`);
+		const button = event?.target as HTMLButtonElement;
+
+		if (element && button) {
+			const isHidden = element.classList.contains('hidden');
+
+			if (isHidden) {
+				element.classList.remove('hidden');
+				button.textContent = 'Свернуть';
+			} else {
+				element.classList.add('hidden');
+				button.textContent = 'Развернуть';
+			}
+		}
+	}
+
+	// Make function global
+	(window as any).toggleCategory = toggleCategory;
+</script>

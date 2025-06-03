@@ -1,0 +1,553 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+// Get all topics for the graph
+const allTopics = await getCollection('topics', ({ data }) => !data.draft);
+
+// Transform topics data for the graph visualization
+const graphData = {
+    nodes: allTopics.map(topic => ({
+        id: topic.slug,
+        label: topic.data.title,
+        level: topic.data.level,
+        category: topic.data.category || 'other',
+        tags: topic.data.tags,
+        difficulty: topic.data.difficulty,
+        url: `/topics/${topic.slug}`,
+        meme: topic.data.meme
+    })),
+    edges: []
+};
+
+// Create edges based on related topics
+allTopics.forEach(topic => {
+    if (topic.data.related) {
+        topic.data.related.forEach(relatedSlug => {
+            const cleanSlug = relatedSlug.replace('/topics/', '');
+            const targetTopic = allTopics.find(t => t.slug === cleanSlug);
+            if (targetTopic) {
+                graphData.edges.push({
+                    source: topic.slug,
+                    target: targetTopic.slug,
+                    type: 'related'
+                });
+            }
+        });
+    }
+
+    // Create edges based on shared tags (if topics have 2+ common tags)
+    allTopics.forEach(otherTopic => {
+        if (topic.slug !== otherTopic.slug) {
+            const commonTags = topic.data.tags.filter(tag =>
+                otherTopic.data.tags.includes(tag)
+            );
+            if (commonTags.length >= 2) {
+                const edgeExists = graphData.edges.some(edge =>
+                    (edge.source === topic.slug && edge.target === otherTopic.slug) ||
+                    (edge.source === otherTopic.slug && edge.target === topic.slug)
+                );
+                if (!edgeExists) {
+                    graphData.edges.push({
+                        source: topic.slug,
+                        target: otherTopic.slug,
+                        type: 'tag-similarity',
+                        weight: commonTags.length
+                    });
+                }
+            }
+        }
+    });
+});
+
+// Statistics
+const stats = {
+    totalNodes: graphData.nodes.length,
+    totalEdges: graphData.edges.length,
+    categories: [...new Set(graphData.nodes.map(n => n.category))].length,
+    avgConnections: Math.round(graphData.edges.length * 2 / graphData.nodes.length * 10) / 10
+};
+---
+
+<BaseLayout
+        title="Граф знаний - HumanityOS"
+        description="Интерактивная визуализация связей между концепциями и темами в системе знаний"
+>
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <section class="text-center mb-8">
+            <h1 class="text-4xl font-bold mb-4">🕸️ Граф знаний</h1>
+            <p class="text-xl text-base-content/70 mb-6">
+                Интерактивная карта связей между концепциями и идеями
+            </p>
+
+            <!-- Stats -->
+            <div class="stats stats-horizontal shadow mb-6">
+                <div class="stat">
+                    <div class="stat-title">Узлов</div>
+                    <div class="stat-value text-primary">{stats.totalNodes}</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">Связей</div>
+                    <div class="stat-value text-secondary">{stats.totalEdges}</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">Категорий</div>
+                    <div class="stat-value text-accent">{stats.categories}</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">Ср. связей</div>
+                    <div class="stat-value text-info">{stats.avgConnections}</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Controls -->
+        <section class="mb-6">
+            <div class="card bg-base-100 shadow-lg">
+                <div class="card-body">
+                    <div class="flex flex-wrap items-center gap-4">
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Фильтр по категории:</span>
+                            </label>
+                            <select id="categoryFilter" class="select select-bordered select-sm">
+                                <option value="">Все категории</option>
+                                <option value="cognition">🧠 Познание</option>
+                                <option value="society">🏛️ Общество</option>
+                                <option value="technology">⚙️ Технологии</option>
+                                <option value="philosophy">💭 Философия</option>
+                                <option value="meta">📋 META</option>
+                            </select>
+                        </div>
+
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Уровень сложности:</span>
+                            </label>
+                            <select id="levelFilter" class="select select-bordered select-sm">
+                                <option value="">Все уровни</option>
+                                <option value="1">Уровень 1</option>
+                                <option value="2">Уровень 2</option>
+                                <option value="3">Уровень 3</option>
+                                <option value="4">Уровень 4</option>
+                                <option value="5">Уровень 5</option>
+                            </select>
+                        </div>
+
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Поиск:</span>
+                            </label>
+                            <input id="searchInput" type="text" placeholder="Поиск по названиям..." class="input input-bordered input-sm" />
+                        </div>
+
+                        <div class="flex gap-2 ml-auto">
+                            <button id="resetZoom" class="btn btn-outline btn-sm">
+                                🔍 Сбросить zoom
+                            </button>
+                            <button id="togglePhysics" class="btn btn-outline btn-sm">
+                                ⚡ Физика: ВКЛ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Graph Container -->
+        <section class="mb-6">
+            <div class="card bg-base-100 shadow-lg">
+                <div class="card-body p-0">
+                    <div id="graph-container" class="w-full h-[600px] relative overflow-hidden rounded-lg bg-base-200">
+                        <!-- Loading state -->
+                        <div id="loading" class="absolute inset-0 flex items-center justify-center">
+                            <div class="loading loading-spinner loading-lg"></div>
+                            <span class="ml-2">Загрузка графа...</span>
+                        </div>
+
+                        <!-- Graph canvas -->
+                        <canvas id="graph-canvas" class="absolute inset-0 w-full h-full"></canvas>
+
+                        <!-- Node info panel -->
+                        <div id="node-info" class="absolute top-4 right-4 card bg-base-100 shadow-lg hidden max-w-sm">
+                            <div class="card-body p-4">
+                                <h3 id="node-title" class="card-title text-lg"></h3>
+                                <div id="node-details" class="text-sm space-y-2">
+                                    <div id="node-level"></div>
+                                    <div id="node-category"></div>
+                                    <div id="node-tags"></div>
+                                </div>
+                                <div class="card-actions">
+                                    <a id="node-link" href="#" class="btn btn-primary btn-sm">Открыть</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Legend -->
+        <section>
+            <div class="card bg-base-100 shadow-lg">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">📖 Легенда</h2>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Node colors -->
+                        <div>
+                            <h3 class="font-bold mb-3">🎨 Цвета узлов (по категориям)</h3>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-4 h-4 rounded-full bg-blue-500"></div>
+                                    <span>🧠 Познание</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                                    <span>🏛️ Общество</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-4 h-4 rounded-full bg-yellow-500"></div>
+                                    <span>⚙️ Технологии</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-4 h-4 rounded-full bg-purple-500"></div>
+                                    <span>💭 Философия</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-4 h-4 rounded-full bg-red-500"></div>
+                                    <span>📋 META</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Connections -->
+                        <div>
+                            <h3 class="font-bold mb-3">🔗 Типы связей</h3>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-0.5 bg-primary"></div>
+                                    <span>Прямые связи (related)</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-0.5 bg-secondary opacity-60" style="border-style: dashed;"></div>
+                                    <span>Тематические связи (общие теги)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 text-sm text-base-content/70">
+                        <p><strong>💡 Подсказки:</strong></p>
+                        <ul class="list-disc list-inside space-y-1 mt-2">
+                            <li>Кликните на узел для просмотра информации</li>
+                            <li>Перетаскивайте узлы для изменения расположения</li>
+                            <li>Используйте колесо мыши для масштабирования</li>
+                            <li>Размер узла зависит от количества связей</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <style>
+        #graph-container {
+            background: radial-gradient(circle at 50% 50%, rgba(var(--p), 0.05) 0%, transparent 50%);
+        }
+
+        #graph-canvas {
+            cursor: grab;
+        }
+
+        #graph-canvas:active {
+            cursor: grabbing;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+
+    <script define:vars={{ graphData }}>
+        class GraphVisualization {
+            constructor(data, container) {
+                this.data = data;
+                this.container = container;
+                this.width = container.clientWidth;
+                this.height = container.clientHeight;
+                this.physicsEnabled = true;
+
+                this.categoryColors = {
+                    cognition: '#3b82f6',
+                    society: '#10b981',
+                    technology: '#f59e0b',
+                    philosophy: '#8b5cf6',
+                    meta: '#ef4444',
+                    other: '#6b7280'
+                };
+
+                this.init();
+            }
+
+            init() {
+                // Setup canvas
+                this.canvas = d3.select('#graph-canvas')
+                    .attr('width', this.width)
+                    .attr('height', this.height);
+
+                this.context = this.canvas.node().getContext('2d');
+
+                // Setup simulation
+                this.simulation = d3.forceSimulation(this.data.nodes)
+                    .force('link', d3.forceLink(this.data.edges).id(d => d.id).distance(80))
+                    .force('charge', d3.forceManyBody().strength(-200))
+                    .force('center', d3.forceCenter(this.width / 2, this.height / 2))
+                    .force('collision', d3.forceCollide().radius(25))
+                    .on('tick', () => this.draw());
+
+                // Setup interactions
+                this.setupInteractions();
+                this.setupControls();
+
+                // Hide loading
+                document.getElementById('loading').classList.add('hidden');
+            }
+
+            draw() {
+                const context = this.context;
+
+                // Clear canvas
+                context.clearRect(0, 0, this.width, this.height);
+                context.save();
+
+                // Draw edges
+                context.strokeStyle = '#64748b';
+                context.lineWidth = 1;
+                this.data.edges.forEach(edge => {
+                    if (edge.type === 'tag-similarity') {
+                        context.setLineDash([5, 5]);
+                        context.globalAlpha = 0.6;
+                    } else {
+                        context.setLineDash([]);
+                        context.globalAlpha = 1;
+                    }
+
+                    context.beginPath();
+                    context.moveTo(edge.source.x, edge.source.y);
+                    context.lineTo(edge.target.x, edge.target.y);
+                    context.stroke();
+                });
+
+                // Draw nodes
+                context.setLineDash([]);
+                context.globalAlpha = 1;
+                this.data.nodes.forEach(node => {
+                    const radius = Math.max(8, Math.min(20, 8 + node.level * 2));
+
+                    // Node background
+                    context.fillStyle = this.categoryColors[node.category] || this.categoryColors.other;
+                    context.beginPath();
+                    context.arc(node.x, node.y, radius, 0, 2 * Math.PI);
+                    context.fill();
+
+                    // Node border
+                    context.strokeStyle = '#ffffff';
+                    context.lineWidth = 2;
+                    context.stroke();
+
+                    // Node text
+                    if (radius > 12) {
+                        context.fillStyle = '#ffffff';
+                        context.font = '10px Inter';
+                        context.textAlign = 'center';
+                        context.fillText(node.level.toString(), node.x, node.y + 3);
+                    }
+                });
+
+                context.restore();
+            }
+
+            setupInteractions() {
+                const canvas = this.canvas.node();
+
+                // Mouse events
+                canvas.addEventListener('click', (event) => {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+
+                    const node = this.findNodeAt(x, y);
+                    if (node) {
+                        this.showNodeInfo(node);
+                    } else {
+                        this.hideNodeInfo();
+                    }
+                });
+
+                canvas.addEventListener('mousemove', (event) => {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+
+                    const node = this.findNodeAt(x, y);
+                    canvas.style.cursor = node ? 'pointer' : 'grab';
+                });
+
+                // Drag behavior
+                const drag = d3.drag()
+                    .subject(() => {
+                        const rect = canvas.getBoundingClientRect();
+                        const x = d3.event.x - rect.left;
+                        const y = d3.event.y - rect.top;
+                        return this.findNodeAt(x, y);
+                    })
+                    .on('start', () => {
+                        if (!d3.event.active && this.physicsEnabled) {
+                            this.simulation.alphaTarget(0.3).restart();
+                        }
+                        d3.event.subject.fx = d3.event.subject.x;
+                        d3.event.subject.fy = d3.event.subject.y;
+                    })
+                    .on('drag', () => {
+                        const rect = canvas.getBoundingClientRect();
+                        d3.event.subject.fx = d3.event.x - rect.left;
+                        d3.event.subject.fy = d3.event.y - rect.top;
+                    })
+                    .on('end', () => {
+                        if (!d3.event.active && this.physicsEnabled) {
+                            this.simulation.alphaTarget(0);
+                        }
+                        d3.event.subject.fx = null;
+                        d3.event.subject.fy = null;
+                    });
+
+                this.canvas.call(drag);
+
+                // Zoom behavior
+                const zoom = d3.zoom()
+                    .scaleExtent([0.5, 3])
+                    .on('zoom', () => {
+                        const transform = d3.event.transform;
+                        this.context.save();
+                        this.context.clearRect(0, 0, this.width, this.height);
+                        this.context.translate(transform.x, transform.y);
+                        this.context.scale(transform.k, transform.k);
+                        this.draw();
+                        this.context.restore();
+                    });
+
+                this.canvas.call(zoom);
+                this.zoomBehavior = zoom;
+            }
+
+            findNodeAt(x, y) {
+                return this.data.nodes.find(node => {
+                    const radius = Math.max(8, Math.min(20, 8 + node.level * 2));
+                    const dx = x - node.x;
+                    const dy = y - node.y;
+                    return Math.sqrt(dx * dx + dy * dy) < radius;
+                });
+            }
+
+            showNodeInfo(node) {
+                const panel = document.getElementById('node-info');
+                const title = document.getElementById('node-title');
+                const level = document.getElementById('node-level');
+                const category = document.getElementById('node-category');
+                const tags = document.getElementById('node-tags');
+                const link = document.getElementById('node-link');
+
+                title.textContent = node.label;
+                level.innerHTML = `<span class="badge badge-primary badge-sm">Уровень ${node.level}</span>`;
+                category.innerHTML = `<span class="badge badge-secondary badge-sm">${node.category}</span>`;
+                tags.innerHTML = node.tags.map(tag =>
+                    `<span class="badge badge-outline badge-xs">${tag}</span>`
+                ).join(' ');
+                link.href = node.url;
+
+                panel.classList.remove('hidden');
+            }
+
+            hideNodeInfo() {
+                document.getElementById('node-info').classList.add('hidden');
+            }
+
+            setupControls() {
+                // Category filter
+                document.getElementById('categoryFilter').addEventListener('change', (e) => {
+                    this.filterByCategory(e.target.value);
+                });
+
+                // Level filter
+                document.getElementById('levelFilter').addEventListener('change', (e) => {
+                    this.filterByLevel(e.target.value);
+                });
+
+                // Search
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    this.search(e.target.value);
+                });
+
+                // Reset zoom
+                document.getElementById('resetZoom').addEventListener('click', () => {
+                    this.canvas.transition().duration(750).call(
+                        this.zoomBehavior.transform,
+                        d3.zoomIdentity
+                    );
+                });
+
+                // Toggle physics
+                document.getElementById('togglePhysics').addEventListener('click', (e) => {
+                    this.physicsEnabled = !this.physicsEnabled;
+                    e.target.textContent = this.physicsEnabled ? '⚡ Физика: ВКЛ' : '⚡ Физика: ВЫКЛ';
+
+                    if (this.physicsEnabled) {
+                        this.simulation.restart();
+                    } else {
+                        this.simulation.stop();
+                    }
+                });
+            }
+
+            filterByCategory(category) {
+                this.data.nodes.forEach(node => {
+                    node.visible = !category || node.category === category;
+                });
+                this.draw();
+            }
+
+            filterByLevel(level) {
+                this.data.nodes.forEach(node => {
+                    node.visible = !level || node.level.toString() === level;
+                });
+                this.draw();
+            }
+
+            search(query) {
+                if (!query) {
+                    this.data.nodes.forEach(node => node.highlighted = false);
+                } else {
+                    this.data.nodes.forEach(node => {
+                        node.highlighted = node.label.toLowerCase().includes(query.toLowerCase());
+                    });
+                }
+                this.draw();
+            }
+        }
+
+        // Initialize graph when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('graph-container');
+            new GraphVisualization(graphData, container);
+        });
+    </script>
+
+
+    <!-- Include D3.js for graph visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+
+
+
+    </BaseLayout>

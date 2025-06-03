@@ -1,0 +1,343 @@
+---
+import { getCollection } from 'astro:content';
+
+// Get all topics for graph data
+const allTopics = await getCollection('topics', ({ data }) => !data.draft);
+
+// Create nodes and links for D3.js
+const nodes = allTopics.map(topic => ({
+    id: topic.slug,
+    title: topic.data.title,
+    level: topic.data.level,
+    category: topic.data.category || 'other',
+    tags: topic.data.tags,
+    url: `/topics/${topic.slug}`
+}));
+
+const links = [];
+allTopics.forEach(topic => {
+    if (topic.data.related) {
+        topic.data.related.forEach(relatedPath => {
+            const relatedSlug = relatedPath.replace('/topics/', '');
+            const targetExists = nodes.find(n => n.id === relatedSlug);
+            if (targetExists) {
+                links.push({
+                    source: topic.slug,
+                    target: relatedSlug
+                });
+            }
+        });
+    }
+});
+
+const graphData = { nodes, links };
+---
+
+<style>
+
+    .tooltip-container {
+        position: absolute;
+        z-index: 1000;
+        pointer-events: none;
+    }
+
+    .graph-container {
+        user-select: none;
+    }
+
+    #knowledge-graph {
+        background: transparent;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        #graph-svg-container {
+            height: 400px;
+        }
+
+        .controls {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .controls > * {
+            width: 100%;
+        }
+    }
+
+</style>
+
+<div class="graph-container">
+    <div class="controls mb-4 flex flex-wrap gap-2">
+        <button id="reset-zoom" class="btn btn-sm btn-outline">Сбросить масштаб</button>
+        <button id="center-graph" class="btn btn-sm btn-outline">Центрировать</button>
+
+        <div class="form-control">
+            <label class="label cursor-pointer">
+                <span class="label-text mr-2">Показать связи:</span>
+                <input type="checkbox" id="show-links" class="toggle toggle-sm toggle-primary" checked />
+            </label>
+        </div>
+
+        <select id="category-filter" class="select select-sm select-bordered">
+            <option value="">Все категории</option>
+            <option value="cognition">🧠 Познание</option>
+            <option value="society">🏛️ Общество</option>
+            <option value="technology">⚙️ Технологии</option>
+            <option value="philosophy">💭 Философия</option>
+            <option value="meta">📋 META</option>
+        </select>
+    </div>
+
+    <div id="graph-tooltip" class="tooltip-container hidden">
+        <div class="bg-base-100 border border-base-300 rounded-lg p-3 shadow-lg max-w-xs">
+            <h4 class="font-bold text-sm mb-1" id="tooltip-title"></h4>
+            <p class="text-xs text-base-content/70 mb-2" id="tooltip-category"></p>
+            <div class="flex flex-wrap gap-1" id="tooltip-tags"></div>
+        </div>
+    </div>
+
+    <div id="graph-svg-container" class="w-full h-[600px] border border-base-300 rounded-lg bg-base-100 overflow-hidden">
+        <svg id="knowledge-graph" class="w-full h-full"></svg>
+    </div>
+
+    <div class="legend mt-4">
+        <h3 class="font-bold mb-2">Легенда:</h3>
+        <div class="flex flex-wrap gap-4 text-sm">
+            <div class="flex items-center gap-2">
+                <div class="w-4 h-4 rounded-full bg-success"></div>
+                <span>Уровень 1-2</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="w-4 h-4 rounded-full bg-warning"></div>
+                <span>Уровень 3</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <div class="w-4 h-4 rounded-full bg-error"></div>
+                <span>Уровень 4-5</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script define:vars={{ graphData }}>
+    // D3.js implementation for knowledge graph
+    import('https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js').then(() => {
+        const container = d3.select('#graph-svg-container');
+        const svg = d3.select('#knowledge-graph');
+        const tooltip = d3.select('#graph-tooltip');
+
+        const width = 800;
+        const height = 600;
+
+        svg.attr('viewBox', [0, 0, width, height]);
+
+        // Color scale for categories
+        const categoryColors = {
+            cognition: '#0ea5e9',
+            society: '#10b981',
+            technology: '#f59e0b',
+            philosophy: '#8b5cf6',
+            meta: '#ef4444',
+            other: '#64748b'
+        };
+
+        // Level-based radius
+        const getRadius = (level) => {
+            return Math.max(6, 12 - level * 2);
+        };
+
+        // Level-based color intensity
+        const getLevelColor = (level, category) => {
+            const baseColor = categoryColors[category] || categoryColors.other;
+            const opacity = Math.max(0.4, 1 - (level - 1) * 0.15);
+            return d3.color(baseColor).copy({opacity});
+        };
+
+        let currentData = JSON.parse(JSON.stringify(graphData));
+
+        function initializeGraph() {
+            svg.selectAll('*').remove();
+
+            const simulation = d3.forceSimulation(currentData.nodes)
+                .force('link', d3.forceLink(currentData.links).id(d => d.id).distance(80))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collision', d3.forceCollide().radius(d => getRadius(d.level) + 2));
+
+            // Links
+            const link = svg.append('g')
+                .selectAll('line')
+                .data(currentData.links)
+                .join('line')
+                .attr('stroke', '#64748b')
+                .attr('stroke-opacity', 0.3)
+                .attr('stroke-width', 1);
+
+            // Nodes
+            const node = svg.append('g')
+                .selectAll('circle')
+                .data(currentData.nodes)
+                .join('circle')
+                .attr('r', d => getRadius(d.level))
+                .attr('fill', d => getLevelColor(d.level, d.category))
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 2)
+                .style('cursor', 'pointer');
+
+            // Labels
+            const labels = svg.append('g')
+                .selectAll('text')
+                .data(currentData.nodes)
+                .join('text')
+                .text(d => d.title.length > 20 ? d.title.substring(0, 20) + '...' : d.title)
+                .attr('font-size', 10)
+                .attr('font-family', 'Inter, sans-serif')
+                .attr('text-anchor', 'middle')
+                .attr('dy', d => getRadius(d.level) + 15)
+                .attr('fill', 'currentColor')
+                .style('pointer-events', 'none');
+
+            // Drag behavior
+            const drag = d3.drag()
+                .on('start', (event, d) => {
+                    if (!event.active) simulation.alphaTarget(0.3).restart();
+                    d.fx = d.x;
+                    d.fy = d.y;
+                })
+                .on('drag', (event, d) => {
+                    d.fx = event.x;
+                    d.fy = event.y;
+                })
+                .on('end', (event, d) => {
+                    if (!event.active) simulation.alphaTarget(0);
+                    d.fx = null;
+                    d.fy = null;
+                });
+
+            node.call(drag);
+
+            // Hover and click events
+            node
+                .on('mouseover', (event, d) => {
+                    showTooltip(event, d);
+                    // Highlight connected nodes
+                    highlightConnected(d.id, true);
+                })
+                .on('mouseout', (event, d) => {
+                    hideTooltip();
+                    highlightConnected(d.id, false);
+                })
+                .on('click', (event, d) => {
+                    window.open(d.url, '_blank');
+                });
+
+            // Zoom behavior
+            const zoom = d3.zoom()
+                .scaleExtent([0.5, 3])
+                .on('zoom', (event) => {
+                    svg.selectAll('g').attr('transform', event.transform);
+                });
+
+            svg.call(zoom);
+
+            // Controls
+            d3.select('#reset-zoom').on('click', () => {
+                svg.transition().duration(750).call(
+                    zoom.transform,
+                    d3.zoomIdentity
+                );
+            });
+
+            d3.select('#center-graph').on('click', () => {
+                simulation.alpha(1).restart();
+            });
+
+            d3.select('#show-links').on('change', function() {
+                link.style('visibility', this.checked ? 'visible' : 'hidden');
+            });
+
+            d3.select('#category-filter').on('change', function() {
+                filterByCategory(this.value);
+            });
+
+            // Update positions
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+
+                node
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y);
+
+                labels
+                    .attr('x', d => d.x)
+                    .attr('y', d => d.y);
+            });
+        }
+
+        function showTooltip(event, d) {
+            const tooltipTitle = document.getElementById('tooltip-title');
+            const tooltipCategory = document.getElementById('tooltip-category');
+            const tooltipTags = document.getElementById('tooltip-tags');
+
+            tooltipTitle.textContent = d.title;
+            tooltipCategory.textContent = `${d.category || 'other'} • Уровень ${d.level}`;
+
+            tooltipTags.innerHTML = '';
+            d.tags.slice(0, 4).forEach(tag => {
+                const span = document.createElement('span');
+                span.className = 'badge badge-xs badge-outline';
+                span.textContent = tag;
+                tooltipTags.appendChild(span);
+            });
+
+            tooltip
+                .style('left', (event.pageX + 10) + 'px')
+                .style('top', (event.pageY - 10) + 'px')
+                .classed('hidden', false);
+        }
+
+        function hideTooltip() {
+            tooltip.classed('hidden', true);
+        }
+
+        function highlightConnected(nodeId, highlight) {
+            const connectedIds = new Set([nodeId]);
+
+            currentData.links.forEach(link => {
+                if (link.source.id === nodeId) connectedIds.add(link.target.id);
+                if (link.target.id === nodeId) connectedIds.add(link.source.id);
+            });
+
+            svg.selectAll('circle')
+                .attr('opacity', d => highlight ? (connectedIds.has(d.id) ? 1 : 0.3) : 1);
+
+            svg.selectAll('line')
+                .attr('opacity', d => highlight ?
+                    (d.source.id === nodeId || d.target.id === nodeId ? 0.8 : 0.1) : 0.3);
+        }
+
+        function filterByCategory(category) {
+            if (category === '') {
+                currentData = JSON.parse(JSON.stringify(graphData));
+            } else {
+                currentData = {
+                    nodes: graphData.nodes.filter(n => n.category === category),
+                    links: graphData.links.filter(l => {
+                        const sourceMatch = graphData.nodes.find(n => n.id === l.source && n.category === category);
+                        const targetMatch = graphData.nodes.find(n => n.id === l.target && n.category === category);
+                        return sourceMatch && targetMatch;
+                    })
+                };
+            }
+            initializeGraph();
+        }
+
+        // Initialize the graph
+        initializeGraph();
+    });
+</script>

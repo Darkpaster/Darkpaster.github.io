@@ -1,0 +1,433 @@
+---
+import { getCollection } from 'astro:content';
+
+// Get all topics for search index
+const allTopics = await getCollection('topics', ({ data }) => !data.draft);
+
+const searchIndex = allTopics.map(topic => ({
+    id: topic.slug,
+    title: topic.data.title,
+    description: topic.data.description || '',
+    tags: topic.data.tags,
+    category: topic.data.category || 'other',
+    level: topic.data.level,
+    url: `/topics/${topic.slug}`
+}));
+---
+
+<div class="search-container relative">
+    <div class="form-control">
+        <div class="input-group">
+            <input
+                    type="text"
+                    placeholder="Поиск по темам, тегам, описанию..."
+                    class="input input-bordered w-full"
+                    id="search-input"
+                    autocomplete="off"
+            />
+            <button class="btn btn-square btn-primary" id="search-button">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Search Results Dropdown -->
+    <div id="search-results" class="absolute top-full left-0 right-0 mt-2 bg-base-100 border border-base-300 rounded-lg shadow-lg max-h-96 overflow-y-auto z-50 hidden">
+        <div id="results-container" class="p-2">
+            <!-- Results will be populated here -->
+        </div>
+        <div id="no-results" class="p-4 text-center text-base-content/60 hidden">
+            <div class="text-2xl mb-2">🔍</div>
+            <p>Ничего не найдено</p>
+            <p class="text-sm">Попробуйте изменить запрос</p>
+        </div>
+        <div id="search-stats" class="px-4 py-2 border-t border-base-300 text-xs text-base-content/60 bg-base-200/50">
+            <!-- Search statistics -->
+        </div>
+    </div>
+
+    <!-- Quick filters -->
+    <div class="flex flex-wrap gap-2 mt-3" id="quick-filters">
+        <button class="btn btn-xs btn-outline" data-filter="level:1">Уровень 1</button>
+        <button class="btn btn-xs btn-outline" data-filter="level:2">Уровень 2</button>
+        <button class="btn btn-xs btn-outline" data-filter="category:cognition">🧠 Познание</button>
+        <button class="btn btn-xs btn-outline" data-filter="category:society">🏛️ Общество</button>
+        <button class="btn btn-xs btn-outline" data-filter="category:technology">⚙️ Технологии</button>
+        <button class="btn btn-xs btn-outline" data-filter="category:philosophy">💭 Философия</button>
+    </div>
+</div>
+
+<style>
+    @reference "../styles/global.css";
+
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .search-result-item {
+        transition: background-color 0.2s ease;
+    }
+
+    .search-result-item mark {
+        border-radius: 2px;
+        padding: 1px 2px;
+    }
+
+    /* Keyboard shortcut hint */
+    .search-container::after {
+        content: "Ctrl+K";
+        position: absolute;
+        right: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 0.75rem;
+        color: theme(colors.base-content / 40%);
+        background: theme(colors.base-200);
+        padding: 2px 6px;
+        border-radius: 4px;
+        pointer-events: none;
+    }
+
+    @media (max-width: 640px) {
+        .search-container::after {
+            display: none;
+        }
+
+        #quick-filters {
+            flex-direction: column;
+        }
+
+        #quick-filters .btn {
+            width: 100%;
+        }
+    }
+
+</style>
+
+<script define:vars={{ searchIndex }}>
+    class TopicSearch {
+        constructor(searchIndex) {
+            this.searchIndex = searchIndex;
+            this.searchInput = document.getElementById('search-input');
+            this.searchButton = document.getElementById('search-button');
+            this.searchResults = document.getElementById('search-results');
+            this.resultsContainer = document.getElementById('results-container');
+            this.noResults = document.getElementById('no-results');
+            this.searchStats = document.getElementById('search-stats');
+            this.quickFilters = document.querySelectorAll('[data-filter]');
+
+            this.currentQuery = '';
+            this.currentResults = [];
+
+            this.init();
+        }
+
+        init() {
+            // Search input events
+            this.searchInput.addEventListener('input', this.debounce(this.handleSearch.bind(this), 300));
+            this.searchInput.addEventListener('focus', this.handleFocus.bind(this));
+            this.searchInput.addEventListener('keydown', this.handleKeydown.bind(this));
+
+            // Search button
+            this.searchButton.addEventListener('click', this.handleSearch.bind(this));
+
+            // Quick filters
+            this.quickFilters.forEach(filter => {
+                filter.addEventListener('click', this.handleQuickFilter.bind(this));
+            });
+
+            // Close results when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-container')) {
+                    this.hideResults();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', this.handleGlobalKeydown.bind(this));
+        }
+
+        handleSearch() {
+            const query = this.searchInput.value.trim();
+
+            if (query.length < 2) {
+                this.hideResults();
+                return;
+            }
+
+            this.currentQuery = query;
+            this.currentResults = this.performSearch(query);
+            this.displayResults();
+        }
+
+        handleFocus() {
+            if (this.currentResults.length > 0) {
+                this.showResults();
+            }
+        }
+
+        handleKeydown(e) {
+            const resultItems = this.resultsContainer.querySelectorAll('.search-result-item');
+            const activeItem = this.resultsContainer.querySelector('.search-result-item.active');
+
+            switch (e.key) {
+                case 'ArrowDown':
+                    e.preventDefault();
+                    this.navigateResults(resultItems, activeItem, 1);
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    this.navigateResults(resultItems, activeItem, -1);
+                    break;
+                case 'Enter':
+                    e.preventDefault();
+                    if (activeItem) {
+                        const link = activeItem.querySelector('a');
+                        if (link) link.click();
+                    }
+                    break;
+                case 'Escape':
+                    this.hideResults();
+                    this.searchInput.blur();
+                    break;
+            }
+        }
+
+        handleGlobalKeydown(e) {
+            // Ctrl/Cmd + K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                this.searchInput.focus();
+            }
+        }
+
+        handleQuickFilter(e) {
+            const filter = e.target.dataset.filter;
+            const [type, value] = filter.split(':');
+
+            let filterQuery = '';
+            if (type === 'level') {
+                filterQuery = `уровень ${value}`;
+            } else if (type === 'category') {
+                const categoryNames = {
+                    cognition: 'познание',
+                    society: 'общество',
+                    technology: 'технологии',
+                    philosophy: 'философия'
+                };
+                filterQuery = categoryNames[value] || value;
+            }
+
+            this.searchInput.value = filterQuery;
+            this.handleSearch();
+            this.searchInput.focus();
+        }
+
+        performSearch(query) {
+            const queryLower = query.toLowerCase();
+            const queryWords = queryLower.split(' ').filter(word => word.length > 0);
+
+            return this.searchIndex
+                .map(topic => {
+                    let score = 0;
+                    const searchText = `${topic.title} ${topic.description} ${topic.tags.join(' ')} ${topic.category}`.toLowerCase();
+
+                    // Title exact match
+                    if (topic.title.toLowerCase().includes(queryLower)) {
+                        score += 10;
+                    }
+
+                    // Title word match
+                    queryWords.forEach(word => {
+                        if (topic.title.toLowerCase().includes(word)) {
+                            score += 5;
+                        }
+                    });
+
+                    // Description match
+                    if (topic.description && topic.description.toLowerCase().includes(queryLower)) {
+                        score += 3;
+                    }
+
+                    // Tags match
+                    topic.tags.forEach(tag => {
+                        if (tag.toLowerCase().includes(queryLower)) {
+                            score += 4;
+                        }
+                    });
+
+                    // General content match
+                    queryWords.forEach(word => {
+                        if (searchText.includes(word)) {
+                            score += 1;
+                        }
+                    });
+
+                    // Level filter
+                    if (queryLower.includes('уровень') || queryLower.includes('ур')) {
+                        const levelMatch = queryLower.match(/(\d+)/);
+                        if (levelMatch && parseInt(levelMatch[1]) === topic.level) {
+                            score += 8;
+                        }
+                    }
+
+                    return { ...topic, score };
+                })
+                .filter(topic => topic.score > 0)
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 10);
+        }
+
+        displayResults() {
+            if (this.currentResults.length === 0) {
+                this.showNoResults();
+                return;
+            }
+
+            this.resultsContainer.innerHTML = '';
+            this.noResults.classList.add('hidden');
+
+            this.currentResults.forEach((topic, index) => {
+                const item = this.createResultItem(topic, index === 0);
+                this.resultsContainer.appendChild(item);
+            });
+
+            this.updateStats();
+            this.showResults();
+        }
+
+        createResultItem(topic, isFirst = false) {
+            const item = document.createElement('div');
+            item.className = `search-result-item p-3 hover:bg-base-200 border-b border-base-300 last:border-b-0 cursor-pointer ${isFirst ? 'active bg-base-200' : ''}`;
+
+            const categoryIcons = {
+                cognition: '🧠',
+                society: '🏛️',
+                technology: '⚙️',
+                philosophy: '💭',
+                meta: '📋'
+            };
+
+            const levelColors = {
+                1: 'badge-success',
+                2: 'badge-info',
+                3: 'badge-warning',
+                4: 'badge-error',
+                5: 'badge-secondary'
+            };
+
+            item.innerHTML = `
+        <a href="${topic.url}" class="block">
+          <div class="flex items-start justify-between mb-2">
+            <h4 class="font-semibold text-sm hover:text-primary transition-colors">
+              ${this.highlightQuery(topic.title)}
+            </h4>
+            <div class="flex gap-1 ml-2">
+              <span class="badge badge-xs ${levelColors[topic.level] || 'badge-outline'}">
+                ${topic.level}
+              </span>
+            </div>
+          </div>
+          <p class="text-xs text-base-content/70 mb-2 line-clamp-2">
+            ${this.highlightQuery(topic.description || 'Нет описания')}
+          </p>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-base-content/60">
+              ${categoryIcons[topic.category] || '📁'} ${topic.category || 'other'}
+            </span>
+            <div class="flex gap-1">
+              ${topic.tags.slice(0, 3).map(tag =>
+                `<span class="badge badge-xs badge-ghost">${tag}</span>`
+            ).join('')}
+            </div>
+          </div>
+        </a>
+      `;
+
+            item.addEventListener('mouseenter', () => {
+                this.resultsContainer.querySelectorAll('.search-result-item').forEach(el => {
+                    el.classList.remove('active', 'bg-base-200');
+                });
+                item.classList.add('active', 'bg-base-200');
+            });
+
+            return item;
+        }
+
+        highlightQuery(text) {
+            if (!this.currentQuery || !text) return text;
+
+            const queryWords = this.currentQuery.toLowerCase().split(' ').filter(word => word.length > 1);
+            let highlightedText = text;
+
+            queryWords.forEach(word => {
+                const regex = new RegExp(`(${word})`, 'gi');
+                highlightedText = highlightedText.replace(regex, '<mark class="bg-warning/30 text-warning-content">$1</mark>');
+            });
+
+            return highlightedText;
+        }
+
+        navigateResults(items, activeItem, direction) {
+            if (!items.length) return;
+
+            let newIndex = 0;
+
+            if (activeItem) {
+                const currentIndex = Array.from(items).indexOf(activeItem);
+                newIndex = currentIndex + direction;
+
+                if (newIndex < 0) newIndex = items.length - 1;
+                if (newIndex >= items.length) newIndex = 0;
+
+                activeItem.classList.remove('active', 'bg-base-200');
+            }
+
+            items[newIndex].classList.add('active', 'bg-base-200');
+            items[newIndex].scrollIntoView({ block: 'nearest' });
+        }
+
+        showResults() {
+            this.searchResults.classList.remove('hidden');
+        }
+
+        hideResults() {
+            this.searchResults.classList.add('hidden');
+        }
+
+        showNoResults() {
+            this.resultsContainer.innerHTML = '';
+            this.noResults.classList.remove('hidden');
+            this.updateStats();
+            this.showResults();
+        }
+
+        updateStats() {
+            const count = this.currentResults.length;
+            const totalTopics = this.searchIndex.length;
+
+            this.searchStats.innerHTML = `
+        Найдено: <strong>${count}</strong> из ${totalTopics} тем
+        ${this.currentQuery ? `по запросу "<em>${this.currentQuery}</em>"` : ''}
+      `;
+        }
+
+        debounce(func, delay) {
+            let timeoutId;
+            return (...args) => {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+    }
+
+    // Initialize search when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        new TopicSearch(searchIndex);
+    });
+</script>
