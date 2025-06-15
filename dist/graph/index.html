@@ -1,0 +1,824 @@
+<!DOCTYPE html><!--graph.astro--><!--baseLayout.astro--><html lang="ru" data-astro-cid-37fxchfa> <head><meta charset="UTF-8"><meta name="description" content="Интерактивная визуализация связей между концепциями и темами в системе знаний"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.ico"><meta name="generator" content="Astro v5.9.3"><!-- Обязательно импортируем глобальные стили --><link rel="stylesheet" href="/styles/global.css"><!-- SEO Meta Tags --><title>Граф знаний - HumanityOS</title><link rel="canonical" href="https://darkpaster.github.io/graph/"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://darkpaster.github.io/graph/"><meta property="og:title" content="Граф знаний - HumanityOS"><meta property="og:description" content="Интерактивная визуализация связей между концепциями и темами в системе знаний"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://darkpaster.github.io/graph/"><meta property="twitter:title" content="Граф знаний - HumanityOS"><meta property="twitter:description" content="Интерактивная визуализация связей между концепциями и темами в системе знаний"><!-- KaTeX CSS for math rendering --><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblOHI/4vqZlHHK4R" crossorigin="anonymous"><!-- Fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="/assets/_slug_.CgmsCLxK.css">
+<link rel="stylesheet" href="/assets/graph.DY2gRX2t.css"></head> <body class="body-layout" data-astro-cid-37fxchfa> <div class="drawer-container" data-astro-cid-37fxchfa> <input id="drawer-toggle" type="checkbox" class="drawer-toggle" data-astro-cid-37fxchfa> <!-- Page content --> <div class="drawer-content" data-astro-cid-37fxchfa> <!-- Header --> <header class="header" data-astro-cid-37fxchfa> <div class="header-start" data-astro-cid-37fxchfa> <label for="drawer-toggle" class="drawer-btn" data-astro-cid-37fxchfa> <svg class="drawer-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-37fxchfa> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" data-astro-cid-37fxchfa></path> </svg> </label> <a href="/" class="logo-link" data-astro-cid-37fxchfa>
+HumanityOS
+</a> <div class="random-quote" id="randomQuote" data-astro-cid-q65ond43> <span class="quote-text" id="quoteText" data-astro-cid-q65ond43></span> <button class="quote-refresh" id="refreshQuote" title="Новая цитата" data-astro-cid-q65ond43> <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16" data-astro-cid-q65ond43> <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" data-astro-cid-q65ond43></path> <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" data-astro-cid-q65ond43></path> </svg> </button> </div>  <script type="module" src="/assets/RandomQuote.astro_astro_type_script_index_0_lang.D7_hS8_l.js"></script> </div> <div class="header-end" data-astro-cid-37fxchfa> <button id="theme-toggle" class="theme-toggle-btn" title="Переключить тему" aria-label="Переключить тему" data-astro-cid-x3pjskd3> <!-- Иконка солнца (показывается в темной теме) --> <svg id="sun-icon" class="theme-icon" fill="currentColor" viewBox="0 0 20 20" data-astro-cid-x3pjskd3> <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd" data-astro-cid-x3pjskd3></path> </svg> <!-- Иконка луны (показывается в светлой теме) --> <svg id="moon-icon" class="theme-icon" fill="currentColor" viewBox="0 0 20 20" data-astro-cid-x3pjskd3> <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" data-astro-cid-x3pjskd3></path> </svg> </button>  <script type="module">function d(){const e=localStorage.getItem("theme")||"dark";document.documentElement.setAttribute("data-theme",e),o(e)}function o(e){const n=document.getElementById("sun-icon"),t=document.getElementById("moon-icon");e==="dark"?(n?.classList.remove("hidden"),t?.classList.add("hidden")):(n?.classList.add("hidden"),t?.classList.remove("hidden"))}function m(){const e=document.documentElement,t=(e.getAttribute("data-theme")||"dark")==="dark"?"light":"dark";e.setAttribute("data-theme",t),localStorage.setItem("theme",t),o(t),window.dispatchEvent(new CustomEvent("theme-changed",{detail:t}))}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",d):d();document.addEventListener("DOMContentLoaded",()=>{document.getElementById("theme-toggle")?.addEventListener("click",m)});</script> </div> </header> <!-- Main content --> <main class="main-content" data-astro-cid-37fxchfa>  <div class="container" data-astro-cid-oy34yelw> <!-- Header --> <section class="header-section" data-astro-cid-oy34yelw> <h1 class="main-title" data-astro-cid-oy34yelw>🕸️ Граф знаний</h1> <p class="main-description" data-astro-cid-oy34yelw>
+Интерактивная карта связей между концепциями и идеями (бета)
+</p> <!-- Stats --> <div class="stats-container" data-astro-cid-oy34yelw> <div class="stat-item" data-astro-cid-oy34yelw> <div class="stat-title" data-astro-cid-oy34yelw>Узлов</div> <div class="stat-value stat-primary" data-astro-cid-oy34yelw>20</div> </div> <div class="stat-item" data-astro-cid-oy34yelw> <div class="stat-title" data-astro-cid-oy34yelw>Связей</div> <div class="stat-value stat-secondary" data-astro-cid-oy34yelw>69</div> </div> <div class="stat-item" data-astro-cid-oy34yelw> <div class="stat-title" data-astro-cid-oy34yelw>Категорий</div> <div class="stat-value stat-accent" data-astro-cid-oy34yelw>4</div> </div> <div class="stat-item" data-astro-cid-oy34yelw> <div class="stat-title" data-astro-cid-oy34yelw>Ср. связей</div> <div class="stat-value stat-info" data-astro-cid-oy34yelw>6.9</div> </div> </div> </section> <!-- Controls --> <!--<section class="controls-section">--> <!--    <div class="controls-card">--> <!--        <div class="controls-body">--> <!--            <div class="controls-wrapper">--> <!--                <div class="form-group">--> <!--                    <label class="form-label">--> <!--                        <span class="label-text">Фильтр по категории:</span>--> <!--                    </label>--> <!--                    <select id="categoryFilter" class="select-input">--> <!--                        <option value="">Все категории</option>--> <!--                        <option value="cognition">🧠 Познание</option>--> <!--                        <option value="society">🏛️ Общество</option>--> <!--                        <option value="technology">⚙️ Технологии</option>--> <!--                        <option value="philosophy">💭 Философия</option>--> <!--                        <option value="meta">📋 META</option>--> <!--                    </select>--> <!--                </div>--> <!--                <div class="form-group">--> <!--                    <label class="form-label">--> <!--                        <span class="label-text">Уровень сложности:</span>--> <!--                    </label>--> <!--                    <select id="levelFilter" class="select-input">--> <!--                        <option value="">Все уровни</option>--> <!--                        <option value="1">Уровень 1</option>--> <!--                        <option value="2">Уровень 2</option>--> <!--                        <option value="3">Уровень 3</option>--> <!--                        <option value="4">Уровень 4</option>--> <!--                        <option value="5">Уровень 5</option>--> <!--                    </select>--> <!--                </div>--> <!--                <div class="form-group">--> <!--                    <label class="form-label">--> <!--                        <span class="label-text">Поиск:</span>--> <!--                    </label>--> <!--                    <input id="searchInput" type="text" placeholder="Поиск по названиям..." class="text-input" />--> <!--                </div>--> <!--                <div class="button-group">--> <!--                    <button id="resetZoom" class="btn btn-outline">--> <!--                        🔍 Сбросить zoom--> <!--                    </button>--> <!--                    <button id="togglePhysics" class="btn btn-outline">--> <!--                        ⚡ Физика: ВКЛ--> <!--                    </button>--> <!--                </div>--> <!--            </div>--> <!--        </div>--> <!--    </div>--> <!--</section>--> <!-- Graph Container --> <!--<section class="graph-section">--> <!--    <div class="graph-card">--> <!--        <div class="graph-card-body">--> <!--            <div id="graph-container" class="graph-container">--> <!--                &lt;!&ndash; Loading state &ndash;&gt;--> <!--                <div id="loading" class="loading-state">--> <!--                    <div class="spinner"></div>--> <!--                    <span class="loading-text">Загрузка графа...</span>--> <!--                </div>--> <!--                &lt;!&ndash; Graph canvas &ndash;&gt;--> <!--                <canvas id="graph-canvas" class="graph-canvas"></canvas>--> <!--                &lt;!&ndash; Node info panel &ndash;&gt;--> <!--                <div id="node-info" class="node-info-panel hidden">--> <!--                    <div class="node-info-body">--> <!--                        <h3 id="node-title" class="node-info-title"></h3>--> <!--                        <div id="node-details" class="node-details">--> <!--                            <div id="node-level"></div>--> <!--                            <div id="node-category"></div>--> <!--                            <div id="node-tags"></div>--> <!--                        </div>--> <!--                        <div class="node-actions">--> <!--                            <a id="node-link" href="#" class="btn btn-primary">Открыть</a>--> <!--                        </div>--> <!--                    </div>--> <!--                </div>--> <!--            </div>--> <!--        </div>--> <!--    </div>--> <!--</section>--> <!-- graphVisualization.astro --><div class="graph-container" data-astro-cid-4k2ohpht> <div class="controls" data-astro-cid-4k2ohpht> <button id="reset-zoom" class="control-btn" data-astro-cid-4k2ohpht>Сбросить масштаб</button> <button id="center-graph" class="control-btn" data-astro-cid-4k2ohpht>Центрировать</button> <div class="form-control" data-astro-cid-4k2ohpht> <label class="label" data-astro-cid-4k2ohpht> <span class="label-text" data-astro-cid-4k2ohpht>Показать связи:</span> <input type="checkbox" id="show-links" class="toggle" checked data-astro-cid-4k2ohpht> </label> </div> <select id="category-filter" class="select" data-astro-cid-4k2ohpht> <option value="" data-astro-cid-4k2ohpht>Все категории</option> <option value="cognition" data-astro-cid-4k2ohpht>🧠 Познание</option> <option value="society" data-astro-cid-4k2ohpht>🏛️ Общество</option> <option value="technology" data-astro-cid-4k2ohpht>⚙️ Технологии</option> <option value="philosophy" data-astro-cid-4k2ohpht>💭 Философия</option> <option value="meta" data-astro-cid-4k2ohpht>📋 META</option> </select> </div> <div id="graph-tooltip" class="tooltip-container hidden" data-astro-cid-4k2ohpht> <div class="tooltip-content" data-astro-cid-4k2ohpht> <h4 class="tooltip-title" id="tooltip-title" data-astro-cid-4k2ohpht></h4> <p class="tooltip-category" id="tooltip-category" data-astro-cid-4k2ohpht></p> <div class="tooltip-tags" id="tooltip-tags" data-astro-cid-4k2ohpht></div> </div> </div> <div class="graph-svg-container" data-astro-cid-4k2ohpht> <svg id="knowledge-graph" data-astro-cid-4k2ohpht></svg> </div> <div class="legend" data-astro-cid-4k2ohpht> <h3 class="legend-title" data-astro-cid-4k2ohpht>Легенда:</h3> <div class="legend-items" data-astro-cid-4k2ohpht> <div class="legend-item" data-astro-cid-4k2ohpht> <div class="legend-color success" data-astro-cid-4k2ohpht></div> <span data-astro-cid-4k2ohpht>Уровень 1-2</span> </div> <div class="legend-item" data-astro-cid-4k2ohpht> <div class="legend-color warning" data-astro-cid-4k2ohpht></div> <span data-astro-cid-4k2ohpht>Уровень 3</span> </div> <div class="legend-item" data-astro-cid-4k2ohpht> <div class="legend-color error" data-astro-cid-4k2ohpht></div> <span data-astro-cid-4k2ohpht>Уровень 4-5</span> </div> </div> </div> </div> <script>(function(){const graphData = {"nodes":[{"id":"cognition/brain","title":"Что такое мозг и как им пользоваться?","level":2,"category":"cognition","tags":["мышление"],"url":"/topics/cognition/brain"},{"id":"cognition/cognitive-biases","title":"Когнитивные искажения","level":3,"category":"cognition","tags":["мышление"],"url":"/topics/cognition/cognitive-biases"},{"id":"cognition/healthy-brain","title":"Как следить за своим мозгом?","level":2,"category":"cognition","tags":["мышление","тренировки","здоровье"],"url":"/topics/cognition/healthy-brain"},{"id":"cognition/knowledge-accuracy","title":"Точность знаний","level":3,"category":"cognition","tags":["мышление","деградация","статистика"],"url":"/topics/cognition/knowledge-accuracy"},{"id":"cognition/language","title":"Язык как инструмент влияния на поведение","level":4,"category":"cognition","tags":["язык","мышление","коммуникация","биология"],"url":"/topics/cognition/language"},{"id":"cognition/logic-biases","title":"Логические ошибки","level":3,"category":"cognition","tags":["мышление"],"url":"/topics/cognition/logic-biases"},{"id":"cognition/positive-transfer","title":"Эффект переноса навыков","level":4,"category":"cognition","tags":["мышление","статистика","исследования","математика"],"url":"/topics/cognition/positive-transfer"},{"id":"biology/evolution","title":"Теория эволюции","level":3,"category":"cognition","tags":["биология","эволюция"],"url":"/topics/biology/evolution"},{"id":"biology/free-will","title":"Биология поведения","level":3,"category":"cognition","tags":["свобода воли","биология","нейробиология","мышление"],"url":"/topics/biology/free-will"},{"id":"biology/motivation","title":"Стимуляция живых организмов","level":3,"category":"cognition","tags":["мышление","биология","нейробиология"],"url":"/topics/biology/motivation"},{"id":"cognition/rationality","title":"Что такое рациональность?","level":2,"category":"cognition","tags":["мышление","статистика","исследования","математика"],"url":"/topics/cognition/rationality"},{"id":"cognition/solving-personal-problems","title":"Решение проблем","level":3,"category":"cognition","tags":["мышление","биология","нейробиология","осознанность"],"url":"/topics/cognition/solving-personal-problems"},{"id":"phylosophy/objectivity","title":"Что такое объективность?","level":4,"category":"philosophy","tags":["мышление","редукционизм","философия","общая семантика","нейробиология"],"url":"/topics/phylosophy/objectivity"},{"id":"society/authority","title":"Власть и глупость, как одно целое","level":2,"category":"society","tags":["общество","стагнация","мышление"],"url":"/topics/society/authority"},{"id":"society/science-resistance","title":"Сопротивление науке","level":2,"category":"society","tags":["общество","стагнация","мышление"],"url":"/topics/society/science-resistance"},{"id":"society/problem-list","title":"Проблемы современного общества","level":4,"category":"society","tags":["общество","стагнация","мышление","экономика","политика","культура","технологии"],"url":"/topics/society/problem-list"},{"id":"society/resource-based-economy","title":"Ресурсо-ориентированная экономика","level":3,"category":"society","tags":["общество","стагнация","мышление","экономика","культура","технологии"],"url":"/topics/society/resource-based-economy"},{"id":"society/studing","title":"Как менять (обучать) людей?","level":4,"category":"society","tags":["общество","мышление","обучение"],"url":"/topics/society/studing"},{"id":"society/symbolic-stagnation","title":"Символическая стагнация","level":2,"category":"society","tags":["общество","язык","символы","стагнация"],"url":"/topics/society/symbolic-stagnation"},{"id":"meta/about-project","title":"О проекте","level":1,"category":"meta","tags":["META","проект","методология","цели"],"url":"/topics/meta/about-project"}],"links":[{"source":"cognition/brain","target":"cognition/rationality"},{"source":"cognition/brain","target":"cognition/healthy-brain"},{"source":"cognition/cognitive-biases","target":"cognition/logic-biases"},{"source":"cognition/cognitive-biases","target":"cognition/rationality"},{"source":"cognition/cognitive-biases","target":"cognition/brain"},{"source":"cognition/healthy-brain","target":"cognition/brain"},{"source":"cognition/healthy-brain","target":"cognition/solving-personal-problems"},{"source":"cognition/healthy-brain","target":"cognition/rationality"},{"source":"cognition/knowledge-accuracy","target":"cognition/cognitive-biases"},{"source":"cognition/knowledge-accuracy","target":"cognition/logic-biases"},{"source":"cognition/knowledge-accuracy","target":"cognition/brain"},{"source":"cognition/knowledge-accuracy","target":"cognition/rationality"},{"source":"cognition/language","target":"biology/free-will"},{"source":"cognition/logic-biases","target":"cognition/cognitive-biases"},{"source":"cognition/logic-biases","target":"cognition/rationality"},{"source":"cognition/logic-biases","target":"cognition/brain"},{"source":"cognition/positive-transfer","target":"cognition/brain"},{"source":"biology/free-will","target":"biology/evolution"},{"source":"biology/free-will","target":"cognition/brain"},{"source":"biology/motivation","target":"biology/evolution"},{"source":"biology/motivation","target":"cognition/brain"},{"source":"biology/motivation","target":"biology/free-will"},{"source":"cognition/rationality","target":"cognition/brain"},{"source":"cognition/rationality","target":"cognition/healthy-brain"},{"source":"cognition/rationality","target":"cognition/solving-personal-problems"},{"source":"cognition/rationality","target":"cognition/logic-biases"},{"source":"cognition/rationality","target":"cognition/cognitive-biases"},{"source":"cognition/rationality","target":"cognition/positive-transfer"},{"source":"cognition/solving-personal-problems","target":"cognition/brain"},{"source":"cognition/solving-personal-problems","target":"cognition/healthy-brain"},{"source":"phylosophy/objectivity","target":"cognition/rationality"},{"source":"phylosophy/objectivity","target":"cognition/brain"},{"source":"society/authority","target":"society/problem-list"},{"source":"society/science-resistance","target":"cognition/cognitive-biases"},{"source":"society/science-resistance","target":"society/problem-list"},{"source":"society/science-resistance","target":"cognition/knowledge-accuracy"},{"source":"society/problem-list","target":"cognition/cognitive-biases"},{"source":"society/problem-list","target":"cognition/language"},{"source":"society/problem-list","target":"society/authority"},{"source":"society/problem-list","target":"society/resource-based-economy"},{"source":"society/problem-list","target":"society/science-resistance"},{"source":"society/resource-based-economy","target":"society/authority"},{"source":"society/resource-based-economy","target":"society/problem-list"},{"source":"society/studing","target":"cognition/rationality"},{"source":"society/studing","target":"cognition/brain"},{"source":"society/studing","target":"cognition/positive-transfer"},{"source":"society/symbolic-stagnation","target":"cognition/language"},{"source":"society/symbolic-stagnation","target":"society/problem-list"}]};
+
+    // D3.js implementation for knowledge graph
+    import('https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js').then(() => {
+        const container = d3.select('.graph-svg-container');
+        const svg = d3.select('#knowledge-graph');
+        const tooltip = d3.select('#graph-tooltip');
+
+        const width = 800;
+        const height = 600;
+
+        svg.attr('viewBox', [0, 0, width, height]);
+
+        // Color scale for categories
+        const categoryColors = {
+            cognition: '#0ea5e9',
+            society: '#10b981',
+            technology: '#f59e0b',
+            philosophy: '#8b5cf6',
+            meta: '#ef4444',
+            other: '#64748b'
+        };
+
+        // Level-based radius
+        const getRadius = (level) => {
+            return Math.max(6, 12 - level * 2);
+        };
+
+        // Level-based color intensity
+        const getLevelColor = (level, category) => {
+            const baseColor = categoryColors[category] || categoryColors.other;
+            const opacity = Math.max(0.4, 1 - (level - 1) * 0.15);
+            return d3.color(baseColor).copy({opacity});
+        };
+
+        let currentData = JSON.parse(JSON.stringify(graphData));
+
+        function initializeGraph() {
+            svg.selectAll('*').remove();
+
+            const simulation = d3.forceSimulation(currentData.nodes)
+                .force('link', d3.forceLink(currentData.links).id(d => d.id).distance(80))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collision', d3.forceCollide().radius(d => getRadius(d.level) + 2));
+
+            // Links
+            const link = svg.append('g')
+                .selectAll('line')
+                .data(currentData.links)
+                .join('line')
+                .attr('stroke', '#7486a1')
+                .attr('stroke-opacity', 0.3)
+                .attr('stroke-width', 1);
+
+            // Nodes
+            const node = svg.append('g')
+                .selectAll('circle')
+                .data(currentData.nodes)
+                .join('circle')
+                .attr('r', d => getRadius(d.level))
+                .attr('fill', d => getLevelColor(d.level, d.category))
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 2)
+                .style('cursor', 'pointer');
+
+            // Labels
+            const labels = svg.append('g')
+                .selectAll('text')
+                .data(currentData.nodes)
+                .join('text')
+                .text(d => d.title.length > 20 ? d.title.substring(0, 20) + '...' : d.title)
+                .attr('font-size', 10)
+                .attr('font-family', 'Inter, sans-serif')
+                .attr('text-anchor', 'middle')
+                .attr('dy', d => getRadius(d.level) + 15)
+                .attr('fill', 'currentColor')
+                .style('pointer-events', 'none');
+
+            // Drag behavior
+            const drag = d3.drag()
+                .on('start', (event, d) => {
+                    if (!event.active) simulation.alphaTarget(0.3).restart();
+                    d.fx = d.x;
+                    d.fy = d.y;
+                })
+                .on('drag', (event, d) => {
+                    d.fx = event.x;
+                    d.fy = event.y;
+                })
+                .on('end', (event, d) => {
+                    if (!event.active) simulation.alphaTarget(0);
+                    d.fx = null;
+                    d.fy = null;
+                });
+
+            node.call(drag);
+
+            // Hover and click events
+            node
+                .on('mouseover', (event, d) => {
+                    showTooltip(event, d);
+                    // Highlight connected nodes
+                    highlightConnected(d.id, true);
+                })
+                .on('mouseout', (event, d) => {
+                    hideTooltip();
+                    highlightConnected(d.id, false);
+                })
+                .on('click', (event, d) => {
+                    window.open(d.url, '_blank');
+                });
+
+            // Zoom behavior
+            const zoom = d3.zoom()
+                .scaleExtent([0.5, 3])
+                .on('zoom', (event) => {
+                    svg.selectAll('g').attr('transform', event.transform);
+                });
+
+            svg.call(zoom);
+
+            // Controls
+            d3.select('#reset-zoom').on('click', () => {
+                svg.transition().duration(750).call(
+                    zoom.transform,
+                    d3.zoomIdentity
+                );
+            });
+
+            d3.select('#center-graph').on('click', () => {
+                simulation.alpha(1).restart();
+            });
+
+            d3.select('#show-links').on('change', function() {
+                link.style('visibility', this.checked ? 'visible' : 'hidden');
+            });
+
+            d3.select('#category-filter').on('change', function() {
+                filterByCategory(this.value);
+            });
+
+            // Update positions
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+
+                node
+                    .attr('cx', d => d.x)
+                    .attr('cy', d => d.y);
+
+                labels
+                    .attr('x', d => d.x)
+                    .attr('y', d => d.y);
+            });
+        }
+
+        function showTooltip(event, d) {
+            const tooltipTitle = document.getElementById('tooltip-title');
+            const tooltipCategory = document.getElementById('tooltip-category');
+            const tooltipTags = document.getElementById('tooltip-tags');
+
+            tooltipTitle.textContent = d.title;
+            tooltipCategory.textContent = `${d.category || 'other'} • Уровень ${d.level}`;
+
+            tooltipTags.innerHTML = '';
+            d.tags.slice(0, 4).forEach(tag => {
+                const span = document.createElement('span');
+                span.className = 'badge badge-xs badge-outline';
+                span.textContent = tag;
+                tooltipTags.appendChild(span);
+            });
+
+            tooltip
+                .style('left', (event.pageX + 10) + 'px')
+                .style('top', (event.pageY - 10) + 'px')
+                .classed('hidden', false);
+        }
+
+        function hideTooltip() {
+            tooltip.classed('hidden', true);
+        }
+
+        function highlightConnected(nodeId, highlight) {
+            const connectedIds = new Set([nodeId]);
+
+            currentData.links.forEach(link => {
+                if (link.source.id === nodeId) connectedIds.add(link.target.id);
+                if (link.target.id === nodeId) connectedIds.add(link.source.id);
+            });
+
+            svg.selectAll('circle')
+                .attr('opacity', d => highlight ? (connectedIds.has(d.id) ? 1 : 0.3) : 1);
+
+            svg.selectAll('line')
+                .attr('opacity', d => highlight ?
+                    (d.source.id === nodeId || d.target.id === nodeId ? 0.8 : 0.1) : 0.3);
+        }
+
+        function filterByCategory(category) {
+            if (category === '') {
+                currentData = JSON.parse(JSON.stringify(graphData));
+            } else {
+                currentData = {
+                    nodes: graphData.nodes.filter(n => n.category === category),
+                    links: graphData.links.filter(l => {
+                        const sourceMatch = graphData.nodes.find(n => n.id === l.source && n.category === category);
+                        const targetMatch = graphData.nodes.find(n => n.id === l.target && n.category === category);
+                        return sourceMatch && targetMatch;
+                    })
+                };
+            }
+            initializeGraph();
+        }
+
+        // Initialize the graph
+        initializeGraph();
+    });
+})();</script> <!-- Legend --> <section data-astro-cid-oy34yelw> <div class="legend-card" data-astro-cid-oy34yelw> <div class="legend-body" data-astro-cid-oy34yelw> <h2 class="legend-title" data-astro-cid-oy34yelw>📖 Легенда</h2> <div class="legend-grid" data-astro-cid-oy34yelw> <!-- Node colors --> <div data-astro-cid-oy34yelw> <h3 class="legend-subtitle" data-astro-cid-oy34yelw>🎨 Цвета узлов (по категориям)</h3> <div class="legend-items" data-astro-cid-oy34yelw> <div class="legend-item" data-astro-cid-oy34yelw> <div class="color-dot color-blue" data-astro-cid-oy34yelw></div> <span data-astro-cid-oy34yelw>🧠 Познание</span> </div> <div class="legend-item" data-astro-cid-oy34yelw> <div class="color-dot color-green" data-astro-cid-oy34yelw></div> <span data-astro-cid-oy34yelw>🏛️ Общество</span> </div> <div class="legend-item" data-astro-cid-oy34yelw> <div class="color-dot color-yellow" data-astro-cid-oy34yelw></div> <span data-astro-cid-oy34yelw>⚙️ Технологии</span> </div> <div class="legend-item" data-astro-cid-oy34yelw> <div class="color-dot color-purple" data-astro-cid-oy34yelw></div> <span data-astro-cid-oy34yelw>💭 Философия</span> </div> <div class="legend-item" data-astro-cid-oy34yelw> <div class="color-dot color-red" data-astro-cid-oy34yelw></div> <span data-astro-cid-oy34yelw>📋 META</span> </div> </div> </div> <!-- Connections --> <div data-astro-cid-oy34yelw> <h3 class="legend-subtitle" data-astro-cid-oy34yelw>🔗 Типы связей</h3> <div class="legend-items" data-astro-cid-oy34yelw> <div class="legend-item" data-astro-cid-oy34yelw> <div class="connection-line connection-solid" data-astro-cid-oy34yelw></div> <span data-astro-cid-oy34yelw>Прямые связи (related)</span> </div> <div class="legend-item" data-astro-cid-oy34yelw> <div class="connection-line connection-dashed" data-astro-cid-oy34yelw></div> <span data-astro-cid-oy34yelw>Тематические связи (общие теги)</span> </div> </div> </div> </div> <div class="tips-section" data-astro-cid-oy34yelw> <p class="tips-title" data-astro-cid-oy34yelw><strong data-astro-cid-oy34yelw>💡 Подсказки:</strong></p> <ul class="tips-list" data-astro-cid-oy34yelw> <li data-astro-cid-oy34yelw>Кликните на узел для просмотра информации</li> <li data-astro-cid-oy34yelw>Перетаскивайте узлы для изменения расположения</li> <li data-astro-cid-oy34yelw>Используйте колесо мыши для масштабирования</li> <li data-astro-cid-oy34yelw>Размер узла зависит от количества связей</li> </ul> </div> </div> </div> </section> </div>  <script>(function(){const graphData = {"nodes":[{"id":"cognition/brain","label":"Что такое мозг и как им пользоваться?","level":2,"category":"cognition","tags":["мышление"],"difficulty":"intermediate","url":"/topics/cognition/brain","meme":"/assets/memes/photo_2_2025-06-15_14-48-26.jpg"},{"id":"cognition/cognitive-biases","label":"Когнитивные искажения","level":3,"category":"cognition","tags":["мышление"],"difficulty":"intermediate","url":"/topics/cognition/cognitive-biases","meme":"/assets/memes/e6644ba294da63b85eac6a61027db51f.jpg"},{"id":"cognition/healthy-brain","label":"Как следить за своим мозгом?","level":2,"category":"cognition","tags":["мышление","тренировки","здоровье"],"difficulty":"intermediate","url":"/topics/cognition/healthy-brain","meme":"/assets/memes/photo_7_2025-06-15_14-48-26.jpg"},{"id":"cognition/knowledge-accuracy","label":"Точность знаний","level":3,"category":"cognition","tags":["мышление","деградация","статистика"],"difficulty":"intermediate","url":"/topics/cognition/knowledge-accuracy","meme":"/assets/memes/competence.png"},{"id":"cognition/language","label":"Язык как инструмент влияния на поведение","level":4,"category":"cognition","tags":["язык","мышление","коммуникация","биология"],"difficulty":"advanced","url":"/topics/cognition/language","meme":"/assets/memes/photo_2025-03-27_22-52-34.jpg"},{"id":"cognition/logic-biases","label":"Логические ошибки","level":3,"category":"cognition","tags":["мышление"],"difficulty":"intermediate","url":"/topics/cognition/logic-biases","meme":"/assets/memes/67c6fe194060e390362c97dd9d1e7dd2.jpg"},{"id":"cognition/positive-transfer","label":"Эффект переноса навыков","level":4,"category":"cognition","tags":["мышление","статистика","исследования","математика"],"difficulty":"advanced","url":"/topics/cognition/positive-transfer","meme":"/assets/memes/67c6fe194060e390362c97dd9d1e7dd2.jpg"},{"id":"biology/evolution","label":"Теория эволюции","level":3,"category":"cognition","tags":["биология","эволюция"],"difficulty":"intermediate","url":"/topics/biology/evolution","meme":"/assets/memes/user_file_55252ac6a0fde_0_9-3400175950.png"},{"id":"biology/free-will","label":"Биология поведения","level":3,"category":"cognition","tags":["свобода воли","биология","нейробиология","мышление"],"difficulty":"intermediate","url":"/topics/biology/free-will","meme":"/assets/memes/photo_5_2025-06-15_14-48-26.jpg"},{"id":"biology/motivation","label":"Стимуляция живых организмов","level":3,"category":"cognition","tags":["мышление","биология","нейробиология"],"difficulty":"intermediate","url":"/topics/biology/motivation","meme":"/assets/memes/7ed28bfcb93ca53c50de00d75283de01.jpg"},{"id":"cognition/rationality","label":"Что такое рациональность?","level":2,"category":"cognition","tags":["мышление","статистика","исследования","математика"],"difficulty":"intermediate","url":"/topics/cognition/rationality","meme":"/assets/memes/80003fae70e4c74126aa2dad735fd7b7.jpg"},{"id":"cognition/solving-personal-problems","label":"Решение проблем","level":3,"category":"cognition","tags":["мышление","биология","нейробиология","осознанность"],"difficulty":"intermediate","url":"/topics/cognition/solving-personal-problems","meme":"/assets/memes/a0225b63dc3786e8d36e5238bae19154.jpg"},{"id":"phylosophy/objectivity","label":"Что такое объективность?","level":4,"category":"philosophy","tags":["мышление","редукционизм","философия","общая семантика","нейробиология"],"difficulty":"advanced","url":"/topics/phylosophy/objectivity","meme":"/assets/memes/_6.jpg"},{"id":"society/authority","label":"Власть и глупость, как одно целое","level":2,"category":"society","tags":["общество","стагнация","мышление"],"difficulty":"intermediate","url":"/topics/society/authority","meme":"/assets/memes/makiaveli-1347785572.png"},{"id":"society/science-resistance","label":"Сопротивление науке","level":2,"category":"society","tags":["общество","стагнация","мышление"],"difficulty":"intermediate","url":"/topics/society/science-resistance","meme":"/assets/memes/gosoboronzakaz-dlya-zapreshhyonnoj-sektyi-saentologov-843812098.jpg"},{"id":"society/problem-list","label":"Проблемы современного общества","level":4,"category":"society","tags":["общество","стагнация","мышление","экономика","политика","культура","технологии"],"difficulty":"intermediate","url":"/topics/society/problem-list","meme":"/assets/memes/photo_6_2025-06-15_14-48-26.jpg"},{"id":"society/resource-based-economy","label":"Ресурсо-ориентированная экономика","level":3,"category":"society","tags":["общество","стагнация","мышление","экономика","культура","технологии"],"difficulty":"intermediate","url":"/topics/society/resource-based-economy","meme":"/assets/memes/71a128e7f495987e0ac6f90f3d939662.jpg"},{"id":"society/studing","label":"Как менять (обучать) людей?","level":4,"category":"society","tags":["общество","мышление","обучение"],"difficulty":"intermediate","url":"/topics/society/studing","meme":"/assets/memes/12d4659ce3965afabbb214f2da182672.jpg"},{"id":"society/symbolic-stagnation","label":"Символическая стагнация","level":2,"category":"society","tags":["общество","язык","символы","стагнация"],"difficulty":"intermediate","url":"/topics/society/symbolic-stagnation","meme":"/assets/memes/210770_news_80_1-3859121395.jpg"},{"id":"meta/about-project","label":"О проекте","level":1,"category":"meta","tags":["META","проект","методология","цели"],"difficulty":"beginner","url":"/topics/meta/about-project"}],"edges":[{"source":"cognition/brain","target":"cognition/rationality","type":"related"},{"source":"cognition/brain","target":"cognition/healthy-brain","type":"related"},{"source":"cognition/cognitive-biases","target":"cognition/logic-biases","type":"related"},{"source":"cognition/cognitive-biases","target":"cognition/rationality","type":"related"},{"source":"cognition/cognitive-biases","target":"cognition/brain","type":"related"},{"source":"cognition/healthy-brain","target":"cognition/brain","type":"related"},{"source":"cognition/healthy-brain","target":"cognition/solving-personal-problems","type":"related"},{"source":"cognition/healthy-brain","target":"cognition/rationality","type":"related"},{"source":"cognition/knowledge-accuracy","target":"cognition/cognitive-biases","type":"related"},{"source":"cognition/knowledge-accuracy","target":"cognition/logic-biases","type":"related"},{"source":"cognition/knowledge-accuracy","target":"cognition/brain","type":"related"},{"source":"cognition/knowledge-accuracy","target":"cognition/rationality","type":"related"},{"source":"cognition/knowledge-accuracy","target":"cognition/positive-transfer","type":"tag-similarity","weight":2},{"source":"cognition/language","target":"biology/free-will","type":"related"},{"source":"cognition/language","target":"biology/motivation","type":"tag-similarity","weight":2},{"source":"cognition/language","target":"cognition/solving-personal-problems","type":"tag-similarity","weight":2},{"source":"cognition/logic-biases","target":"cognition/cognitive-biases","type":"related"},{"source":"cognition/logic-biases","target":"cognition/rationality","type":"related"},{"source":"cognition/logic-biases","target":"cognition/brain","type":"related"},{"source":"cognition/positive-transfer","target":"cognition/brain","type":"related"},{"source":"cognition/positive-transfer","target":"cognition/rationality","type":"tag-similarity","weight":4},{"source":"biology/free-will","target":"biology/evolution","type":"related"},{"source":"biology/free-will","target":"cognition/brain","type":"related"},{"source":"biology/free-will","target":"biology/motivation","type":"tag-similarity","weight":3},{"source":"biology/free-will","target":"cognition/solving-personal-problems","type":"tag-similarity","weight":3},{"source":"biology/free-will","target":"phylosophy/objectivity","type":"tag-similarity","weight":2},{"source":"biology/motivation","target":"biology/evolution","type":"related"},{"source":"biology/motivation","target":"cognition/brain","type":"related"},{"source":"biology/motivation","target":"biology/free-will","type":"related"},{"source":"biology/motivation","target":"cognition/solving-personal-problems","type":"tag-similarity","weight":3},{"source":"biology/motivation","target":"phylosophy/objectivity","type":"tag-similarity","weight":2},{"source":"cognition/rationality","target":"cognition/brain","type":"related"},{"source":"cognition/rationality","target":"cognition/healthy-brain","type":"related"},{"source":"cognition/rationality","target":"cognition/solving-personal-problems","type":"related"},{"source":"cognition/rationality","target":"cognition/logic-biases","type":"related"},{"source":"cognition/rationality","target":"cognition/cognitive-biases","type":"related"},{"source":"cognition/rationality","target":"cognition/positive-transfer","type":"related"},{"source":"cognition/solving-personal-problems","target":"cognition/brain","type":"related"},{"source":"cognition/solving-personal-problems","target":"cognition/healthy-brain","type":"related"},{"source":"cognition/solving-personal-problems","target":"phylosophy/objectivity","type":"tag-similarity","weight":2},{"source":"phylosophy/objectivity","target":"cognition/rationality","type":"related"},{"source":"phylosophy/objectivity","target":"cognition/brain","type":"related"},{"source":"society/authority","target":"society/problem-list","type":"related"},{"source":"society/authority","target":"society/science-resistance","type":"tag-similarity","weight":3},{"source":"society/authority","target":"society/resource-based-economy","type":"tag-similarity","weight":3},{"source":"society/authority","target":"society/studing","type":"tag-similarity","weight":2},{"source":"society/authority","target":"society/symbolic-stagnation","type":"tag-similarity","weight":2},{"source":"society/science-resistance","target":"cognition/cognitive-biases","type":"related"},{"source":"society/science-resistance","target":"society/problem-list","type":"related"},{"source":"society/science-resistance","target":"cognition/knowledge-accuracy","type":"related"},{"source":"society/science-resistance","target":"society/resource-based-economy","type":"tag-similarity","weight":3},{"source":"society/science-resistance","target":"society/studing","type":"tag-similarity","weight":2},{"source":"society/science-resistance","target":"society/symbolic-stagnation","type":"tag-similarity","weight":2},{"source":"society/problem-list","target":"cognition/cognitive-biases","type":"related"},{"source":"society/problem-list","target":"cognition/language","type":"related"},{"source":"society/problem-list","target":"society/authority","type":"related"},{"source":"society/problem-list","target":"society/resource-based-economy","type":"related"},{"source":"society/problem-list","target":"society/science-resistance","type":"related"},{"source":"society/problem-list","target":"society/studing","type":"tag-similarity","weight":2},{"source":"society/problem-list","target":"society/symbolic-stagnation","type":"tag-similarity","weight":2},{"source":"society/resource-based-economy","target":"society/authority","type":"related"},{"source":"society/resource-based-economy","target":"society/problem-list","type":"related"},{"source":"society/resource-based-economy","target":"society/studing","type":"tag-similarity","weight":2},{"source":"society/resource-based-economy","target":"society/symbolic-stagnation","type":"tag-similarity","weight":2},{"source":"society/studing","target":"cognition/rationality","type":"related"},{"source":"society/studing","target":"cognition/brain","type":"related"},{"source":"society/studing","target":"cognition/positive-transfer","type":"related"},{"source":"society/symbolic-stagnation","target":"cognition/language","type":"related"},{"source":"society/symbolic-stagnation","target":"society/problem-list","type":"related"}]};
+
+        class GraphVisualization {
+            constructor(data, container) {
+                this.data = data;
+                this.container = container;
+                this.width = container.clientWidth;
+                this.height = container.clientHeight;
+                this.physicsEnabled = true;
+
+                this.categoryColors = {
+                    cognition: '#3b82f6',
+                    society: '#10b981',
+                    technology: '#f59e0b',
+                    philosophy: '#8b5cf6',
+                    meta: '#ef4444',
+                    other: '#6b7280'
+                };
+
+                this.init();
+            }
+
+            init() {
+                // Setup canvas
+                this.canvas = d3.select('#graph-canvas')
+                    .attr('width', this.width)
+                    .attr('height', this.height);
+
+                this.context = this.canvas.node().getContext('2d');
+
+                // Setup simulation
+                this.simulation = d3.forceSimulation(this.data.nodes)
+                    .force('link', d3.forceLink(this.data.edges).id(d => d.id).distance(80))
+                    .force('charge', d3.forceManyBody().strength(-200))
+                    .force('center', d3.forceCenter(this.width / 2, this.height / 2))
+                    .force('collision', d3.forceCollide().radius(25))
+                    .on('tick', () => this.draw());
+
+                // Setup interactions
+                this.setupInteractions();
+                this.setupControls();
+
+                // Hide loading
+                document.getElementById('loading').classList.add('hidden');
+            }
+
+            draw() {
+                const context = this.context;
+
+                // Clear canvas
+                context.clearRect(0, 0, this.width, this.height);
+                context.save();
+
+                // Draw edges
+                context.strokeStyle = '#64748b';
+                context.lineWidth = 1;
+                this.data.edges.forEach(edge => {
+                    if (edge.type === 'tag-similarity') {
+                        context.setLineDash([5, 5]);
+                        context.globalAlpha = 0.6;
+                    } else {
+                        context.setLineDash([]);
+                        context.globalAlpha = 1;
+                    }
+
+                    context.beginPath();
+                    context.moveTo(edge.source.x, edge.source.y);
+                    context.lineTo(edge.target.x, edge.target.y);
+                    context.stroke();
+                });
+
+                // Draw nodes
+                context.setLineDash([]);
+                context.globalAlpha = 1;
+                this.data.nodes.forEach(node => {
+                    const radius = Math.max(8, Math.min(20, 8 + node.level * 2));
+
+                    // Node background
+                    context.fillStyle = this.categoryColors[node.category] || this.categoryColors.other;
+                    context.beginPath();
+                    context.arc(node.x, node.y, radius, 0, 2 * Math.PI);
+                    context.fill();
+
+                    // Node border
+                    context.strokeStyle = '#ffffff';
+                    context.lineWidth = 2;
+                    context.stroke();
+
+                    // Node text
+                    if (radius > 12) {
+                        context.fillStyle = '#ffffff';
+                        context.font = '10px Inter';
+                        context.textAlign = 'center';
+                        context.fillText(node.level.toString(), node.x, node.y + 3);
+                    }
+                });
+
+                context.restore();
+            }
+
+            setupInteractions() {
+                const canvas = this.canvas.node();
+
+                // Mouse events
+                canvas.addEventListener('click', (event) => {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+
+                    const node = this.findNodeAt(x, y);
+                    if (node) {
+                        this.showNodeInfo(node);
+                    } else {
+                        this.hideNodeInfo();
+                    }
+                });
+
+                canvas.addEventListener('mousemove', (event) => {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+
+                    const node = this.findNodeAt(x, y);
+                    canvas.style.cursor = node ? 'pointer' : 'grab';
+                });
+
+                // Drag behavior
+                const drag = d3.drag()
+                    .subject(() => {
+                        const rect = canvas.getBoundingClientRect();
+                        const x = d3.event.x - rect.left;
+                        const y = d3.event.y - rect.top;
+                        return this.findNodeAt(x, y);
+                    })
+                    .on('start', () => {
+                        if (!d3.event.active && this.physicsEnabled) {
+                            this.simulation.alphaTarget(0.3).restart();
+                        }
+                        d3.event.subject.fx = d3.event.subject.x;
+                        d3.event.subject.fy = d3.event.subject.y;
+                    })
+                    .on('drag', () => {
+                        const rect = canvas.getBoundingClientRect();
+                        d3.event.subject.fx = d3.event.x - rect.left;
+                        d3.event.subject.fy = d3.event.y - rect.top;
+                    })
+                    .on('end', () => {
+                        if (!d3.event.active && this.physicsEnabled) {
+                            this.simulation.alphaTarget(0);
+                        }
+                        d3.event.subject.fx = null;
+                        d3.event.subject.fy = null;
+                    });
+
+                this.canvas.call(drag);
+
+                // Zoom behavior
+                const zoom = d3.zoom()
+                    .scaleExtent([0.5, 3])
+                    .on('zoom', () => {
+                        const transform = d3.event.transform;
+                        this.context.save();
+                        this.context.clearRect(0, 0, this.width, this.height);
+                        this.context.translate(transform.x, transform.y);
+                        this.context.scale(transform.k, transform.k);
+                        this.draw();
+                        this.context.restore();
+                    });
+
+                this.canvas.call(zoom);
+                this.zoomBehavior = zoom;
+            }
+
+            findNodeAt(x, y) {
+                return this.data.nodes.find(node => {
+                    const radius = Math.max(8, Math.min(20, 8 + node.level * 2));
+                    const dx = x - node.x;
+                    const dy = y - node.y;
+                    return Math.sqrt(dx * dx + dy * dy) < radius;
+                });
+            }
+
+            showNodeInfo(node) {
+                const panel = document.getElementById('node-info');
+                const title = document.getElementById('node-title');
+                const level = document.getElementById('node-level');
+                const category = document.getElementById('node-category');
+                const tags = document.getElementById('node-tags');
+                const link = document.getElementById('node-link');
+
+                title.textContent = node.label;
+                level.innerHTML = `<span class="badge badge-primary">Уровень ${node.level}</span>`;
+                category.innerHTML = `<span class="badge badge-secondary">${node.category}</span>`;
+                tags.innerHTML = node.tags.map(tag =>
+                    `<span class="badge badge-outline">${tag}</span>`
+                ).join(' ');
+                link.href = node.url;
+
+                panel.classList.remove('hidden');
+            }
+
+            hideNodeInfo() {
+                document.getElementById('node-info').classList.add('hidden');
+            }
+
+            setupControls() {
+                // Category filter
+                document.getElementById('categoryFilter').addEventListener('change', (e) => {
+                    this.filterByCategory(e.target.value);
+                });
+
+                // Level filter
+                document.getElementById('levelFilter').addEventListener('change', (e) => {
+                    this.filterByLevel(e.target.value);
+                });
+
+                // Search
+                document.getElementById('searchInput').addEventListener('input', (e) => {
+                    this.search(e.target.value);
+                });
+
+                // Reset zoom
+                document.getElementById('resetZoom').addEventListener('click', () => {
+                    this.canvas.transition().duration(750).call(
+                        this.zoomBehavior.transform,
+                        d3.zoomIdentity
+                    );
+                });
+
+                // Toggle physics
+                document.getElementById('togglePhysics').addEventListener('click', (e) => {
+                    this.physicsEnabled = !this.physicsEnabled;
+                    e.target.textContent = this.physicsEnabled ? '⚡ Физика: ВКЛ' : '⚡ Физика: ВЫКЛ';
+
+                    if (this.physicsEnabled) {
+                        this.simulation.restart();
+                    } else {
+                        this.simulation.stop();
+                    }
+                });
+            }
+
+            filterByCategory(category) {
+                this.data.nodes.forEach(node => {
+                    node.visible = !category || node.category === category;
+                });
+                this.draw();
+            }
+
+            filterByLevel(level) {
+                this.data.nodes.forEach(node => {
+                    node.visible = !level || node.level.toString() === level;
+                });
+                this.draw();
+            }
+
+            search(query) {
+                if (!query) {
+                    this.data.nodes.forEach(node => node.highlighted = false);
+                } else {
+                    this.data.nodes.forEach(node => {
+                        node.highlighted = node.label.toLowerCase().includes(query.toLowerCase());
+                    });
+                }
+                this.draw();
+            }
+        }
+
+        // Initialize graph when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('graph-container');
+            new GraphVisualization(graphData, container);
+        });
+    })();</script>  <script type="module" src="/assets/graph.astro_astro_type_script_index_0_lang.Bl48MWPo.js"></script>  </main> <!-- Footer --> <footer class="footer" data-astro-cid-37fxchfa> <div data-astro-cid-37fxchfa> <p class="footer-text" data-astro-cid-37fxchfa>
+© 2025 HumanityOS. Все материалы доступны свободно при указании источника.
+</p> </div> </footer> </div> <!-- Sidebar --> <div class="drawer-side" data-astro-cid-37fxchfa> <label for="drawer-toggle" class="drawer-overlay" data-astro-cid-37fxchfa></label> <aside class="sidebar" data-astro-cid-37fxchfa> <div class="search-container relative"> <div class="form-control"> <div class="input-group"> <input type="text" placeholder="Поиск по темам, тегам, описанию..." class="input input-bordered w-full" id="search-input" autocomplete="off"> <button class="btn btn-square btn-primary" id="search-button"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path> </svg> </button> </div> </div> <!-- Search Results Dropdown --> <div id="search-results" class="absolute top-full left-0 right-0 mt-2 bg-base-100 border border-base-300 rounded-lg shadow-lg max-h-96 overflow-y-auto z-50 hidden"> <div id="results-container" class="p-2"> <!-- Results will be populated here --> </div> <div id="no-results" class="p-4 text-center text-base-content/60 hidden"> <div class="text-2xl mb-2">🔍</div> <p>Ничего не найдено</p> <p class="text-sm">Попробуйте изменить запрос</p> </div> <div id="search-stats" class="px-4 py-2 border-t border-base-300 text-xs text-base-content/60 bg-base-200/50"> <!-- Search statistics --> </div> </div> <!-- Quick filters --> <div class="flex flex-wrap gap-2 mt-3" id="quick-filters"> <button class="btn btn-xs btn-outline" data-filter="level:1">Уровень 1</button> <button class="btn btn-xs btn-outline" data-filter="level:2">Уровень 2</button> <button class="btn btn-xs btn-outline" data-filter="category:cognition">🧠 Познание</button> <button class="btn btn-xs btn-outline" data-filter="category:society">🏛️ Общество</button> <button class="btn btn-xs btn-outline" data-filter="category:technology">⚙️ Технологии</button> <button class="btn btn-xs btn-outline" data-filter="category:philosophy">💭 Философия</button> </div> </div> <!--<style>--> <!--    @reference "../styles/global.css";--> <!--    .line-clamp-2 {--> <!--        display: -webkit-box;--> <!--        -webkit-line-clamp: 2;--> <!--        -webkit-box-orient: vertical;--> <!--        overflow: hidden;--> <!--    }--> <!--    .search-result-item {--> <!--        transition: background-color 0.2s ease;--> <!--    }--> <!--    .search-result-item mark {--> <!--        border-radius: 2px;--> <!--        padding: 1px 2px;--> <!--    }--> <!--    /* Keyboard shortcut hint */--> <!--    .search-container::after {--> <!--        content: "Ctrl+K";--> <!--        position: absolute;--> <!--        right: 50px;--> <!--        top: 50%;--> <!--        transform: translateY(-50%);--> <!--        font-size: 0.75rem;--> <!--        color: theme(colors.black / 40%);--> <!--        background: theme(colors.white);--> <!--        padding: 2px 6px;--> <!--        border-radius: 4px;--> <!--        pointer-events: none;--> <!--    }--> <!--    @media (max-width: 640px) {--> <!--        .search-container::after {--> <!--            display: none;--> <!--        }--> <!--        #quick-filters {--> <!--            flex-direction: column;--> <!--        }--> <!--        #quick-filters .btn {--> <!--            width: 100%;--> <!--        }--> <!--    }--> <!--</style>--> <script>(function(){const searchIndex = [{"id":"cognition/brain","title":"Что такое мозг и как им пользоваться?","description":"О том, какие процессы происходят в мозге во время мышления и обучения, как наши действия влияют на его формирование, как им управлять и т.д.","tags":["мышление"],"category":"cognition","level":2,"url":"/topics/cognition/brain"},{"id":"cognition/cognitive-biases","title":"Когнитивные искажения","description":"Список известных искажений восприятия реальности.","tags":["мышление"],"category":"cognition","level":3,"url":"/topics/cognition/cognitive-biases"},{"id":"cognition/healthy-brain","title":"Как следить за своим мозгом?","description":"Практическое краткое руководство по поддержанию здорового мышления.","tags":["мышление","тренировки","здоровье"],"category":"cognition","level":2,"url":"/topics/cognition/healthy-brain"},{"id":"cognition/knowledge-accuracy","title":"Точность знаний","description":"Почему уверенность растёт без роста понимания?","tags":["мышление","деградация","статистика"],"category":"cognition","level":3,"url":"/topics/cognition/knowledge-accuracy"},{"id":"cognition/language","title":"Язык как инструмент влияния на поведение","description":"Чем на самом деле является язык и каким он бывает?","tags":["язык","мышление","коммуникация","биология"],"category":"cognition","level":4,"url":"/topics/cognition/language"},{"id":"cognition/logic-biases","title":"Логические ошибки","description":"Список распространённых ошибок и уловок в мыслительных процессах.","tags":["мышление"],"category":"cognition","level":3,"url":"/topics/cognition/logic-biases"},{"id":"cognition/positive-transfer","title":"Эффект переноса навыков","description":"О том, как образование в одних областях ускоряет обучение в других.","tags":["мышление","статистика","исследования","математика"],"category":"cognition","level":4,"url":"/topics/cognition/positive-transfer"},{"id":"biology/evolution","title":"Теория эволюции","description":"Исчерпывающее руководство по механизмам и доказательствам теории эволюции.","tags":["биология","эволюция"],"category":"cognition","level":3,"url":"/topics/biology/evolution"},{"id":"biology/free-will","title":"Биология поведения","description":"Какие факторы влияют на наше поведение и существует ли свобода воли?.","tags":["свобода воли","биология","нейробиология","мышление"],"category":"cognition","level":3,"url":"/topics/biology/free-will"},{"id":"biology/motivation","title":"Стимуляция живых организмов","description":"Какие факторы активируют поведение и важны ли способы его активации?","tags":["мышление","биология","нейробиология"],"category":"cognition","level":3,"url":"/topics/biology/motivation"},{"id":"cognition/rationality","title":"Что такое рациональность?","description":"О том, какие есть стереотипы о рациональных людях и чем на самом деле рациональность является.","tags":["мышление","статистика","исследования","математика"],"category":"cognition","level":2,"url":"/topics/cognition/rationality"},{"id":"cognition/solving-personal-problems","title":"Решение проблем","description":"Об универсальных (почти) способах решениях личных проблем.","tags":["мышление","биология","нейробиология","осознанность"],"category":"cognition","level":3,"url":"/topics/cognition/solving-personal-problems"},{"id":"phylosophy/objectivity","title":"Что такое объективность?","description":"О том, чем является объективность и почему её не существует.","tags":["мышление","редукционизм","философия","общая семантика","нейробиология"],"category":"philosophy","level":4,"url":"/topics/phylosophy/objectivity"},{"id":"society/authority","title":"Власть и глупость, как одно целое","description":"Почему власть и глупость всегда идут рука об руку?","tags":["общество","стагнация","мышление"],"category":"society","level":2,"url":"/topics/society/authority"},{"id":"society/science-resistance","title":"Сопротивление науке","description":"Анализ того, как на протяжении всей истории человечества общество сопротивлялось науке и инновациям.","tags":["общество","стагнация","мышление"],"category":"society","level":2,"url":"/topics/society/science-resistance"},{"id":"society/problem-list","title":"Проблемы современного общества","description":"Большой и много-охватывающий каталог системных проблем современного общества.","tags":["общество","стагнация","мышление","экономика","политика","культура","технологии"],"category":"society","level":4,"url":"/topics/society/problem-list"},{"id":"society/resource-based-economy","title":"Ресурсо-ориентированная экономика","description":"О том, почему необходимо перейти на ресурсо-ориентированную экономику, заменив неэффективный капитализм.","tags":["общество","стагнация","мышление","экономика","культура","технологии"],"category":"society","level":3,"url":"/topics/society/resource-based-economy"},{"id":"society/studing","title":"Как менять (обучать) людей?","description":"Справочник на тему андрагогики с основными методами эффективного обучения.","tags":["общество","мышление","обучение"],"category":"society","level":4,"url":"/topics/society/studing"},{"id":"society/symbolic-stagnation","title":"Символическая стагнация","description":"Анализ того, как общество застревает в символах вместо развития реальных решений.","tags":["общество","язык","символы","стагнация"],"category":"society","level":2,"url":"/topics/society/symbolic-stagnation"},{"id":"meta/about-project","title":"О проекте","description":"Цели, принципы и методология проекта 'HumanityOS'","tags":["META","проект","методология","цели"],"category":"meta","level":1,"url":"/topics/meta/about-project"}];
+
+    class TopicSearch {
+        constructor(searchIndex) {
+            this.searchIndex = searchIndex;
+            this.searchInput = document.getElementById('search-input');
+            this.searchButton = document.getElementById('search-button');
+            this.searchResults = document.getElementById('search-results');
+            this.resultsContainer = document.getElementById('results-container');
+            this.noResults = document.getElementById('no-results');
+            this.searchStats = document.getElementById('search-stats');
+            this.quickFilters = document.querySelectorAll('[data-filter]');
+
+            this.currentQuery = '';
+            this.currentResults = [];
+
+            this.init();
+        }
+
+        init() {
+            // Search input events
+            this.searchInput.addEventListener('input', this.debounce(this.handleSearch.bind(this), 300));
+            this.searchInput.addEventListener('focus', this.handleFocus.bind(this));
+            this.searchInput.addEventListener('keydown', this.handleKeydown.bind(this));
+
+            // Search button
+            this.searchButton.addEventListener('click', this.handleSearch.bind(this));
+
+            // Quick filters
+            this.quickFilters.forEach(filter => {
+                filter.addEventListener('click', this.handleQuickFilter.bind(this));
+            });
+
+            // Close results when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-container')) {
+                    this.hideResults();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', this.handleGlobalKeydown.bind(this));
+        }
+
+        handleSearch() {
+            const query = this.searchInput.value.trim();
+
+            if (query.length < 2) {
+                this.hideResults();
+                return;
+            }
+
+            this.currentQuery = query;
+            this.currentResults = this.performSearch(query);
+            this.displayResults();
+        }
+
+        handleFocus() {
+            if (this.currentResults.length > 0) {
+                this.showResults();
+            }
+        }
+
+        handleKeydown(e) {
+            const resultItems = this.resultsContainer.querySelectorAll('.search-result-item');
+            const activeItem = this.resultsContainer.querySelector('.search-result-item.active');
+
+            switch (e.key) {
+                case 'ArrowDown':
+                    e.preventDefault();
+                    this.navigateResults(resultItems, activeItem, 1);
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    this.navigateResults(resultItems, activeItem, -1);
+                    break;
+                case 'Enter':
+                    e.preventDefault();
+                    if (activeItem) {
+                        const link = activeItem.querySelector('a');
+                        if (link) link.click();
+                    }
+                    break;
+                case 'Escape':
+                    this.hideResults();
+                    this.searchInput.blur();
+                    break;
+            }
+        }
+
+        handleGlobalKeydown(e) {
+            // Ctrl/Cmd + K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                this.searchInput.focus();
+            }
+        }
+
+        handleQuickFilter(e) {
+            const filter = e.target.dataset.filter;
+            const [type, value] = filter.split(':');
+
+            let filterQuery = '';
+            if (type === 'level') {
+                filterQuery = `уровень ${value}`;
+            } else if (type === 'category') {
+                const categoryNames = {
+                    cognition: 'познание',
+                    society: 'общество',
+                    technology: 'технологии',
+                    philosophy: 'философия'
+                };
+                filterQuery = categoryNames[value] || value;
+            }
+
+            this.searchInput.value = filterQuery;
+            this.handleSearch();
+            this.searchInput.focus();
+        }
+
+        performSearch(query) {
+            const queryLower = query.toLowerCase();
+            const queryWords = queryLower.split(' ').filter(word => word.length > 0);
+
+            return this.searchIndex
+                .map(topic => {
+                    let score = 0;
+                    const searchText = `${topic.title} ${topic.description} ${topic.tags.join(' ')} ${topic.category}`.toLowerCase();
+
+                    // Title exact match
+                    if (topic.title.toLowerCase().includes(queryLower)) {
+                        score += 10;
+                    }
+
+                    // Title word match
+                    queryWords.forEach(word => {
+                        if (topic.title.toLowerCase().includes(word)) {
+                            score += 5;
+                        }
+                    });
+
+                    // Description match
+                    if (topic.description && topic.description.toLowerCase().includes(queryLower)) {
+                        score += 3;
+                    }
+
+                    // Tags match
+                    topic.tags.forEach(tag => {
+                        if (tag.toLowerCase().includes(queryLower)) {
+                            score += 4;
+                        }
+                    });
+
+                    // General content match
+                    queryWords.forEach(word => {
+                        if (searchText.includes(word)) {
+                            score += 1;
+                        }
+                    });
+
+                    // Level filter
+                    if (queryLower.includes('уровень') || queryLower.includes('ур')) {
+                        const levelMatch = queryLower.match(/(\d+)/);
+                        if (levelMatch && parseInt(levelMatch[1]) === topic.level) {
+                            score += 8;
+                        }
+                    }
+
+                    return { ...topic, score };
+                })
+                .filter(topic => topic.score > 0)
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 10);
+        }
+
+        displayResults() {
+            if (this.currentResults.length === 0) {
+                this.showNoResults();
+                return;
+            }
+
+            this.resultsContainer.innerHTML = '';
+            this.noResults.classList.add('hidden');
+
+            this.currentResults.forEach((topic, index) => {
+                const item = this.createResultItem(topic, index === 0);
+                this.resultsContainer.appendChild(item);
+            });
+
+            this.updateStats();
+            this.showResults();
+        }
+
+        createResultItem(topic, isFirst = false) {
+            const item = document.createElement('div');
+            item.className = `search-result-item p-3 hover:bg-base-200 border-b border-base-300 last:border-b-0 cursor-pointer ${isFirst ? 'active bg-base-200' : ''}`;
+
+            const categoryIcons = {
+                cognition: '🧠',
+                society: '🏛️',
+                technology: '⚙️',
+                philosophy: '💭',
+                meta: '📋'
+            };
+
+            const levelColors = {
+                1: 'badge-success',
+                2: 'badge-info',
+                3: 'badge-warning',
+                4: 'badge-error',
+                5: 'badge-secondary'
+            };
+
+            item.innerHTML = `
+        <a href="${topic.url}" class="block">
+          <div class="flex items-start justify-between mb-2">
+            <h4 class="font-semibold text-sm hover:text-primary transition-colors">
+              ${this.highlightQuery(topic.title)}
+            </h4>
+            <div class="flex gap-1 ml-2">
+              <span class="badge badge-xs ${levelColors[topic.level] || 'badge-outline'}">
+                ${topic.level}
+              </span>
+            </div>
+          </div>
+          <p class="text-xs text-base-content/70 mb-2 line-clamp-2">
+            ${this.highlightQuery(topic.description || 'Нет описания')}
+          </p>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-base-content/60">
+              ${categoryIcons[topic.category] || '📁'} ${topic.category || 'other'}
+            </span>
+            <div class="flex gap-1">
+              ${topic.tags.slice(0, 3).map(tag =>
+                `<span class="badge badge-xs badge-ghost">${tag}</span>`
+            ).join('')}
+            </div>
+          </div>
+        </a>
+      `;
+
+            item.addEventListener('mouseenter', () => {
+                this.resultsContainer.querySelectorAll('.search-result-item').forEach(el => {
+                    el.classList.remove('active', 'bg-base-200');
+                });
+                item.classList.add('active', 'bg-base-200');
+            });
+
+            return item;
+        }
+
+        highlightQuery(text) {
+            if (!this.currentQuery || !text) return text;
+
+            const queryWords = this.currentQuery.toLowerCase().split(' ').filter(word => word.length > 1);
+            let highlightedText = text;
+
+            queryWords.forEach(word => {
+                const regex = new RegExp(`(${word})`, 'gi');
+                highlightedText = highlightedText.replace(regex, '<mark class="bg-warning/30 text-warning-content">$1</mark>');
+            });
+
+            return highlightedText;
+        }
+
+        navigateResults(items, activeItem, direction) {
+            if (!items.length) return;
+
+            let newIndex = 0;
+
+            if (activeItem) {
+                const currentIndex = Array.from(items).indexOf(activeItem);
+                newIndex = currentIndex + direction;
+
+                if (newIndex < 0) newIndex = items.length - 1;
+                if (newIndex >= items.length) newIndex = 0;
+
+                activeItem.classList.remove('active', 'bg-base-200');
+            }
+
+            items[newIndex].classList.add('active', 'bg-base-200');
+            items[newIndex].scrollIntoView({ block: 'nearest' });
+        }
+
+        showResults() {
+            this.searchResults.classList.remove('hidden');
+        }
+
+        hideResults() {
+            this.searchResults.classList.add('hidden');
+        }
+
+        showNoResults() {
+            this.resultsContainer.innerHTML = '';
+            this.noResults.classList.remove('hidden');
+            this.updateStats();
+            this.showResults();
+        }
+
+        updateStats() {
+            const count = this.currentResults.length;
+            const totalTopics = this.searchIndex.length;
+
+            this.searchStats.innerHTML = `
+        Найдено: <strong>${count}</strong> из ${totalTopics} тем
+        ${this.currentQuery ? `по запросу "<em>${this.currentQuery}</em>"` : ''}
+      `;
+        }
+
+        debounce(func, delay) {
+            let timeoutId;
+            return (...args) => {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+    }
+
+    // Initialize search when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        new TopicSearch(searchIndex);
+    });
+})();</script> </aside> </div> </div> <!-- Инициализация темы --> <!--<script>--> <!--  // Инициализируем тему до загрузки DOM, чтобы избежать мигания--> <!--  (function() {--> <!--    const savedTheme = localStorage.getItem('theme') || 'dark';--> <!--    document.documentElement.setAttribute('data-theme', savedTheme);--> <!--  })();--> <!--</script>--> </body></html>
