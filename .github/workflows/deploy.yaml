@@ -17,12 +17,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install and build Astro site
-        uses: withastro/action@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          path: .
-          node-version: 20
-          package-manager: pnpm@latest
+#          node-version: 20
+#          cache: "pnpm"  # Если используете pnpm
+
+      - name: Install dependencies
+        run: pnpm install  # Или npm install / yarn
+
+      - name: Build Astro site
+        run: pnpm run build  # Или npm run build
+
+      - name: Verify dist exists
+        run: |
+          ls -la dist  # Проверяем, что dist создан
+          if [ ! -d "dist" ]; then
+            echo "❌ Error: dist folder not found!"
+            exit 1
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist  # Путь к собранному сайту
 
   deploy:
     needs: build
@@ -31,11 +49,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist  # Указываем путь к собранному сайту
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
