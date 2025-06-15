@@ -5,8 +5,8 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 export default defineConfig({
-    site: 'https://Darkpaster.github.io/humanityOS',
-    base: '/humanityOS',
+    site: 'https://Darkpaster.github.io',
+    base: '/',
 
     integrations: [
         mdx({
