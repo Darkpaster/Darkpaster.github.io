@@ -1,126 +1,696 @@
 ---
 import { getCollection } from 'astro:content';
+import SearchBox from '@/components/SearchBox.astro';
 
-// Get all topics and organize them by category
-const allTopics: any[] = await getCollection('topics');
-const topicsByCategory = allTopics.reduce((acc, topic) => {
-  const category = topic.data.category || 'other';
-  if (!acc[category]) {
-    acc[category] = [];
-  }
-  acc[category].push(topic);
-  return acc;
-}, {} as Record<string, typeof allTopics>);
+// Get all topics for search index
+const allTopics = await getCollection('topics', ({ data }) => !data.draft);
 
-// Sort topics within each category by level and title
-Object.keys(topicsByCategory).forEach(category => {
-  topicsByCategory[category].sort((a, b) => {
-    if (a.data.level !== b.data.level) {
-      return a.data.level - b.data.level;
-    }
-    return a.data.title.localeCompare(b.data.title, 'ru');
-  });
-});
-
-const categoryNames = {
-  cognition: '🧠 Познание',
-  society: '🏛️ Общество',
-  technology: '⚙️ Технологии',
-  philosophy: '💭 Философия',
-  meta: '📋 META',
-  other: '📁 Прочее'
-};
+const searchIndex = allTopics.map(topic => ({
+  id: topic.slug,
+  title: topic.data.title,
+  description: topic.data.description || '',
+  tags: topic.data.tags,
+  category: topic.data.category || 'other',
+  level: topic.data.level,
+  url: `/topics/${topic.slug}`
+}));
 ---
 
-<nav class="p-4">
-  <!-- Header -->
-  <div class="mb-6">
-    <h2 class="text-lg font-bold mb-2">Навигация</h2>
-    <div class="space-y-2">
-      <a href="/" class="btn btn-ghost btn-sm w-full justify-start">
-        🏠 Главная
-      </a>
-      <a href="/about" class="btn btn-ghost btn-sm w-full justify-start">
-        📖 О проекте
-      </a>
-      <a href="/graph" class="btn btn-ghost btn-sm w-full justify-start">
-        🕸️ Граф знаний
-      </a>
-    </div>
-  </div>
+<div class="search-container">
+  <SearchBox></SearchBox>
+  <!--<div class="form-control">-->
+  <!--  <div class="input-group">-->
+  <!--    <input-->
+  <!--        type="text"-->
+  <!--        placeholder="Поиск по темам, тегам, описанию..."-->
+  <!--        class="search-input"-->
+  <!--        id="search-input"-->
+  <!--        autocomplete="off"-->
+  <!--    />-->
+  <!--    <button class="search-button" id="search-button">-->
+  <!--      <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">-->
+  <!--        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>-->
+  <!--      </svg>-->
+  <!--    </button>-->
+  <!--  </div>-->
+  <!--</div>-->
 
-  <!-- Search -->
-  <div class="mb-6">
-    <div class="form-control">
-      <input
-        type="text"
-        placeholder="Поиск по темам..."
-        class="input input-bordered input-sm w-full"
-        id="search-input"
-      />
-    </div>
-  </div>
+  <!--&lt;!&ndash; Search Results Dropdown &ndash;&gt;-->
+  <!--<div id="search-results" class="search-results">-->
+  <!--  <div id="results-container" class="results-container">-->
+  <!--    &lt;!&ndash; Results will be populated here &ndash;&gt;-->
+  <!--  </div>-->
+  <!--  <div id="no-results" class="no-results hidden">-->
+  <!--    <div class="no-results-icon">🔍</div>-->
+  <!--    <p>Ничего не найдено</p>-->
+  <!--    <p class="no-results-subtitle">Попробуйте изменить запрос</p>-->
+  <!--  </div>-->
+  <!--  <div id="search-stats" class="search-stats">-->
+  <!--    &lt;!&ndash; Search statistics &ndash;&gt;-->
+  <!--  </div>-->
+  <!--</div>-->
 
-  <!-- Topics by category -->
-  <div class="space-y-4">
-    {Object.entries(topicsByCategory).map(([category, topics]) => (
-      <div class="collapse collapse-arrow bg-base-100 border border-base-300">
-        <input type="checkbox" class="peer" checked={category === 'meta'} />
-        <div class="collapse-title text-sm font-medium">
-          {categoryNames[category as keyof typeof categoryNames] || `📁 ${category}`}
-          <span class="badge badge-sm badge-outline ml-2">{topics.length}</span>
-        </div>
-        <div class="collapse-content">
-          <div class="space-y-1 pt-2">
-            {topics.map(topic => (
-              <a
-                href={`/topics/${topic.slug}`}
-                class="flex items-center gap-2 p-2 rounded hover:bg-base-200 transition-colors text-sm topic-link"
-                data-search-text={topic.data.title.toLowerCase()}
-              >
-                <span class="badge badge-xs badge-primary">{topic.data.level}</span>
-                <span class="flex-1 truncate">{topic.data.title}</span>
-                {topic.data.meme && <span class="text-xs opacity-60">🖼️</span>}
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
+  <!--&lt;!&ndash; Quick filters &ndash;&gt;-->
+  <!--<div class="quick-filters" id="quick-filters">-->
+  <!--  <button class="filter-btn" data-filter="level:1">Уровень 1</button>-->
+  <!--  <button class="filter-btn" data-filter="level:2">Уровень 2</button>-->
+  <!--  <button class="filter-btn" data-filter="category:cognition">🧠 Познание</button>-->
+  <!--  <button class="filter-btn" data-filter="category:society">🏛️ Общество</button>-->
+  <!--  <button class="filter-btn" data-filter="category:technology">⚙️ Технологии</button>-->
+  <!--  <button class="filter-btn" data-filter="category:philosophy">💭 Философия</button>-->
+  <!--</div>-->
+</div>
 
-  <!-- Stats -->
-  <div class="mt-6 p-3 bg-base-200 rounded-lg">
-    <div class="text-xs text-base-content/70 space-y-1">
-      <div>Всего тем: <span class="font-medium">{allTopics.length}</span></div>
-      <div>Категорий: <span class="font-medium">{Object.keys(topicsByCategory).length}</span></div>
-    </div>
-  </div>
-</nav>
+<!--<style>-->
+<!--  /* CSS Variables for theming */-->
+<!--  :root {-->
+<!--    &#45;&#45;color-base-100: #ffffff;-->
+<!--    &#45;&#45;color-base-200: #f3f4f6;-->
+<!--    &#45;&#45;color-base-300: #e5e7eb;-->
+<!--    &#45;&#45;color-base-content: #374151;-->
+<!--    &#45;&#45;color-base-content-60: rgba(55, 65, 81, 0.6);-->
+<!--    &#45;&#45;color-base-content-40: rgba(55, 65, 81, 0.4);-->
+<!--    &#45;&#45;color-base-content-70: rgba(55, 65, 81, 0.7);-->
+<!--    &#45;&#45;color-primary: #3b82f6;-->
+<!--    &#45;&#45;color-warning: #f59e0b;-->
+<!--    &#45;&#45;color-warning-content: #92400e;-->
+<!--    &#45;&#45;color-success: #10b981;-->
+<!--    &#45;&#45;color-info: #3b82f6;-->
+<!--    &#45;&#45;color-error: #ef4444;-->
+<!--    &#45;&#45;color-secondary: #6b7280;-->
+<!--    &#45;&#45;color-ghost: #f9fafb;-->
+<!--    &#45;&#45;border-radius: 0.5rem;-->
+<!--    &#45;&#45;border-radius-sm: 0.25rem;-->
+<!--    &#45;&#45;shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);-->
+<!--  }-->
 
-<script>
-  // Simple search functionality
-  document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('search-input') as HTMLInputElement;
-    const topicLinks = document.querySelectorAll('.topic-link') as NodeListOf<HTMLElement>;
+<!--  .search-container {-->
+<!--    position: relative;-->
+<!--  }-->
 
-    if (searchInput && topicLinks.length > 0) {
-      searchInput.addEventListener('input', (e) => {
-        const query = (e.target as HTMLInputElement).value.toLowerCase();
+<!--  .search-container::after {-->
+<!--    content: "Ctrl+K";-->
+<!--    position: absolute;-->
+<!--    right: 50px;-->
+<!--    top: 50%;-->
+<!--    transform: translateY(-50%);-->
+<!--    font-size: 0.75rem;-->
+<!--    color: var(&#45;&#45;color-base-content-40);-->
+<!--    background: var(&#45;&#45;color-base-200);-->
+<!--    padding: 2px 6px;-->
+<!--    border-radius: 4px;-->
+<!--    pointer-events: none;-->
+<!--  }-->
 
-        topicLinks.forEach(link => {
-          const searchText = link.getAttribute('data-search-text') || '';
-          const visible = searchText.includes(query);
-          link.style.display = visible ? 'flex' : 'none';
-        });
+<!--  .form-control {-->
+<!--    margin-bottom: 0;-->
+<!--  }-->
 
-        // Show/hide category sections based on visible items
-        document.querySelectorAll('.collapse').forEach(collapse => {
-          const visibleLinks = collapse.querySelectorAll('.topic-link[style*="flex"]');
-          const hasVisibleItems = visibleLinks.length > 0 || query === '';
-          (collapse as HTMLElement).style.display = hasVisibleItems ? 'block' : 'none';
-        });
-      });
+<!--  .input-group {-->
+<!--    display: flex;-->
+<!--    align-items: stretch;-->
+<!--  }-->
+
+<!--  .search-input {-->
+<!--    flex: 1;-->
+<!--    padding: 0.75rem 1rem;-->
+<!--    border: 1px solid var(&#45;&#45;color-base-300);-->
+<!--    border-radius: var(&#45;&#45;border-radius) 0 0 var(&#45;&#45;border-radius);-->
+<!--    font-size: 1rem;-->
+<!--    background: var(&#45;&#45;color-base-100);-->
+<!--    color: var(&#45;&#45;color-base-content);-->
+<!--    outline: none;-->
+<!--    transition: border-color 0.2s ease;-->
+<!--  }-->
+
+<!--  .search-input:focus {-->
+<!--    border-color: var(&#45;&#45;color-primary);-->
+<!--    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);-->
+<!--  }-->
+
+<!--  .search-button {-->
+<!--    padding: 0.75rem;-->
+<!--    background: var(&#45;&#45;color-primary);-->
+<!--    color: white;-->
+<!--    border: 1px solid var(&#45;&#45;color-primary);-->
+<!--    border-radius: 0 var(&#45;&#45;border-radius) var(&#45;&#45;border-radius) 0;-->
+<!--    cursor: pointer;-->
+<!--    transition: background-color 0.2s ease;-->
+<!--    display: flex;-->
+<!--    align-items: center;-->
+<!--    justify-content: center;-->
+<!--    min-width: 48px;-->
+<!--  }-->
+
+<!--  .search-button:hover {-->
+<!--    background: #2563eb;-->
+<!--  }-->
+
+<!--  .search-icon {-->
+<!--    width: 1.25rem;-->
+<!--    height: 1.25rem;-->
+<!--  }-->
+
+<!--  .search-results {-->
+<!--    position: absolute;-->
+<!--    top: 100%;-->
+<!--    left: 0;-->
+<!--    right: 0;-->
+<!--    margin-top: 0.5rem;-->
+<!--    background: var(&#45;&#45;color-base-100);-->
+<!--    border: 1px solid var(&#45;&#45;color-base-300);-->
+<!--    border-radius: var(&#45;&#45;border-radius);-->
+<!--    box-shadow: var(&#45;&#45;shadow-lg);-->
+<!--    max-height: 24rem;-->
+<!--    overflow-y: auto;-->
+<!--    z-index: 50;-->
+<!--  }-->
+
+<!--  .search-results.hidden {-->
+<!--    display: none;-->
+<!--  }-->
+
+<!--  .results-container {-->
+<!--    padding: 0.5rem;-->
+<!--  }-->
+
+<!--  .no-results {-->
+<!--    padding: 1rem;-->
+<!--    text-align: center;-->
+<!--    color: var(&#45;&#45;color-base-content-60);-->
+<!--  }-->
+
+<!--  .no-results.hidden {-->
+<!--    display: none;-->
+<!--  }-->
+
+<!--  .no-results-icon {-->
+<!--    font-size: 2rem;-->
+<!--    margin-bottom: 0.5rem;-->
+<!--  }-->
+
+<!--  .no-results-subtitle {-->
+<!--    font-size: 0.875rem;-->
+<!--    margin-top: 0.25rem;-->
+<!--  }-->
+
+<!--  .search-stats {-->
+<!--    padding: 0.5rem 1rem;-->
+<!--    border-top: 1px solid var(&#45;&#45;color-base-300);-->
+<!--    font-size: 0.75rem;-->
+<!--    color: var(&#45;&#45;color-base-content-60);-->
+<!--    background: rgba(243, 244, 246, 0.5);-->
+<!--  }-->
+
+<!--  .quick-filters {-->
+<!--    display: flex;-->
+<!--    flex-wrap: wrap;-->
+<!--    gap: 0.5rem;-->
+<!--    margin-top: 0.75rem;-->
+<!--  }-->
+
+<!--  .filter-btn {-->
+<!--    padding: 0.25rem 0.75rem;-->
+<!--    font-size: 0.75rem;-->
+<!--    border: 1px solid var(&#45;&#45;color-base-300);-->
+<!--    background: var(&#45;&#45;color-base-100);-->
+<!--    color: var(&#45;&#45;color-base-content);-->
+<!--    border-radius: var(&#45;&#45;border-radius-sm);-->
+<!--    cursor: pointer;-->
+<!--    transition: all 0.2s ease;-->
+<!--  }-->
+
+<!--  .filter-btn:hover {-->
+<!--    background: var(&#45;&#45;color-base-200);-->
+<!--    border-color: var(&#45;&#45;color-primary);-->
+<!--    color: var(&#45;&#45;color-primary);-->
+<!--  }-->
+
+<!--  .search-result-item {-->
+<!--    padding: 0.75rem;-->
+<!--    border-bottom: 1px solid var(&#45;&#45;color-base-300);-->
+<!--    cursor: pointer;-->
+<!--    transition: background-color 0.2s ease;-->
+<!--  }-->
+
+<!--  .search-result-item:last-child {-->
+<!--    border-bottom: none;-->
+<!--  }-->
+
+<!--  .search-result-item:hover,-->
+<!--  .search-result-item.active {-->
+<!--    background: var(&#45;&#45;color-base-200);-->
+<!--  }-->
+
+<!--  .search-result-item a {-->
+<!--    display: block;-->
+<!--    text-decoration: none;-->
+<!--    color: inherit;-->
+<!--  }-->
+
+<!--  .result-header {-->
+<!--    display: flex;-->
+<!--    align-items: flex-start;-->
+<!--    justify-content: space-between;-->
+<!--    margin-bottom: 0.5rem;-->
+<!--  }-->
+
+<!--  .result-title {-->
+<!--    font-weight: 600;-->
+<!--    font-size: 0.875rem;-->
+<!--    transition: color 0.2s ease;-->
+<!--    margin-left: 0.5rem;-->
+<!--  }-->
+
+<!--  .result-title:hover {-->
+<!--    color: var(&#45;&#45;color-primary);-->
+<!--  }-->
+
+<!--  .result-badges {-->
+<!--    display: flex;-->
+<!--    gap: 0.25rem;-->
+<!--    margin-left: 0.5rem;-->
+<!--  }-->
+
+<!--  .result-description {-->
+<!--    font-size: 0.75rem;-->
+<!--    color: var(&#45;&#45;color-base-content-70);-->
+<!--    margin-bottom: 0.5rem;-->
+<!--    display: -webkit-box;-->
+<!--    -webkit-line-clamp: 2;-->
+<!--    -webkit-box-orient: vertical;-->
+<!--    overflow: hidden;-->
+<!--  }-->
+
+<!--  .result-footer {-->
+<!--    display: flex;-->
+<!--    align-items: center;-->
+<!--    gap: 0.5rem;-->
+<!--  }-->
+
+<!--  .result-category {-->
+<!--    font-size: 0.75rem;-->
+<!--    color: var(&#45;&#45;color-base-content-60);-->
+<!--  }-->
+
+<!--  .result-tags {-->
+<!--    display: flex;-->
+<!--    gap: 0.25rem;-->
+<!--  }-->
+
+<!--  .badge {-->
+<!--    font-size: 0.75rem;-->
+<!--    padding: 0.125rem 0.375rem;-->
+<!--    border-radius: var(&#45;&#45;border-radius-sm);-->
+<!--    font-weight: 500;-->
+<!--  }-->
+
+<!--  .badge-xs {-->
+<!--    font-size: 0.625rem;-->
+<!--    padding: 0.125rem 0.25rem;-->
+<!--  }-->
+
+<!--  .badge-success {-->
+<!--    background: var(&#45;&#45;color-success);-->
+<!--    color: white;-->
+<!--  }-->
+
+<!--  .badge-info {-->
+<!--    background: var(&#45;&#45;color-info);-->
+<!--    color: white;-->
+<!--  }-->
+
+<!--  .badge-warning {-->
+<!--    background: var(&#45;&#45;color-warning);-->
+<!--    color: white;-->
+<!--  }-->
+
+<!--  .badge-error {-->
+<!--    background: var(&#45;&#45;color-error);-->
+<!--    color: white;-->
+<!--  }-->
+
+<!--  .badge-secondary {-->
+<!--    background: var(&#45;&#45;color-secondary);-->
+<!--    color: white;-->
+<!--  }-->
+
+<!--  .badge-outline {-->
+<!--    background: transparent;-->
+<!--    border: 1px solid var(&#45;&#45;color-base-300);-->
+<!--    color: var(&#45;&#45;color-base-content);-->
+<!--  }-->
+
+<!--  .badge-ghost {-->
+<!--    background: var(&#45;&#45;color-ghost);-->
+<!--    color: var(&#45;&#45;color-base-content);-->
+<!--  }-->
+
+<!--  .hidden {-->
+<!--    display: none;-->
+<!--  }-->
+
+<!--  mark {-->
+<!--    background: rgba(245, 158, 11, 0.3);-->
+<!--    color: var(&#45;&#45;color-warning-content);-->
+<!--    border-radius: 2px;-->
+<!--    padding: 1px 2px;-->
+<!--  }-->
+
+<!--  @media (max-width: 640px) {-->
+<!--    .search-container::after {-->
+<!--      display: none;-->
+<!--    }-->
+
+<!--    .quick-filters {-->
+<!--      flex-direction: column;-->
+<!--    }-->
+
+<!--    .filter-btn {-->
+<!--      width: 100%;-->
+<!--    }-->
+<!--  }-->
+<!--</style>-->
+
+<script define:vars={{ searchIndex }}>
+  class TopicSearch {
+    constructor(searchIndex) {
+      this.searchIndex = searchIndex;
+      this.searchInput = document.getElementById('search-input');
+      this.searchButton = document.getElementById('search-button');
+      this.searchResults = document.getElementById('search-results');
+      this.resultsContainer = document.getElementById('results-container');
+      this.noResults = document.getElementById('no-results');
+      this.searchStats = document.getElementById('search-stats');
+      this.quickFilters = document.querySelectorAll('[data-filter]');
+
+      this.currentQuery = '';
+      this.currentResults = [];
+
+      this.init();
     }
+
+    init() {
+      // Search input events
+      this.searchInput.addEventListener('input', this.debounce(this.handleSearch.bind(this), 300));
+      this.searchInput.addEventListener('focus', this.handleFocus.bind(this));
+      this.searchInput.addEventListener('keydown', this.handleKeydown.bind(this));
+
+      // Search button
+      this.searchButton.addEventListener('click', this.handleSearch.bind(this));
+
+      // Quick filters
+      this.quickFilters.forEach(filter => {
+        filter.addEventListener('click', this.handleQuickFilter.bind(this));
+      });
+
+      // Close results when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-container')) {
+          this.hideResults();
+        }
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', this.handleGlobalKeydown.bind(this));
+    }
+
+    handleSearch() {
+      const query = this.searchInput.value.trim();
+
+      if (query.length < 2) {
+        this.hideResults();
+        return;
+      }
+
+      this.currentQuery = query;
+      this.currentResults = this.performSearch(query);
+      this.displayResults();
+    }
+
+    handleFocus() {
+      if (this.currentResults.length > 0) {
+        this.showResults();
+      }
+    }
+
+    handleKeydown(e) {
+      const resultItems = this.resultsContainer.querySelectorAll('.search-result-item');
+      const activeItem = this.resultsContainer.querySelector('.search-result-item.active');
+
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          this.navigateResults(resultItems, activeItem, 1);
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          this.navigateResults(resultItems, activeItem, -1);
+          break;
+        case 'Enter':
+          e.preventDefault();
+          if (activeItem) {
+            const link = activeItem.querySelector('a');
+            if (link) link.click();
+          }
+          break;
+        case 'Escape':
+          this.hideResults();
+          this.searchInput.blur();
+          break;
+      }
+    }
+
+    handleGlobalKeydown(e) {
+      // Ctrl/Cmd + K to focus search
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        this.searchInput.focus();
+      }
+    }
+
+    handleQuickFilter(e) {
+      const filter = e.target.dataset.filter;
+      const [type, value] = filter.split(':');
+
+      let filterQuery = '';
+      if (type === 'level') {
+        filterQuery = `уровень ${value}`;
+      } else if (type === 'category') {
+        const categoryNames = {
+          cognition: 'познание',
+          society: 'общество',
+          technology: 'технологии',
+          philosophy: 'философия'
+        };
+        filterQuery = categoryNames[value] || value;
+      }
+
+      this.searchInput.value = filterQuery;
+      this.handleSearch();
+      this.searchInput.focus();
+    }
+
+    performSearch(query) {
+      const queryLower = query.toLowerCase();
+      const queryWords = queryLower.split(' ').filter(word => word.length > 0);
+
+      return this.searchIndex
+          .map(topic => {
+            let score = 0;
+            const searchText = `${topic.title} ${topic.description} ${topic.tags.join(' ')} ${topic.category}`.toLowerCase();
+
+            // Title exact match
+            if (topic.title.toLowerCase().includes(queryLower)) {
+              score += 10;
+            }
+
+            // Title word match
+            queryWords.forEach(word => {
+              if (topic.title.toLowerCase().includes(word)) {
+                score += 5;
+              }
+            });
+
+            // Description match
+            if (topic.description && topic.description.toLowerCase().includes(queryLower)) {
+              score += 3;
+            }
+
+            // Tags match
+            topic.tags.forEach(tag => {
+              if (tag.toLowerCase().includes(queryLower)) {
+                score += 4;
+              }
+            });
+
+            // General content match
+            queryWords.forEach(word => {
+              if (searchText.includes(word)) {
+                score += 1;
+              }
+            });
+
+            // Level filter
+            if (queryLower.includes('уровень') || queryLower.includes('ур')) {
+              const levelMatch = queryLower.match(/(\d+)/);
+              if (levelMatch && parseInt(levelMatch[1]) === topic.level) {
+                score += 8;
+              }
+            }
+
+            return { ...topic, score };
+          })
+          .filter(topic => topic.score > 0)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 10);
+    }
+
+    displayResults() {
+      if (this.currentResults.length === 0) {
+        this.showNoResults();
+        return;
+      }
+
+      this.resultsContainer.innerHTML = '';
+      this.noResults.classList.add('hidden');
+
+      this.currentResults.forEach((topic, index) => {
+        const item = this.createResultItem(topic, index === 0);
+        this.resultsContainer.appendChild(item);
+      });
+
+      this.updateStats();
+      this.showResults();
+    }
+
+    createResultItem(topic, isFirst = false) {
+      const item = document.createElement('div');
+      item.className = `search-result-item ${isFirst ? 'active' : ''}`;
+
+      const categoryIcons = {
+        cognition: '🧠',
+        society: '🏛️',
+        technology: '⚙️',
+        philosophy: '💭',
+        meta: '📋'
+      };
+
+      const levelColors = {
+        1: 'badge-success',
+        2: 'badge-info',
+        3: 'badge-warning',
+        4: 'badge-error',
+        5: 'badge-secondary'
+      };
+
+      item.innerHTML = `
+                <a href="${topic.url}">
+                    <div class="result-header">
+                        <h4 class="result-title">
+                            ${this.highlightQuery(topic.title)}
+                        </h4>
+                        <div class="result-badges">
+                            <span class="badge badge-xs ${levelColors[topic.level] || 'badge-outline'}">
+                                ${topic.level}
+                            </span>
+                        </div>
+                    </div>
+                    <p class="result-description">
+                        ${this.highlightQuery(topic.description || 'Нет описания')}
+                    </p>
+                    <div class="result-footer">
+                        <span class="result-category">
+                            ${categoryIcons[topic.category] || '📁'} ${topic.category || 'other'}
+                        </span>
+                        <div class="result-tags">
+                            ${topic.tags.slice(0, 3).map(tag =>
+          `<span class="badge badge-xs badge-ghost">${tag}</span>`
+      ).join('')}
+                        </div>
+                    </div>
+                </a>
+            `;
+
+      item.addEventListener('mouseenter', () => {
+        this.resultsContainer.querySelectorAll('.search-result-item').forEach(el => {
+          el.classList.remove('active');
+        });
+        item.classList.add('active');
+      });
+
+      return item;
+    }
+
+    highlightQuery(text) {
+      if (!this.currentQuery || !text) return text;
+
+      const queryWords = this.currentQuery.toLowerCase().split(' ').filter(word => word.length > 1);
+      let highlightedText = text;
+
+      queryWords.forEach(word => {
+        const regex = new RegExp(`(${word})`, 'gi');
+        highlightedText = highlightedText.replace(regex, '<mark>$1</mark>');
+      });
+
+      return highlightedText;
+    }
+
+    navigateResults(items, activeItem, direction) {
+      if (!items.length) return;
+
+      let newIndex = 0;
+
+      if (activeItem) {
+        const currentIndex = Array.from(items).indexOf(activeItem);
+        newIndex = currentIndex + direction;
+
+        if (newIndex < 0) newIndex = items.length - 1;
+        if (newIndex >= items.length) newIndex = 0;
+
+        activeItem.classList.remove('active');
+      }
+
+      items[newIndex].classList.add('active');
+      items[newIndex].scrollIntoView({ block: 'nearest' });
+    }
+
+    showResults() {
+      this.searchResults.classList.remove('hidden');
+    }
+
+    hideResults() {
+      this.searchResults.classList.add('hidden');
+    }
+
+    showNoResults() {
+      this.resultsContainer.innerHTML = '';
+      this.noResults.classList.remove('hidden');
+      this.updateStats();
+      this.showResults();
+    }
+
+    updateStats() {
+      const count = this.currentResults.length;
+      const totalTopics = this.searchIndex.length;
+
+      this.searchStats.innerHTML = `
+                Найдено: <strong>${count}</strong> из ${totalTopics} тем
+                ${this.currentQuery ? `по запросу "<em>${this.currentQuery}</em>"` : ''}
+            `;
+    }
+
+    debounce(func, delay) {
+      let timeoutId;
+      return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func.apply(this, args), delay);
+      };
+    }
+  }
+
+  // Initialize search when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    new TopicSearch(searchIndex);
   });
 </script>

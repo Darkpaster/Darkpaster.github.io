@@ -1,10 +1,10 @@
 ---
 title: "Символическая стагнация"
-description: "Анализ того, как общество застревает в символах вместо развития реальных решений"
+description: "Анализ того, как общество застревает в символах вместо развития реальных решений."
 level: 2
 tags: ["общество", "язык", "символы", "стагнация"]
-related: ["/topics/cognition/language", "/topics/society/communication"]
-meme: "/assets/memes/society/symbolic-stagnation.webp"
+related: ["/topics/cognition/language", "/topics/society/problem-list"]
+meme: "../../assets/memes/210770_news_80_1-3859121395.jpg"
 category: "society"
 difficulty: "intermediate"
 publishedAt: 2024-01-15
@@ -54,9 +54,3 @@ publishedAt: 2024-01-15
 
 ### Ответственность за результат
 Персональная ответственность за достижение заявленных целей.
-
-## Связанные темы
-
-- [Деградация языка](/topics/cognition/language)
-- [Системы коммуникации](/topics/society/communication)
-- [Когнитивные искажения](/topics/cognition/thinking)

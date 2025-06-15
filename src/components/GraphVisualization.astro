@@ -1,3 +1,4 @@
+<!-- graphVisualization.astro -->
 ---
 import { getCollection } from 'astro:content';
 
@@ -34,6 +35,115 @@ const graphData = { nodes, links };
 ---
 
 <style>
+    /* CSS Variables */
+    :root {
+        --color-base-100: #ffffff;
+        --color-base-200: #f3f4f6;
+        --color-base-300: #e5e7eb;
+        --color-base-content-50: rgba(55, 65, 81, 0.5);
+        --color-base-content-70: rgba(55, 65, 81, 0.7);
+        --color-primary: #3b82f6;
+        --color-success: #10b981;
+        --color-warning: #f59e0b;
+        --color-error: #ef4444;
+        --border-radius: 0.5rem;
+        --border-radius-sm: 0.25rem;
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    .graph-container {
+        user-select: none;
+    }
+
+    .controls {
+        margin-bottom: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .control-btn {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        border: 1px solid var(--base-content);
+        background-color: var(--base-200);
+        color: var(--color-base-content);
+        border-radius: var(--border-radius-sm);
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .control-btn:hover {
+        background-color: var(--base-200);
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+    }
+
+    .form-control {
+        display: flex;
+        align-items: center;
+    }
+
+    .label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-size: 0.875rem;
+        color: var(--color-base-content);
+    }
+
+    .label-text {
+        margin-right: 0.5rem;
+    }
+
+    .toggle {
+        appearance: none;
+        width: 3rem;
+        height: 1.5rem;
+        background-color: var(--base-200);
+        border-radius: 1rem;
+        position: relative;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    .toggle:checked {
+        background: var(--color-primary);
+    }
+
+    .toggle::before {
+        content: '';
+        position: absolute;
+        width: 1.25rem;
+        height: 1.25rem;
+        background: white;
+        border-radius: 50%;
+        top: 0.125rem;
+        left: 0.125rem;
+        transition: transform 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .toggle:checked::before {
+        transform: translateX(1.5rem);
+    }
+
+    .select {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        border: 1px solid var(--base-content);
+        background-color: var(--base-200);
+        color: var(--color-base-content);
+        border-radius: var(--border-radius-sm);
+        cursor: pointer;
+        min-width: 150px;
+    }
+
+    .select:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
 
     .tooltip-container {
         position: absolute;
@@ -41,17 +151,113 @@ const graphData = { nodes, links };
         pointer-events: none;
     }
 
-    .graph-container {
-        user-select: none;
+    .tooltip-content {
+        background-color: var(--base-200);
+        border: 1px solid var(--base-content);
+        border-radius: var(--border-radius);
+        padding: 0.75rem;
+        box-shadow: var(--shadow-lg);
+        max-width: 20rem;
+    }
+
+    .tooltip-title {
+        font-weight: bold;
+        font-size: 0.875rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .tooltip-category {
+        font-size: 0.75rem;
+        color: var(--color-base-content-70);
+        margin-bottom: 0.5rem;
+    }
+
+    .tooltip-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+
+    .graph-svg-container {
+        width: 100%;
+        height: 600px;
+        border: 1px solid var(--base-content);
+        border-radius: var(--border-radius);
+        background-color: var(--base-200);
+        overflow: hidden;
     }
 
     #knowledge-graph {
+        width: 100%;
+        height: 100%;
         background: transparent;
+    }
+
+    .legend {
+        margin-top: 1rem;
+    }
+
+    .legend-title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .legend-items {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-size: 0.875rem;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .legend-color {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+    }
+
+    .legend-color.success {
+        background: var(--color-success);
+    }
+
+    .legend-color.warning {
+        background: var(--color-warning);
+    }
+
+    .legend-color.error {
+        background: var(--color-error);
+    }
+
+    .badge {
+        font-size: 0.625rem;
+        padding: 0.125rem 0.25rem;
+        border-radius: var(--border-radius-sm);
+        font-weight: 500;
+    }
+
+    .badge-xs {
+        font-size: 0.625rem;
+        padding: 0.125rem 0.25rem;
+    }
+
+    .badge-outline {
+        background: transparent;
+        border: 1px solid var(--base-content);
+        color: var(--color-base-content);
+    }
+
+    .hidden {
+        display: none;
     }
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
-        #graph-svg-container {
+        .graph-svg-container {
             height: 400px;
         }
 
@@ -63,23 +269,26 @@ const graphData = { nodes, links };
         .controls > * {
             width: 100%;
         }
-    }
 
+        .select {
+            min-width: auto;
+        }
+    }
 </style>
 
 <div class="graph-container">
-    <div class="controls mb-4 flex flex-wrap gap-2">
-        <button id="reset-zoom" class="btn btn-sm btn-outline">Сбросить масштаб</button>
-        <button id="center-graph" class="btn btn-sm btn-outline">Центрировать</button>
+    <div class="controls">
+        <button id="reset-zoom" class="control-btn">Сбросить масштаб</button>
+        <button id="center-graph" class="control-btn">Центрировать</button>
 
         <div class="form-control">
-            <label class="label cursor-pointer">
-                <span class="label-text mr-2">Показать связи:</span>
-                <input type="checkbox" id="show-links" class="toggle toggle-sm toggle-primary" checked />
+            <label class="label">
+                <span class="label-text">Показать связи:</span>
+                <input type="checkbox" id="show-links" class="toggle" checked />
             </label>
         </div>
 
-        <select id="category-filter" class="select select-sm select-bordered">
+        <select id="category-filter" class="select">
             <option value="">Все категории</option>
             <option value="cognition">🧠 Познание</option>
             <option value="society">🏛️ Общество</option>
@@ -90,30 +299,30 @@ const graphData = { nodes, links };
     </div>
 
     <div id="graph-tooltip" class="tooltip-container hidden">
-        <div class="bg-base-100 border border-base-300 rounded-lg p-3 shadow-lg max-w-xs">
-            <h4 class="font-bold text-sm mb-1" id="tooltip-title"></h4>
-            <p class="text-xs text-base-content/70 mb-2" id="tooltip-category"></p>
-            <div class="flex flex-wrap gap-1" id="tooltip-tags"></div>
+        <div class="tooltip-content">
+            <h4 class="tooltip-title" id="tooltip-title"></h4>
+            <p class="tooltip-category" id="tooltip-category"></p>
+            <div class="tooltip-tags" id="tooltip-tags"></div>
         </div>
     </div>
 
-    <div id="graph-svg-container" class="w-full h-[600px] border border-base-300 rounded-lg bg-base-100 overflow-hidden">
-        <svg id="knowledge-graph" class="w-full h-full"></svg>
+    <div class="graph-svg-container">
+        <svg id="knowledge-graph"></svg>
     </div>
 
-    <div class="legend mt-4">
-        <h3 class="font-bold mb-2">Легенда:</h3>
-        <div class="flex flex-wrap gap-4 text-sm">
-            <div class="flex items-center gap-2">
-                <div class="w-4 h-4 rounded-full bg-success"></div>
+    <div class="legend">
+        <h3 class="legend-title">Легенда:</h3>
+        <div class="legend-items">
+            <div class="legend-item">
+                <div class="legend-color success"></div>
                 <span>Уровень 1-2</span>
             </div>
-            <div class="flex items-center gap-2">
-                <div class="w-4 h-4 rounded-full bg-warning"></div>
+            <div class="legend-item">
+                <div class="legend-color warning"></div>
                 <span>Уровень 3</span>
             </div>
-            <div class="flex items-center gap-2">
-                <div class="w-4 h-4 rounded-full bg-error"></div>
+            <div class="legend-item">
+                <div class="legend-color error"></div>
                 <span>Уровень 4-5</span>
             </div>
         </div>
@@ -123,7 +332,7 @@ const graphData = { nodes, links };
 <script define:vars={{ graphData }}>
     // D3.js implementation for knowledge graph
     import('https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js').then(() => {
-        const container = d3.select('#graph-svg-container');
+        const container = d3.select('.graph-svg-container');
         const svg = d3.select('#knowledge-graph');
         const tooltip = d3.select('#graph-tooltip');
 
@@ -170,7 +379,7 @@ const graphData = { nodes, links };
                 .selectAll('line')
                 .data(currentData.links)
                 .join('line')
-                .attr('stroke', '#64748b')
+                .attr('stroke', '#7486a1')
                 .attr('stroke-opacity', 0.3)
                 .attr('stroke-width', 1);
 

@@ -1,3 +1,4 @@
+<!-- index.astro -->
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import TopicCard from '@/components/TopicCard.astro';
@@ -44,24 +45,24 @@ const stats = {
 	description="Система знаний и размышлений: критический анализ современного мира и предложения по его улучшению"
 >
 	<!-- Hero Section -->
-	<section class="hero min-h-[60vh] bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10 rounded-2xl mb-12">
-		<div class="hero-content text-center">
-			<div class="max-w-4xl">
-				<h1 class="text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-					🌳 HumanityOS
+	<section class="hero">
+		<div class="hero-content">
+			<div class="hero-content-inner">
+				<h1 class="hero-title">
+					HumanityOS
 				</h1>
-				<p class="text-xl lg:text-2xl mb-8 text-base-content/80 leading-relaxed">
+				<p class="hero-subtitle">
 					Альтернативная система знаний о мире: критический анализ современности
 					и предложения по рациональному улучшению ключевых систем
 				</p>
-				<div class="flex flex-wrap justify-center gap-4">
-					<a href="#featured" class="btn btn-primary btn-lg">
+				<div class="hero-buttons">
+					<a href="#featured" class="btn btn-primary btn-large">
 						Начать изучение
 					</a>
-					<a href="/about" class="btn btn-outline btn-lg">
+					<a href="/about" class="btn btn-outline btn-large">
 						О проекте
 					</a>
-					<a href="/graph" class="btn btn-secondary btn-lg">
+					<a href="/graph" class="btn btn-secondary btn-large">
 						Граф знаний
 					</a>
 				</div>
@@ -70,53 +71,53 @@ const stats = {
 	</section>
 
 	<!-- Stats -->
-	<section class="mb-12">
-		<div class="stats stats-vertical lg:stats-horizontal shadow w-full">
+	<section class="stats-section">
+		<div class="stats">
 			<div class="stat">
-				<div class="stat-figure text-primary">
-					<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+				<div class="stat-figure">
+					<svg class="stat-icon" fill="currentColor" viewBox="0 0 20 20">
 						<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
 					</svg>
 				</div>
 				<div class="stat-title">Всего тем</div>
-				<div class="stat-value text-primary">{stats.totalTopics}</div>
+				<div class="stat-value stat-value-primary">{stats.totalTopics}</div>
 				<div class="stat-desc">Глубокий анализ</div>
 			</div>
 
 			<div class="stat">
-				<div class="stat-figure text-secondary">
-					<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+				<div class="stat-figure">
+					<svg class="stat-icon" fill="currentColor" viewBox="0 0 20 20">
 						<path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
 					</svg>
 				</div>
 				<div class="stat-title">Категорий</div>
-				<div class="stat-value text-secondary">{stats.categories}</div>
+				<div class="stat-value stat-value-secondary">{stats.categories}</div>
 				<div class="stat-desc">Систематизация</div>
 			</div>
 
 			<div class="stat">
-				<div class="stat-figure text-accent">
-					<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+				<div class="stat-figure">
+					<svg class="stat-icon" fill="currentColor" viewBox="0 0 20 20">
 						<path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
 					</svg>
 				</div>
 				<div class="stat-title">Ср. сложность</div>
-				<div class="stat-value text-accent">{stats.avgLevel}</div>
+				<div class="stat-value stat-value-accent">{stats.avgLevel}</div>
 				<div class="stat-desc">Из 5 уровней</div>
 			</div>
 		</div>
 	</section>
 
 	<!-- Featured Topics -->
-	<section id="featured" class="mb-12">
-		<div class="flex items-center justify-between mb-8">
-			<h2 class="text-3xl font-bold">🌟 Рекомендуемое для начала</h2>
+	<section id="featured" class="featured-section">
+		<div class="section-header">
+			<h2 class="section-title">🌟 Рекомендуемое для начала</h2>
 			<a href="#all-topics" class="btn btn-ghost">
 				Все темы →
 			</a>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+		<div class="topics-grid">
 			{featuredTopics.map(topic => (
 				<TopicCard
 					title={topic.data.title}
@@ -133,10 +134,10 @@ const stats = {
 	</section>
 
 	<!-- Categories Overview -->
-	<section class="mb-12">
-		<h2 class="text-3xl font-bold mb-8">📚 Категории знаний</h2>
+	<section class="categories-section">
+		<h2 class="section-title">📚 Категории знаний</h2>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+		<div class="categories-grid">
 			{Object.entries(topicsByCategory).map(([category, topics]) => {
 				const categoryInfo = {
 					cognition: { icon: '🧠', name: 'Познание', desc: 'Мышление, восприятие, язык' },
@@ -147,33 +148,33 @@ const stats = {
 				}[category] || { icon: '📁', name: category, desc: 'Разное' };
 
 				return (
-					<div class="card bg-base-100 shadow-lg border border-base-300 hover:border-primary/50 transition-colors">
+					<div class="category-card">
 						<div class="card-body">
 							<h3 class="card-title">
-								<span class="text-2xl">{categoryInfo.icon}</span>
+								<span class="category-icon">{categoryInfo.icon}</span>
 								{categoryInfo.name}
 							</h3>
-							<p class="text-base-content/70">{categoryInfo.desc}</p>
-							<div class="card-actions justify-between items-center mt-4">
+							<p class="category-desc">{categoryInfo.desc}</p>
+							<div class="card-actions">
 								<span class="badge badge-outline">{topics.length} тем</span>
-								<button class="btn btn-primary btn-sm" onclick={`toggleCategory('${category}')`}>
+								<button class="btn btn-primary btn-small" onclick={`toggleCategory('${category}')`}>
 									Развернуть
 								</button>
 							</div>
 
 							<!-- Hidden topics list -->
-							<div id={`category-${category}`} class="hidden mt-4 space-y-2">
+							<div id={`category-${category}`} class="category-topics hidden">
 								{topics.slice(0, 5).map(topic => (
 									<a
 										href={`/topics/${topic.slug}`}
-										class="flex items-center gap-2 p-2 rounded hover:bg-base-200 transition-colors text-sm"
+										class="category-topic-link"
 									>
-										<span class="badge badge-xs badge-primary">{topic.data.level}</span>
-										<span class="flex-1">{topic.data.title}</span>
+										<span class="topic-level-badge">{topic.data.level}</span>
+										<span class="topic-title">{topic.data.title}</span>
 									</a>
 								))}
 								{topics.length > 5 && (
-									<div class="text-center text-sm text-base-content/60">
+									<div class="more-topics-text">
 										И еще {topics.length - 5} тем...
 									</div>
 								)}
@@ -187,9 +188,9 @@ const stats = {
 
 	<!-- All Topics -->
 	<section id="all-topics">
-		<h2 class="text-3xl font-bold mb-8">📖 Все темы</h2>
+		<h2 class="section-title">📖 Все темы</h2>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+		<div class="topics-grid">
 			{sortedTopics.map(topic => (
 				<TopicCard
 					title={topic.data.title}
@@ -205,6 +206,354 @@ const stats = {
 		</div>
 	</section>
 </BaseLayout>
+
+<style>
+	/* Hero Section */
+	.hero {
+		min-height: 60vh;
+		background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 50%, rgba(245, 158, 11, 0.1) 100%);
+		border-radius: 1rem;
+		margin-bottom: 3rem;
+		background-image: url(/src/assets/backgrounds/shutterstock-1558058690-4073813708.webp);
+		background-size: cover;
+		background-position: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.hero-content {
+		text-align: center;
+		padding: 2rem;
+	}
+
+	.hero-content-inner {
+		max-width: 64rem;
+	}
+
+	.hero-title {
+		font-size: 3rem;
+		font-weight: bold;
+		margin-bottom: 1.5rem;
+		background: linear-gradient(to right, #3b82f6, #8b5cf6);
+		background-clip: text;
+		-webkit-background-clip: text;
+		color: transparent;
+	}
+
+	.hero-subtitle {
+		font-size: 1.25rem;
+		margin-bottom: 2rem;
+		color: #bfdbfe;
+		line-height: 1.625;
+		text-shadow: -2px 3px black;
+	}
+
+	.hero-buttons {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1rem;
+	}
+
+	/* Stats Section */
+	.stats-section {
+		margin-bottom: 3rem;
+	}
+
+	.stats {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+		border-radius: 0.5rem;
+		background-color: var(--base-200);
+	}
+
+	.stat {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 1.5rem;
+		text-align: center;
+		//border-bottom: 1px solid #e5e7eb;
+	}
+
+	.stat:last-child {
+		border-bottom: none;
+	}
+
+	.stat-figure {
+		margin-bottom: 0.5rem;
+	}
+
+	.stat-icon {
+		width: 2rem;
+		height: 2rem;
+		color: #6b7280;
+	}
+
+	.stat-title {
+		font-size: 0.875rem;
+		color: #6b7280;
+		margin-bottom: 0.25rem;
+	}
+
+	.stat-value {
+		font-size: 2rem;
+		font-weight: bold;
+		margin-bottom: 0.25rem;
+	}
+
+	.stat-value-primary {
+		color: #3b82f6;
+	}
+
+	.stat-value-secondary {
+		color: #8b5cf6;
+	}
+
+	.stat-value-accent {
+		color: #f59e0b;
+	}
+
+	.stat-desc {
+		font-size: 0.75rem;
+		color: #9ca3af;
+	}
+
+	/* Sections */
+	.featured-section,
+	.categories-section {
+		margin-bottom: 3rem;
+	}
+
+	.section-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 2rem;
+	}
+
+	.section-title {
+		font-size: 1.875rem;
+		font-weight: bold;
+		margin-bottom: 2rem;
+	}
+
+	/* Grids */
+	.topics-grid,
+	.categories-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 1.5rem;
+	}
+
+	/* Category Cards */
+	.category-card {
+		background-color: var(--base-200);
+		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+		//border: 1px solid #e5e7eb;
+		border-radius: 0.5rem;
+		transition: border-color 0.2s;
+	}
+
+	.category-card:hover {
+		border-color: rgba(59, 130, 246, 0.5);
+	}
+
+	.card-body {
+		padding: 1.5rem;
+	}
+
+	.card-title {
+		font-size: 1.25rem;
+		font-weight: bold;
+		margin-bottom: 0.5rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.category-icon {
+		font-size: 1.5rem;
+	}
+
+	.category-desc {
+		color: var(--base-content);
+		margin-bottom: 1rem;
+	}
+
+	.card-actions {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 1rem;
+	}
+
+	.category-topics {
+		margin-top: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.category-topic-link {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem;
+		border-radius: 0.25rem;
+		transition: background-color 0.2s;
+		font-size: 0.875rem;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.category-topic-link:hover {
+		background-color: var(--base-200);
+	}
+
+	.topic-level-badge {
+		background: #3b82f6;
+		color: var(--base-content);
+		padding: 0.125rem 0.375rem;
+		border-radius: 0.25rem;
+		font-size: 0.75rem;
+		font-weight: 500;
+	}
+
+	.topic-title {
+		flex: 1;
+	}
+
+	.more-topics-text {
+		text-align: center;
+		font-size: 0.875rem;
+		color: rgba(0, 0, 0, 0.6);
+	}
+
+	/* Buttons */
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem 1rem;
+		border-radius: 0.375rem;
+		font-weight: 500;
+		text-decoration: none;
+		cursor: pointer;
+		border: 1px solid transparent;
+		transition: all 0.2s;
+	}
+
+	.btn-primary {
+		background-color: #3b82f6;
+		color: var(--base-content);
+	}
+
+	.btn-primary:hover {
+		background-color: #2563eb;
+	}
+
+	.btn-secondary {
+		background-color: #8b5cf6;
+		color: var(--base-content);
+	}
+
+	.btn-secondary:hover {
+		background-color: #7c3aed;
+	}
+
+	.btn-outline {
+		border-color: #d1d5db;
+		background-color: transparent;
+	}
+
+	.btn-outline:hover {
+		background-color: #f3f4f6;
+	}
+
+	.btn-ghost {
+		background-color: transparent;
+		color: #6b7280;
+	}
+
+	.btn-ghost:hover {
+		background-color: #f3f4f6;
+	}
+
+	.btn-large {
+		padding: 0.75rem 1.5rem;
+		font-size: 1.125rem;
+	}
+
+	.btn-small {
+		padding: 0.375rem 0.75rem;
+		font-size: 0.875rem;
+	}
+
+	/* Badge */
+	.badge {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.25rem 0.5rem;
+		border-radius: 0.375rem;
+		font-size: 0.75rem;
+		font-weight: 500;
+	}
+
+	.badge-outline {
+		border: 1px solid #d1d5db;
+		background-color: transparent;
+		color: var(--base-content);
+	}
+
+	/* Utility classes */
+	.hidden {
+		display: none;
+	}
+
+	/* Responsive */
+	@media (min-width: 768px) {
+		.hero-title {
+			font-size: 4rem;
+		}
+
+		.hero-subtitle {
+			font-size: 1.5rem;
+		}
+
+		.stats {
+			flex-direction: row;
+		}
+
+		.stat {
+			border-bottom: none;
+			//border-right: 1px solid #e5e7eb;
+		}
+
+		.stat:last-child {
+			border-right: none;
+		}
+
+		.topics-grid,
+		.categories-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.hero-title {
+			font-size: 3.75rem;
+		}
+
+		.topics-grid,
+		.categories-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+</style>
 
 <script>
 	function toggleCategory(category: string) {

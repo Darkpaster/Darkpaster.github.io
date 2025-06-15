@@ -1,46 +1,33 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
-
-import tailwindcss from '@tailwindcss/vite';
-
-
 export default defineConfig({
-  site: 'https://Darkpaster.github.io',
-  base: '/',
+    site: 'https://Darkpaster.github.io/humanityOS',
+    base: '/humanityOS',
 
-  integrations: [
-      mdx({
-          remarkPlugins: [remarkMath],
-          rehypePlugins: [rehypeKatex],
-      }),
-      sitemap(),
-      // tailwind({
-      //     applyBaseStyles: true,
-      // }),
-  ],
+    integrations: [
+        mdx({
+            remarkPlugins: [remarkMath],
+            rehypePlugins: [rehypeKatex],
+        }),
+        sitemap(),
+    ],
 
-  markdown: {
-      remarkPlugins: [remarkMath],
-      rehypePlugins: [rehypeKatex],
-      shikiConfig: {
-          theme: 'github-dark',
-          wrap: true
-      }
-  },
+    markdown: {
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+        syntaxHighlight: 'shiki',
+        shikiConfig: {
+            theme: 'github-dark',
+            wrap: true
+        }
+    },
 
-  // vite: {
-  //   plugins: [tailwindcss()]
-  // }
-  build: {
-      assets: 'assets'
-  },
-
-  vite: {
-    plugins: [tailwindcss()]
-  }
+    build: {
+        assets: 'assets',
+        css: 'inline'
+    }
 });

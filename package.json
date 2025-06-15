@@ -14,17 +14,15 @@
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",
     "@astrojs/sitemap": "^3.0.0",
-    "@tailwindcss/vite": "^4.1.8",
+    "@astrojs/tailwind": "^6.0.2",
+    "@mdx-js/react": "^3.1.0",
     "astro": "^5.8.0",
     "gray-matter": "^4.0.3",
     "rehype-katex": "^7.0.0",
-    "remark-math": "^6.0.0",
-    "tailwindcss": "^4.1.8"
+    "remark-math": "^6.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "autoprefixer": "^10.4.21",
-    "daisyui": "^5.0.43",
     "typescript": "^5.0.0"
   }
 }

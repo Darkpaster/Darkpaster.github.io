@@ -1,5 +1,7 @@
+<!--graph.astro-->
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import GraphVisualization from '@/components/GraphVisualization.astro';
 import { getCollection } from 'astro:content';
 
 // Get all topics for the graph
@@ -73,150 +75,151 @@ const stats = {
         title="Граф знаний - HumanityOS"
         description="Интерактивная визуализация связей между концепциями и темами в системе знаний"
 >
-    <div class="max-w-7xl mx-auto">
+    <div class="container">
         <!-- Header -->
-        <section class="text-center mb-8">
-            <h1 class="text-4xl font-bold mb-4">🕸️ Граф знаний</h1>
-            <p class="text-xl text-base-content/70 mb-6">
-                Интерактивная карта связей между концепциями и идеями
+        <section class="header-section">
+            <h1 class="main-title">🕸️ Граф знаний</h1>
+            <p class="main-description">
+                Интерактивная карта связей между концепциями и идеями (бета)
             </p>
 
             <!-- Stats -->
-            <div class="stats stats-horizontal shadow mb-6">
-                <div class="stat">
+            <div class="stats-container">
+                <div class="stat-item">
                     <div class="stat-title">Узлов</div>
-                    <div class="stat-value text-primary">{stats.totalNodes}</div>
+                    <div class="stat-value stat-primary">{stats.totalNodes}</div>
                 </div>
-                <div class="stat">
+                <div class="stat-item">
                     <div class="stat-title">Связей</div>
-                    <div class="stat-value text-secondary">{stats.totalEdges}</div>
+                    <div class="stat-value stat-secondary">{stats.totalEdges}</div>
                 </div>
-                <div class="stat">
+                <div class="stat-item">
                     <div class="stat-title">Категорий</div>
-                    <div class="stat-value text-accent">{stats.categories}</div>
+                    <div class="stat-value stat-accent">{stats.categories}</div>
                 </div>
-                <div class="stat">
+                <div class="stat-item">
                     <div class="stat-title">Ср. связей</div>
-                    <div class="stat-value text-info">{stats.avgConnections}</div>
+                    <div class="stat-value stat-info">{stats.avgConnections}</div>
                 </div>
             </div>
         </section>
 
         <!-- Controls -->
-        <section class="mb-6">
-            <div class="card bg-base-100 shadow-lg">
-                <div class="card-body">
-                    <div class="flex flex-wrap items-center gap-4">
-                        <div class="form-control">
-                            <label class="label">
-                                <span class="label-text">Фильтр по категории:</span>
-                            </label>
-                            <select id="categoryFilter" class="select select-bordered select-sm">
-                                <option value="">Все категории</option>
-                                <option value="cognition">🧠 Познание</option>
-                                <option value="society">🏛️ Общество</option>
-                                <option value="technology">⚙️ Технологии</option>
-                                <option value="philosophy">💭 Философия</option>
-                                <option value="meta">📋 META</option>
-                            </select>
-                        </div>
+        <!--<section class="controls-section">-->
+        <!--    <div class="controls-card">-->
+        <!--        <div class="controls-body">-->
+        <!--            <div class="controls-wrapper">-->
+        <!--                <div class="form-group">-->
+        <!--                    <label class="form-label">-->
+        <!--                        <span class="label-text">Фильтр по категории:</span>-->
+        <!--                    </label>-->
+        <!--                    <select id="categoryFilter" class="select-input">-->
+        <!--                        <option value="">Все категории</option>-->
+        <!--                        <option value="cognition">🧠 Познание</option>-->
+        <!--                        <option value="society">🏛️ Общество</option>-->
+        <!--                        <option value="technology">⚙️ Технологии</option>-->
+        <!--                        <option value="philosophy">💭 Философия</option>-->
+        <!--                        <option value="meta">📋 META</option>-->
+        <!--                    </select>-->
+        <!--                </div>-->
 
-                        <div class="form-control">
-                            <label class="label">
-                                <span class="label-text">Уровень сложности:</span>
-                            </label>
-                            <select id="levelFilter" class="select select-bordered select-sm">
-                                <option value="">Все уровни</option>
-                                <option value="1">Уровень 1</option>
-                                <option value="2">Уровень 2</option>
-                                <option value="3">Уровень 3</option>
-                                <option value="4">Уровень 4</option>
-                                <option value="5">Уровень 5</option>
-                            </select>
-                        </div>
+        <!--                <div class="form-group">-->
+        <!--                    <label class="form-label">-->
+        <!--                        <span class="label-text">Уровень сложности:</span>-->
+        <!--                    </label>-->
+        <!--                    <select id="levelFilter" class="select-input">-->
+        <!--                        <option value="">Все уровни</option>-->
+        <!--                        <option value="1">Уровень 1</option>-->
+        <!--                        <option value="2">Уровень 2</option>-->
+        <!--                        <option value="3">Уровень 3</option>-->
+        <!--                        <option value="4">Уровень 4</option>-->
+        <!--                        <option value="5">Уровень 5</option>-->
+        <!--                    </select>-->
+        <!--                </div>-->
 
-                        <div class="form-control">
-                            <label class="label">
-                                <span class="label-text">Поиск:</span>
-                            </label>
-                            <input id="searchInput" type="text" placeholder="Поиск по названиям..." class="input input-bordered input-sm" />
-                        </div>
+        <!--                <div class="form-group">-->
+        <!--                    <label class="form-label">-->
+        <!--                        <span class="label-text">Поиск:</span>-->
+        <!--                    </label>-->
+        <!--                    <input id="searchInput" type="text" placeholder="Поиск по названиям..." class="text-input" />-->
+        <!--                </div>-->
 
-                        <div class="flex gap-2 ml-auto">
-                            <button id="resetZoom" class="btn btn-outline btn-sm">
-                                🔍 Сбросить zoom
-                            </button>
-                            <button id="togglePhysics" class="btn btn-outline btn-sm">
-                                ⚡ Физика: ВКЛ
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!--                <div class="button-group">-->
+        <!--                    <button id="resetZoom" class="btn btn-outline">-->
+        <!--                        🔍 Сбросить zoom-->
+        <!--                    </button>-->
+        <!--                    <button id="togglePhysics" class="btn btn-outline">-->
+        <!--                        ⚡ Физика: ВКЛ-->
+        <!--                    </button>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--    </div>-->
+        <!--</section>-->
 
         <!-- Graph Container -->
-        <section class="mb-6">
-            <div class="card bg-base-100 shadow-lg">
-                <div class="card-body p-0">
-                    <div id="graph-container" class="w-full h-[600px] relative overflow-hidden rounded-lg bg-base-200">
-                        <!-- Loading state -->
-                        <div id="loading" class="absolute inset-0 flex items-center justify-center">
-                            <div class="loading loading-spinner loading-lg"></div>
-                            <span class="ml-2">Загрузка графа...</span>
-                        </div>
+        <!--<section class="graph-section">-->
+        <!--    <div class="graph-card">-->
+        <!--        <div class="graph-card-body">-->
+        <!--            <div id="graph-container" class="graph-container">-->
+        <!--                &lt;!&ndash; Loading state &ndash;&gt;-->
+        <!--                <div id="loading" class="loading-state">-->
+        <!--                    <div class="spinner"></div>-->
+        <!--                    <span class="loading-text">Загрузка графа...</span>-->
+        <!--                </div>-->
 
-                        <!-- Graph canvas -->
-                        <canvas id="graph-canvas" class="absolute inset-0 w-full h-full"></canvas>
+        <!--                &lt;!&ndash; Graph canvas &ndash;&gt;-->
+        <!--                <canvas id="graph-canvas" class="graph-canvas"></canvas>-->
 
-                        <!-- Node info panel -->
-                        <div id="node-info" class="absolute top-4 right-4 card bg-base-100 shadow-lg hidden max-w-sm">
-                            <div class="card-body p-4">
-                                <h3 id="node-title" class="card-title text-lg"></h3>
-                                <div id="node-details" class="text-sm space-y-2">
-                                    <div id="node-level"></div>
-                                    <div id="node-category"></div>
-                                    <div id="node-tags"></div>
-                                </div>
-                                <div class="card-actions">
-                                    <a id="node-link" href="#" class="btn btn-primary btn-sm">Открыть</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!--                &lt;!&ndash; Node info panel &ndash;&gt;-->
+        <!--                <div id="node-info" class="node-info-panel hidden">-->
+        <!--                    <div class="node-info-body">-->
+        <!--                        <h3 id="node-title" class="node-info-title"></h3>-->
+        <!--                        <div id="node-details" class="node-details">-->
+        <!--                            <div id="node-level"></div>-->
+        <!--                            <div id="node-category"></div>-->
+        <!--                            <div id="node-tags"></div>-->
+        <!--                        </div>-->
+        <!--                        <div class="node-actions">-->
+        <!--                            <a id="node-link" href="#" class="btn btn-primary">Открыть</a>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--    </div>-->
+        <!--</section>-->
+        <GraphVisualization></GraphVisualization>
 
         <!-- Legend -->
         <section>
-            <div class="card bg-base-100 shadow-lg">
-                <div class="card-body">
-                    <h2 class="card-title mb-4">📖 Легенда</h2>
+            <div class="legend-card">
+                <div class="legend-body">
+                    <h2 class="legend-title">📖 Легенда</h2>
 
-                    <div class="grid md:grid-cols-2 gap-6">
+                    <div class="legend-grid">
                         <!-- Node colors -->
                         <div>
-                            <h3 class="font-bold mb-3">🎨 Цвета узлов (по категориям)</h3>
-                            <div class="space-y-2">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-4 h-4 rounded-full bg-blue-500"></div>
+                            <h3 class="legend-subtitle">🎨 Цвета узлов (по категориям)</h3>
+                            <div class="legend-items">
+                                <div class="legend-item">
+                                    <div class="color-dot color-blue"></div>
                                     <span>🧠 Познание</span>
                                 </div>
-                                <div class="flex items-center gap-2">
-                                    <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                                <div class="legend-item">
+                                    <div class="color-dot color-green"></div>
                                     <span>🏛️ Общество</span>
                                 </div>
-                                <div class="flex items-center gap-2">
-                                    <div class="w-4 h-4 rounded-full bg-yellow-500"></div>
+                                <div class="legend-item">
+                                    <div class="color-dot color-yellow"></div>
                                     <span>⚙️ Технологии</span>
                                 </div>
-                                <div class="flex items-center gap-2">
-                                    <div class="w-4 h-4 rounded-full bg-purple-500"></div>
+                                <div class="legend-item">
+                                    <div class="color-dot color-purple"></div>
                                     <span>💭 Философия</span>
                                 </div>
-                                <div class="flex items-center gap-2">
-                                    <div class="w-4 h-4 rounded-full bg-red-500"></div>
+                                <div class="legend-item">
+                                    <div class="color-dot color-red"></div>
                                     <span>📋 META</span>
                                 </div>
                             </div>
@@ -224,23 +227,23 @@ const stats = {
 
                         <!-- Connections -->
                         <div>
-                            <h3 class="font-bold mb-3">🔗 Типы связей</h3>
-                            <div class="space-y-2">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-6 h-0.5 bg-primary"></div>
+                            <h3 class="legend-subtitle">🔗 Типы связей</h3>
+                            <div class="legend-items">
+                                <div class="legend-item">
+                                    <div class="connection-line connection-solid"></div>
                                     <span>Прямые связи (related)</span>
                                 </div>
-                                <div class="flex items-center gap-2">
-                                    <div class="w-6 h-0.5 bg-secondary opacity-60" style="border-style: dashed;"></div>
+                                <div class="legend-item">
+                                    <div class="connection-line connection-dashed"></div>
                                     <span>Тематические связи (общие теги)</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="mt-6 text-sm text-base-content/70">
-                        <p><strong>💡 Подсказки:</strong></p>
-                        <ul class="list-disc list-inside space-y-1 mt-2">
+                    <div class="tips-section">
+                        <p class="tips-title"><strong>💡 Подсказки:</strong></p>
+                        <ul class="tips-list">
                             <li>Кликните на узел для просмотра информации</li>
                             <li>Перетаскивайте узлы для изменения расположения</li>
                             <li>Используйте колесо мыши для масштабирования</li>
@@ -253,20 +256,418 @@ const stats = {
     </div>
 
     <style>
-        #graph-container {
-            background: radial-gradient(circle at 50% 50%, rgba(var(--p), 0.05) 0%, transparent 50%);
+        /* Container and Layout */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 16px;
         }
 
-        #graph-canvas {
+        /* Header Section */
+        .header-section {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .main-title {
+            font-size: 2.25rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .main-description {
+            font-size: 1.25rem;
+            opacity: 0.7;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        /* Stats */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            background: var(--base-200, #f2f2f2);
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+            min-width: 120px;
+        }
+
+        .stat-title {
+            font-size: 0.875rem;
+            opacity: 0.7;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .stat-primary { color: var(--primary, #3b82f6); }
+        .stat-secondary { color: var(--secondary, #f59e0b); }
+        .stat-accent { color: var(--accent, #10b981); }
+        .stat-info { color: var(--info, #06b6d4); }
+
+        /* Controls Section */
+        .controls-section {
+            margin-bottom: 24px;
+        }
+
+        .controls-card {
+            background: var(--base-100, #ffffff);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls-body {
+            padding: 24px;
+        }
+
+        .controls-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-label {
+            display: block;
+        }
+
+        .label-text {
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .select-input, .text-input {
+            padding: 8px 12px;
+            border: 1px solid var(--border, #d1d5db);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            background: var(--base-100, #ffffff);
+        }
+
+        .select-input:focus, .text-input:focus {
+            outline: none;
+            border-color: var(--primary, #3b82f6);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border, #d1d5db);
+            color: var(--text, #374151);
+        }
+
+        .btn-outline:hover {
+            background: var(--base-200, #f2f2f2);
+        }
+
+        .btn-primary {
+            background: var(--primary, #3b82f6);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark, #2563eb);
+        }
+
+        /* Graph Section */
+        .graph-section {
+            margin-bottom: 24px;
+        }
+
+        .graph-card {
+            background: var(--base-100, #ffffff);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .graph-card-body {
+            padding: 0;
+        }
+
+        .graph-container {
+            width: 100%;
+            height: 600px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background: var(--base-200, #f2f2f2);
+            background-image: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+        }
+
+        .loading-state {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border, #d1d5db);
+            border-top-color: var(--primary, #3b82f6);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 0.875rem;
+        }
+
+        .graph-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
             cursor: grab;
         }
 
-        #graph-canvas:active {
+        .graph-canvas:active {
             cursor: grabbing;
         }
 
+        /* Node Info Panel */
+        .node-info-panel {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            max-width: 384px;
+            background: var(--base-100, #ffffff);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .node-info-body {
+            padding: 16px;
+        }
+
+        .node-info-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .node-details {
+            font-size: 0.875rem;
+            margin-bottom: 16px;
+        }
+
+        .node-details > div {
+            margin-bottom: 8px;
+        }
+
+        .node-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* Legend */
+        .legend-card {
+            background: var(--base-100, #ffffff);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend-body {
+            padding: 24px;
+        }
+
+        .legend-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .legend-subtitle {
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .legend-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .color-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .color-blue { background-color: #3b82f6; }
+        .color-green { background-color: #10b981; }
+        .color-yellow { background-color: #f59e0b; }
+        .color-purple { background-color: #8b5cf6; }
+        .color-red { background-color: #ef4444; }
+
+        .connection-line {
+            width: 24px;
+            height: 2px;
+        }
+
+        .connection-solid {
+            background-color: var(--primary, #3b82f6);
+        }
+
+        .connection-dashed {
+            background-color: var(--secondary, #f59e0b);
+            opacity: 0.6;
+            background-image: linear-gradient(90deg, transparent 50%, var(--secondary, #f59e0b) 50%);
+            background-size: 4px 2px;
+        }
+
+        .tips-section {
+            margin-top: 24px;
+            font-size: 0.875rem;
+            opacity: 0.7;
+        }
+
+        .tips-title {
+            margin-bottom: 8px;
+        }
+
+        .tips-list {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        .tips-list li {
+            margin-bottom: 4px;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 4px;
+            margin-right: 4px;
+            margin-bottom: 4px;
+        }
+
+        .badge-primary {
+            background-color: var(--primary, #3b82f6);
+            color: white;
+        }
+
+        .badge-secondary {
+            background-color: var(--secondary, #f59e0b);
+            color: white;
+        }
+
+        .badge-outline {
+            background-color: transparent;
+            border: 1px solid var(--border, #d1d5db);
+            color: var(--text, #374151);
+        }
+
+        /* Utility Classes */
         .hidden {
             display: none !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 8px;
+            }
+
+            .main-title {
+                font-size: 1.875rem;
+            }
+
+            .main-description {
+                font-size: 1rem;
+            }
+
+            .stats-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .controls-wrapper {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .button-group {
+                margin-left: 0;
+                justify-content: stretch;
+            }
+
+            .btn {
+                flex: 1;
+            }
+
+            .legend-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .node-info-panel {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                right: auto;
+                max-width: calc(100vw - 32px);
+                z-index: 1000;
+            }
         }
     </style>
 
@@ -460,10 +861,10 @@ const stats = {
                 const link = document.getElementById('node-link');
 
                 title.textContent = node.label;
-                level.innerHTML = `<span class="badge badge-primary badge-sm">Уровень ${node.level}</span>`;
-                category.innerHTML = `<span class="badge badge-secondary badge-sm">${node.category}</span>`;
+                level.innerHTML = `<span class="badge badge-primary">Уровень ${node.level}</span>`;
+                category.innerHTML = `<span class="badge badge-secondary">${node.category}</span>`;
                 tags.innerHTML = node.tags.map(tag =>
-                    `<span class="badge badge-outline badge-xs">${tag}</span>`
+                    `<span class="badge badge-outline">${tag}</span>`
                 ).join(' ');
                 link.href = node.url;
 

@@ -1,3 +1,4 @@
+<!--topicLayout.astro-->
 ---
 import BaseLayout from './BaseLayout.astro';
 import MemeEmbed from '@/components/MemeEmbed.astro';
@@ -26,107 +27,107 @@ let relatedTopics: any[] = [];
 if (frontmatter.related) {
   const allTopics = await getCollection('topics');
   relatedTopics = allTopics.filter(topic =>
-    frontmatter.related?.some(relatedSlug =>
-      `/topics/${topic.slug}` === relatedSlug || topic.slug === relatedSlug.replace('/topics/', '')
-    )
+      frontmatter.related?.some(relatedSlug =>
+          `/topics/${topic.slug}` === relatedSlug || topic.slug === relatedSlug.replace('/topics/', '')
+      )
   );
 }
 
 // Calculate reading time (rough estimate)
-const readingTime = Math.ceil((Astro.slots.render('default')?.length || 1000) / 200);
+const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1000) / 350);
 ---
 
 <BaseLayout
-  title={frontmatter.title}
-  description={frontmatter.description}
-  image={frontmatter.meme}
+    title={frontmatter.title}
+    description={frontmatter.description}
+    image={frontmatter.meme}
 >
-  <article class="max-w-4xl mx-auto">
+  <article class="article-container">
     <!-- Header -->
-    <header class="mb-8">
-      <div class="flex flex-wrap items-center gap-2 text-sm text-base-content/70 mb-4">
+    <header class="article-header">
+      <div class="badge-container">
         <span class="badge badge-primary">Уровень {frontmatter.level}</span>
         {frontmatter.difficulty && (
-          <span class="badge badge-secondary">{frontmatter.difficulty}</span>
+            <span class="badge badge-secondary">{frontmatter.difficulty}</span>
         )}
         {frontmatter.category && (
-          <span class="badge badge-accent">{frontmatter.category}</span>
+            <span class="badge badge-accent">{frontmatter.category}</span>
         )}
         <span class="badge badge-outline">{readingTime} мин. чтения</span>
       </div>
 
-      <h1 class="text-4xl lg:text-5xl font-bold mb-4">
+      <h1 class="article-title">
         {frontmatter.title}
       </h1>
 
       {frontmatter.description && (
-        <p class="text-xl text-base-content/80 leading-relaxed mb-6">
-          {frontmatter.description}
-        </p>
+          <p class="article-description">
+            {frontmatter.description}
+          </p>
       )}
 
       <!-- Tags -->
-      <div class="flex flex-wrap gap-2 mb-6">
+      <div class="tags-container">
         {frontmatter.tags.map(tag => (
-          <span class="badge badge-outline">{tag}</span>
+            <span class="badge badge-outline">{tag}</span>
         ))}
       </div>
 
       <!-- Dates -->
       {(frontmatter.publishedAt || frontmatter.updatedAt) && (
-        <div class="text-sm text-base-content/60">
-          {frontmatter.publishedAt && (
-            <span>Опубликовано: {frontmatter.publishedAt.toLocaleDateString('ru-RU')}</span>
-          )}
-          {frontmatter.updatedAt && frontmatter.updatedAt !== frontmatter.publishedAt && (
-            <span class="ml-4">Обновлено: {frontmatter.updatedAt.toLocaleDateString('ru-RU')}</span>
-          )}
-        </div>
+          <div class="dates-container">
+            {frontmatter.publishedAt && (
+                <span>Опубликовано: {frontmatter.publishedAt.toLocaleDateString('ru-RU')}</span>
+            )}
+            {frontmatter.updatedAt && frontmatter.updatedAt !== frontmatter.publishedAt && (
+                <span class="updated-date">Обновлено: {frontmatter.updatedAt.toLocaleDateString('ru-RU')}</span>
+            )}
+          </div>
       )}
     </header>
 
     <!-- Featured meme -->
     {frontmatter.meme && (
-      <div class="mb-8">
-        <MemeEmbed
-          src={frontmatter.meme}
-          alt={`Мем для темы: ${frontmatter.title}`}
-          caption="Иллюстрация к теме"
-        />
-      </div>
+        <div class="meme-container">
+          <MemeEmbed
+              src={frontmatter.meme}
+              alt={`Мем для темы: ${frontmatter.title}`}
+              caption="Иллюстрация к теме"
+          />
+        </div>
     )}
 
     <!-- Content -->
-    <div class="prose prose-lg max-w-none">
+    <div class="content-container">
       <slot />
     </div>
 
     <!-- Related topics -->
     {relatedTopics.length > 0 && (
-      <section class="mt-12 pt-8 border-t border-base-300">
-        <h2 class="text-2xl font-bold mb-6">Связанные темы</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {relatedTopics.map(topic => (
-            <TopicCard
-              title={topic.data.title}
-              description={topic.data.description}
-              slug={`/topics/${topic.slug}`}
-              tags={topic.data.tags}
-              level={topic.data.level}
-              meme={topic.data.meme}
-            />
-          ))}
-        </div>
-      </section>
+        <section class="related-section">
+          <h2 class="related-title">Связанные темы</h2>
+          <div class="related-grid">
+            {relatedTopics.map(topic => (
+                <TopicCard
+                    title={topic.data.title}
+                    description={topic.data.description}
+                    slug={`/topics/${topic.slug}`}
+                    tags={topic.data.tags}
+                    level={topic.data.level}
+                    meme={topic.data.meme}
+                />
+            ))}
+          </div>
+        </section>
     )}
 
     <!-- Navigation -->
-    <nav class="mt-12 pt-8 border-t border-base-300">
-      <div class="flex justify-between items-center">
-        <a href="/" class="btn btn-outline">
+    <nav class="nav-section">
+      <div class="nav-container">
+        <a href="/" class="nav-btn nav-btn-outline">
           ← К дереву тем
         </a>
-        <a href="/graph" class="btn btn-primary">
+        <a href="/graph" class="nav-btn nav-btn-primary">
           Граф знаний →
         </a>
       </div>
@@ -134,28 +135,227 @@ const readingTime = Math.ceil((Astro.slots.render('default')?.length || 1000) / 
   </article>
 </BaseLayout>
 
-
 <style>
-  @reference "../styles/global.css";
+  .article-container {
+    max-width: 56rem;
+    margin: 0 auto;
+  }
 
-    .prose {
-      @apply text-base-content;
+  .article-header {
+    margin-bottom: 2rem;
+  }
+
+  .badge-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: rgba(var(--base-content), 0.7);
+    margin-bottom: 1rem;
+  }
+
+  .article-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .article-description {
+    font-size: 1.25rem;
+    color: rgba(var(--base-content), 0.8);
+    line-height: 1.625;
+    margin-bottom: 1.5rem;
+  }
+
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .dates-container {
+    font-size: 0.875rem;
+    color: rgba(var(--base-content), 0.6);
+  }
+
+  .updated-date {
+    margin-left: 1rem;
+  }
+
+  .meme-container {
+    margin-bottom: 2rem;
+  }
+
+  .content-container {
+    color: var(--base-content);
+    max-width: none;
+    font-size: 1.125rem;
+    line-height: 1.7777778;
+  }
+
+  .related-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--base-300);
+  }
+
+  .related-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .nav-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--base-300);
+  }
+
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--rounded-btn);
+    height: 3rem;
+    padding: 0 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.25s ease-in-out;
+    border: 1px solid transparent;
+  }
+
+  .nav-btn-outline {
+    border-color: var(--neutral);
+    background-color: transparent;
+    color: var(--base-content);
+  }
+
+  .nav-btn-outline:hover {
+    border-color: var(--neutral-focus);
+    background-color: var(--neutral);
+    color: var(--neutral-content);
+  }
+
+  .nav-btn-primary {
+    background-color: var(--primary);
+    color: var(--primary-content);
+  }
+
+  .nav-btn-primary:hover {
+    background-color: var(--primary-focus);
+  }
+
+  /* Адаптивные стили */
+  @media (min-width: 768px) {
+    .related-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+  }
 
-    .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-      @apply text-base-content font-bold;
+  @media (min-width: 1024px) {
+    .article-title {
+      font-size: 3rem;
     }
+  }
 
+  /* Prose стили для контента */
+  .content-container :global(h1),
+  .content-container :global(h2),
+  .content-container :global(h3),
+  .content-container :global(h4),
+  .content-container :global(h5),
+  .content-container :global(h6) {
+    color: var(--base-content);
+    font-weight: 700;
+    line-height: 1.25;
+  }
 
-    .prose code {
-        @apply bg-base-200 text-base-content px-1 py-0.5 rounded text-sm;
-    }
+  .content-container :global(h1) {
+    font-size: 2.25em;
+    margin-top: 0;
+    margin-bottom: 0.8888889em;
+  }
 
-    .prose pre {
-        @apply bg-base-300 overflow-x-auto;
-    }
+  .content-container :global(h2) {
+    font-size: 1.5em;
+    margin-top: 2em;
+    margin-bottom: 1em;
+  }
 
-    .prose pre code {
-        @apply bg-transparent p-0;
-    }
+  .content-container :global(h3) {
+    font-size: 1.25em;
+    margin-top: 1.6em;
+    margin-bottom: 0.6em;
+  }
+
+  .content-container :global(p) {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+  }
+
+  .content-container :global(ul),
+  .content-container :global(ol) {
+    margin-top: 1.25em;
+    margin-bottom: 1.25em;
+    padding-left: 1.625em;
+  }
+
+  .content-container :global(li) {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
+  .content-container :global(blockquote) {
+    font-weight: 500;
+    font-style: italic;
+    color: var(--base-content);
+    border-left-width: 0.25rem;
+    border-left-color: var(--base-300);
+    quotes: "\201C""\201D""\2018""\2019";
+    margin-top: 1.6em;
+    margin-bottom: 1.6em;
+    padding-left: 1em;
+  }
+
+  .content-container :global(code) {
+    color: var(--base-content);
+    background-color: var(--base-200);
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    font-weight: 600;
+  }
+
+  .content-container :global(pre) {
+    color: var(--base-content);
+    background-color: var(--base-300);
+    overflow-x: auto;
+    font-size: 0.875em;
+    line-height: 1.7142857;
+    margin-top: 1.7142857em;
+    margin-bottom: 1.7142857em;
+    border-radius: 1em;
+    padding: 1rem;
+  }
+
+  .content-container :global(pre code) {
+    background-color: transparent;
+    padding: 0;
+  }
 </style>
