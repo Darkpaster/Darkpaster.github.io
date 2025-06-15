@@ -4,7 +4,7 @@ description: "Анализ того, как общество застревае�
 level: 2
 tags: ["общество", "язык", "символы", "стагнация"]
 related: ["/topics/cognition/language", "/topics/society/problem-list"]
-meme: "../../assets/memes/210770_news_80_1-3859121395.jpg"
+meme: "/assets/memes/210770_news_80_1-3859121395.jpg"
 category: "society"
 difficulty: "intermediate"
 publishedAt: 2024-01-15

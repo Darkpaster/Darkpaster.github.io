@@ -4,7 +4,7 @@ description: "Список известных искажений восприя�
 level: 3
 tags: ["мышление"]
 related: ["/topics/cognition/logic-biases", "/topics/cognition/rationality", "/topics/cognition/brain"]
-meme: "../../assets/memes/e6644ba294da63b85eac6a61027db51f.jpg"
+meme: "/assets/memes/e6644ba294da63b85eac6a61027db51f.jpg"
 category: "cognition"
 difficulty: "intermediate"
 publishedAt: 2024-01-10

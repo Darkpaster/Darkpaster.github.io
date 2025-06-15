@@ -4,7 +4,7 @@ description: "Какие факторы активируют поведение 
 level: 3
 tags: ["мышление", "биология", "нейробиология"]
 related: ["/topics/biology/evolution", "/topics/cognition/brain", "/topics/biology/free-will"]
-meme: "../../assets/memes/7ed28bfcb93ca53c50de00d75283de01.jpg"
+meme: "/assets/memes/7ed28bfcb93ca53c50de00d75283de01.jpg"
 category: "cognition"
 difficulty: "intermediate"
 publishedAt: 2024-01-10

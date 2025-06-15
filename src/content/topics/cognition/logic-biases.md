@@ -4,7 +4,7 @@ description: "Список распространённых ошибок и ул
 level: 3
 tags: ["мышление"]
 related: ["/topics/cognition/cognitive-biases", "/topics/cognition/rationality", "/topics/cognition/brain"]
-meme: "../../assets/memes/67c6fe194060e390362c97dd9d1e7dd2.jpg"
+meme: "/assets/memes/67c6fe194060e390362c97dd9d1e7dd2.jpg"
 category: "cognition"
 difficulty: "intermediate"
 publishedAt: 2024-01-10

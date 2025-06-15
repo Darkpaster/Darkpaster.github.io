@@ -4,7 +4,7 @@ description: "Почему власть и глупость всегда иду�
 level: 2
 tags: ["общество", "стагнация", "мышление"]
 related: ["/topics/society/problem-list"]
-meme: "../../assets/memes/makiaveli-1347785572.png"
+meme: "/assets/memes/makiaveli-1347785572.png"
 category: "society"
 difficulty: "intermediate"
 publishedAt: 2024-01-15

@@ -4,7 +4,7 @@ description: "Почему уверенность растёт без роста
 level: 3
 tags: ["мышление", "деградация", "статистика"]
 related: ["/topics/cognition/cognitive-biases", "/topics/cognition/logic-biases", "/topics/cognition/brain", "/topics/cognition/rationality"]
-meme: "../../assets/memes/competence.png"
+meme: "/assets/memes/competence.png"
 category: "cognition"
 difficulty: "intermediate"
 publishedAt: 2024-01-10

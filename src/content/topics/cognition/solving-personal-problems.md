@@ -4,7 +4,7 @@ description: "Об универсальных (почти) способах ре
 level: 3
 tags: ["мышление", "биология", "нейробиология", "осознанность"]
 related: ["/topics/cognition/brain", "/topics/cognition/healthy-brain"]
-meme: "../../assets/memes/a0225b63dc3786e8d36e5238bae19154.jpg"
+meme: "/assets/memes/a0225b63dc3786e8d36e5238bae19154.jpg"
 category: "cognition"
 difficulty: "intermediate"
 publishedAt: 2024-01-10

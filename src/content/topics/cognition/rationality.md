@@ -4,7 +4,7 @@ description: "О том, какие есть стереотипы о рацио�
 level: 2
 tags: ["мышление", "статистика", "исследования", "математика"]
 related: ["/topics/cognition/brain", "/topics/cognition/healthy-brain", "/topics/cognition/solving-personal-problems", "/topics/cognition/logic-biases", "/topics/cognition/cognitive-biases", "/topics/cognition/positive-transfer"]
-meme: "../../assets/memes/80003fae70e4c74126aa2dad735fd7b7.jpg"
+meme: "/assets/memes/80003fae70e4c74126aa2dad735fd7b7.jpg"
 category: "cognition"
 difficulty: "intermediate"
 publishedAt: 2024-01-10

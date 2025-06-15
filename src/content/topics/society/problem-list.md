@@ -4,7 +4,7 @@ description: "Большой и много-охватывающий катало
 level: 4
 tags: ["общество", "стагнация", "мышление", "экономика", "политика", "культура", "технологии"]
 related: ["/topics/cognition/cognitive-biases", "/topics/cognition/language", "/topics/society/authority", "/topics/society/resource-based-economy", "/topics/society/science-resistance"]
-meme: "../../assets/memes/photo_6_2025-06-15_14-48-26.jpg"
+meme: "/assets/memes/photo_6_2025-06-15_14-48-26.jpg"
 category: "society"
 difficulty: "intermediate"
 publishedAt: 2024-01-15

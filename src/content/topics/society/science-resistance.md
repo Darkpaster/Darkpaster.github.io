@@ -4,7 +4,7 @@ description: "Анализ того, как на протяжении всей �
 level: 2
 tags: ["общество", "стагнация", "мышление"]
 related: ["/topics/cognition/cognitive-biases", "/topics/society/problem-list", "/topics/cognition/knowledge-accuracy"]
-meme: "../../assets/memes/gosoboronzakaz-dlya-zapreshhyonnoj-sektyi-saentologov-843812098.jpg"
+meme: "/assets/memes/gosoboronzakaz-dlya-zapreshhyonnoj-sektyi-saentologov-843812098.jpg"
 category: "society"
 difficulty: "intermediate"
 publishedAt: 2024-01-15

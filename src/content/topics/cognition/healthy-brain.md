@@ -4,7 +4,7 @@ description: "Практическое краткое руководство п�
 level: 2
 tags: ["мышление", "тренировки", "здоровье"]
 related: ["/topics/cognition/brain", "/topics/cognition/solving-personal-problems", "/topics/cognition/rationality"]
-meme: "../../assets/memes/photo_7_2025-06-15_14-48-26.jpg"
+meme: "/assets/memes/photo_7_2025-06-15_14-48-26.jpg"
 category: "cognition"
 difficulty: "intermediate"
 publishedAt: 2024-01-10

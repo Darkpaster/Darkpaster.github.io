@@ -4,7 +4,7 @@ description: "Какие факторы влияют на наше поведе�
 level: 3
 tags: ["свобода воли", "биология", "нейробиология", "мышление"]
 related: ["/topics/biology/evolution", "/topics/cognition/brain"]
-meme: "../../assets/memes/photo_5_2025-06-15_14-48-26.jpg"
+meme: "/assets/memes/photo_5_2025-06-15_14-48-26.jpg"
 category: "cognition"
 difficulty: "intermediate"
 publishedAt: 2024-01-10

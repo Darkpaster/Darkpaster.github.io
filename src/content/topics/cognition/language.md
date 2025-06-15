@@ -4,7 +4,7 @@ description: "Чем на самом деле является язык и ка�
 level: 4
 tags: ["язык", "мышление", "коммуникация", "биология"]
 related: ["/topics/biology/free-will"]
-meme: "../../assets/memes/photo_2025-03-27_22-52-34.jpg"
+meme: "/assets/memes/photo_2025-03-27_22-52-34.jpg"
 category: "cognition"
 difficulty: "advanced"
 publishedAt: 2024-01-10

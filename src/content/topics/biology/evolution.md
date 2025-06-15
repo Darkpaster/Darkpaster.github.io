@@ -4,7 +4,7 @@ description: "Исчерпывающее руководство по механ�
 level: 3
 tags: ["биология", "эволюция"]
 related: []
-meme: "../../assets/memes/user_file_55252ac6a0fde_0_9-3400175950.png"
+meme: "/assets/memes/user_file_55252ac6a0fde_0_9-3400175950.png"
 category: "cognition"
 difficulty: "intermediate"
 publishedAt: 2024-01-10

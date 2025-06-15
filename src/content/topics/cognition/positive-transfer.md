@@ -4,7 +4,7 @@ description: "О том, как образование в одних облас�
 level: 4
 tags: ["мышление", "статистика", "исследования", "математика"]
 related: ["/topics/cognition/brain"]
-meme: "../../assets/memes/67c6fe194060e390362c97dd9d1e7dd2.jpg"
+meme: "/assets/memes/67c6fe194060e390362c97dd9d1e7dd2.jpg"
 category: "cognition"
 difficulty: "advanced"
 publishedAt: 2024-01-10

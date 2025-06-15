@@ -4,7 +4,7 @@ description: "О том, какие процессы происходят в м�
 level: 2
 tags: ["мышление"]
 related: ["/topics/cognition/rationality", "/topics/cognition/healthy-brain"]
-meme: "../../assets/memes/photo_2_2025-06-15_14-48-26.jpg"
+meme: "/assets/memes/photo_2_2025-06-15_14-48-26.jpg"
 category: "cognition"
 difficulty: "intermediate"
 publishedAt: 2024-01-10

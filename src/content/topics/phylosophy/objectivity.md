@@ -4,7 +4,7 @@ description: "О том, чем является объективность и �
 level: 4
 tags: ["мышление", "редукционизм", "философия", "общая семантика", "нейробиология"]
 related: ["/topics/cognition/rationality", "/topics/cognition/brain"]
-meme: "../../assets/memes/_6.jpg"
+meme: "/assets/memes/_6.jpg"
 category: "philosophy"
 difficulty: "advanced"
 publishedAt: 2024-01-10
