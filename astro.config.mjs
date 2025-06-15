@@ -5,8 +5,8 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 export default defineConfig({
-    site: 'https://Darkpaster.github.io',
-    base: '/',
+    site: 'https://darkpaster.github.io', // строчными буквами
+    base: '/', // именно так для username.github.io
 
     integrations: [
         mdx({
@@ -27,7 +27,7 @@ export default defineConfig({
     },
 
     build: {
-        assets: 'assets',
-        css: 'inline'
+        assets: 'assets'
+        // убрал css: 'inline' - может вызывать проблемы
     }
 });
