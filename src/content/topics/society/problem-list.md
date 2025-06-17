@@ -3,13 +3,14 @@ title: "Проблемы современного общества"
 description: "Большой и много-охватывающий каталог системных проблем современного общества."
 level: 4
 tags: ["общество", "стагнация", "мышление", "экономика", "политика", "культура", "технологии"]
-related: ["/topics/cognition/cognitive-biases", "/topics/cognition/language", "/topics/society/authority", "/topics/society/resource-based-economy", "/topics/society/science-resistance"]
-meme: "/assets/memes/photo_6_2025-06-15_14-48-26.jpg"
+related: ["/topics/cognition/cognitive-biases", "/topics/cognition/language", "/topics/society/authority", "/topics/society/resource-based-economy", "/topics/society/science-resistance", "/topics/cognition/fallacies"]
+meme: "/assets/memes/scale_1200.jpg"
 category: "society"
 difficulty: "intermediate"
 publishedAt: 2024-01-15
 ---
 
+Некоторые системные проблемы могут совпадать по смыслу с какими-то когнитивными искажениями, **это нормально**.
 
 # Каталог системных проблем современного общества (199)
 

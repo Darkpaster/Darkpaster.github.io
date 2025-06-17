@@ -168,7 +168,13 @@ const graphData = { nodes, links };
 
     .tooltip-category {
         font-size: 0.75rem;
-        color: var(--color-base-content-70);
+        color: var(--base-content);
+        margin-bottom: 0.25rem;
+    }
+
+    .tooltip-connections {
+        font-size: 0.75rem;
+        color: var(--base-content);
         margin-bottom: 0.5rem;
     }
 
@@ -302,6 +308,7 @@ const graphData = { nodes, links };
         <div class="tooltip-content">
             <h4 class="tooltip-title" id="tooltip-title"></h4>
             <p class="tooltip-category" id="tooltip-category"></p>
+            <p class="tooltip-connections" id="tooltip-connections"></p>
             <div class="tooltip-tags" id="tooltip-tags"></div>
         </div>
     </div>
@@ -311,19 +318,22 @@ const graphData = { nodes, links };
     </div>
 
     <div class="legend">
-        <h3 class="legend-title">Легенда:</h3>
+        <!--<h3 class="legend-title">Легенда:</h3>-->
         <div class="legend-items">
+            <!--<div class="legend-item">-->
+            <!--    <div class="legend-color success"></div>-->
+            <!--    <span>Уровень 1-2</span>-->
+            <!--</div>-->
+            <!--<div class="legend-item">-->
+            <!--    <div class="legend-color warning"></div>-->
+            <!--    <span>Уровень 3</span>-->
+            <!--</div>-->
+            <!--<div class="legend-item">-->
+            <!--    <div class="legend-color error"></div>-->
+            <!--    <span>Уровень 4-5</span>-->
+            <!--</div>-->
             <div class="legend-item">
-                <div class="legend-color success"></div>
-                <span>Уровень 1-2</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color warning"></div>
-                <span>Уровень 3</span>
-            </div>
-            <div class="legend-item">
-                <div class="legend-color error"></div>
-                <span>Уровень 4-5</span>
+                <span style="margin-left: 1rem; ">Размер узла = количество связей</span>
             </div>
         </div>
     </div>
@@ -351,9 +361,36 @@ const graphData = { nodes, links };
             other: '#64748b'
         };
 
-        // Level-based radius
-        const getRadius = (level) => {
-            return Math.max(6, 12 - level * 2);
+        // Calculate connection count for each node
+        function calculateConnectionCounts(nodes, links) {
+            const connectionCount = {};
+
+            // Initialize counts
+            nodes.forEach(node => {
+                connectionCount[node.id] = 0;
+            });
+
+            // Count connections
+            links.forEach(link => {
+                const sourceId = typeof link.source === 'string' ? link.source : link.source.id;
+                const targetId = typeof link.target === 'string' ? link.target : link.target.id;
+
+                if (connectionCount[sourceId] !== undefined) {
+                    connectionCount[sourceId]++;
+                }
+                if (connectionCount[targetId] !== undefined) {
+                    connectionCount[targetId]++;
+                }
+            });
+
+            return connectionCount;
+        }
+
+        // Get radius based on connection count
+        const getRadius = (connectionCount) => {
+            // Minimum radius of 5, maximum of 20
+            // Scale based on connection count
+            return Math.max(5, 5 + (connectionCount * 0.5));
         };
 
         // Level-based color intensity
@@ -368,18 +405,26 @@ const graphData = { nodes, links };
         function initializeGraph() {
             svg.selectAll('*').remove();
 
+            // Calculate connection counts for current data
+            const connectionCounts = calculateConnectionCounts(currentData.nodes, currentData.links);
+
+            // Add connection count to nodes
+            currentData.nodes.forEach(node => {
+                node.connectionCount = connectionCounts[node.id] || 0;
+            });
+
             const simulation = d3.forceSimulation(currentData.nodes)
                 .force('link', d3.forceLink(currentData.links).id(d => d.id).distance(80))
                 .force('charge', d3.forceManyBody().strength(-300))
                 .force('center', d3.forceCenter(width / 2, height / 2))
-                .force('collision', d3.forceCollide().radius(d => getRadius(d.level) + 2));
+                .force('collision', d3.forceCollide().radius(d => getRadius(d.connectionCount) + 2));
 
             // Links
             const link = svg.append('g')
                 .selectAll('line')
                 .data(currentData.links)
                 .join('line')
-                .attr('stroke', '#7486a1')
+                .attr('stroke', '#586f91')
                 .attr('stroke-opacity', 0.3)
                 .attr('stroke-width', 1);
 
@@ -388,7 +433,7 @@ const graphData = { nodes, links };
                 .selectAll('circle')
                 .data(currentData.nodes)
                 .join('circle')
-                .attr('r', d => getRadius(d.level))
+                .attr('r', d => getRadius(d.connectionCount))
                 .attr('fill', d => getLevelColor(d.level, d.category))
                 .attr('stroke', '#fff')
                 .attr('stroke-width', 2)
@@ -403,7 +448,7 @@ const graphData = { nodes, links };
                 .attr('font-size', 10)
                 .attr('font-family', 'Inter, sans-serif')
                 .attr('text-anchor', 'middle')
-                .attr('dy', d => getRadius(d.level) + 15)
+                .attr('dy', d => getRadius(d.connectionCount) + 15)
                 .attr('fill', 'currentColor')
                 .style('pointer-events', 'none');
 
@@ -491,10 +536,12 @@ const graphData = { nodes, links };
         function showTooltip(event, d) {
             const tooltipTitle = document.getElementById('tooltip-title');
             const tooltipCategory = document.getElementById('tooltip-category');
+            const tooltipConnections = document.getElementById('tooltip-connections');
             const tooltipTags = document.getElementById('tooltip-tags');
 
             tooltipTitle.textContent = d.title;
             tooltipCategory.textContent = `${d.category || 'other'} • Уровень ${d.level}`;
+            tooltipConnections.textContent = `Связей: ${d.connectionCount}`;
 
             tooltipTags.innerHTML = '';
             d.tags.slice(0, 4).forEach(tag => {
@@ -518,16 +565,25 @@ const graphData = { nodes, links };
             const connectedIds = new Set([nodeId]);
 
             currentData.links.forEach(link => {
-                if (link.source.id === nodeId) connectedIds.add(link.target.id);
-                if (link.target.id === nodeId) connectedIds.add(link.source.id);
+                const sourceId = typeof link.source === 'string' ? link.source : link.source.id;
+                const targetId = typeof link.target === 'string' ? link.target : link.target.id;
+
+                if (sourceId === nodeId) connectedIds.add(targetId);
+                if (targetId === nodeId) connectedIds.add(sourceId);
             });
 
             svg.selectAll('circle')
                 .attr('opacity', d => highlight ? (connectedIds.has(d.id) ? 1 : 0.3) : 1);
 
             svg.selectAll('line')
-                .attr('opacity', d => highlight ?
-                    (d.source.id === nodeId || d.target.id === nodeId ? 0.8 : 0.1) : 0.3);
+                .attr('opacity', d => {
+                    if (!highlight) return 0.9;
+
+                    const sourceId = typeof d.source === 'string' ? d.source : d.source.id;
+                    const targetId = typeof d.target === 'string' ? d.target : d.target.id;
+
+                    return (sourceId === nodeId || targetId === nodeId) ? 1 : 0.1;
+                });
         }
 
         function filterByCategory(category) {

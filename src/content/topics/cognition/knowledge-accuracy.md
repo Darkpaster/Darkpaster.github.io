@@ -3,7 +3,7 @@ title: "Точность знаний"
 description: "Почему уверенность растёт без роста понимания?"
 level: 3
 tags: ["мышление", "деградация", "статистика"]
-related: ["/topics/cognition/cognitive-biases", "/topics/cognition/logic-biases", "/topics/cognition/brain", "/topics/cognition/rationality"]
+related: ["/topics/cognition/cognitive-biases", "/topics/cognition/fallacies", "/topics/cognition/brain", "/topics/cognition/rationality"]
 meme: "/assets/memes/competence.png"
 category: "cognition"
 difficulty: "intermediate"

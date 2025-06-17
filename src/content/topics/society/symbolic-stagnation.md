@@ -3,7 +3,7 @@ title: "Символическая стагнация"
 description: "Анализ того, как общество застревает в символах вместо развития реальных решений."
 level: 2
 tags: ["общество", "язык", "символы", "стагнация"]
-related: ["/topics/cognition/language", "/topics/society/problem-list"]
+related: ["/topics/society/problem-list", "/topics/society/authority"]
 meme: "/assets/memes/210770_news_80_1-3859121395.jpg"
 category: "society"
 difficulty: "intermediate"

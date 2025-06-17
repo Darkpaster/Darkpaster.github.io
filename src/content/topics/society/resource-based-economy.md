@@ -3,7 +3,7 @@ title: "Ресурсо-ориентированная экономика"
 description: "О том, почему необходимо перейти на ресурсо-ориентированную экономику, заменив неэффективный капитализм."
 level: 3
 tags: ["общество", "стагнация", "мышление", "экономика", "культура", "технологии"]
-related: ["/topics/society/authority", "/topics/society/problem-list"]
+related: ["/topics/society/problem-list", "/topics/society/science-resistance"]
 meme: "/assets/memes/71a128e7f495987e0ac6f90f3d939662.jpg"
 category: "society"
 difficulty: "intermediate"

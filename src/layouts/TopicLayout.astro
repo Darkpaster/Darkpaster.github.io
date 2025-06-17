@@ -34,7 +34,7 @@ if (frontmatter.related) {
 }
 
 // Calculate reading time (rough estimate)
-const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1000) / 350);
+const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1000) / 660);
 ---
 
 <BaseLayout
@@ -53,7 +53,7 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
         {frontmatter.category && (
             <span class="badge badge-accent">{frontmatter.category}</span>
         )}
-        <span class="badge badge-outline">{readingTime} мин. чтения</span>
+        <span class="badge badge-outline">~{readingTime} мин. чтения</span>
       </div>
 
       <h1 class="article-title">

@@ -3,7 +3,7 @@ title: "Теория эволюции"
 description: "Исчерпывающее руководство по механизмам и доказательствам теории эволюции."
 level: 3
 tags: ["биология", "эволюция"]
-related: []
+related: ["/topics/biology/motivation"]
 meme: "/assets/memes/user_file_55252ac6a0fde_0_9-3400175950.png"
 category: "cognition"
 difficulty: "intermediate"
