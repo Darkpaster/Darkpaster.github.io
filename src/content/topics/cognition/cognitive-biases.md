@@ -3,7 +3,7 @@ title: "Когнитивные искажения"
 description: "Список известных искажений восприятия реальности."
 level: 3
 tags: ["мышление"]
-related: ["/topics/cognition/fallacies", "/topics/cognition/rationality", "/topics/cognition/brain"]
+related: ["/topics/cognition/fallacies", "/topics/cognition/rationality", "/topics/cognition/brain", "/topics/philosophy/objectivity", "/topics/society/symbolic-stagnation"]
 meme: "/assets/memes/Cognitive_biases_diagram_RU.png"
 category: "cognition"
 difficulty: "intermediate"
