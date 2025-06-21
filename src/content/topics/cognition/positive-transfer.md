@@ -1,7 +1,7 @@
 ---
 title: "Эффект переноса навыков"
 description: "О том, как образование в одних областях ускоряет обучение в других."
-level: 4
+level: 5
 tags: ["мышление", "статистика", "исследования", "математика"]
 related: ["/topics/cognition/brain"]
 meme: "/assets/memes/67c6fe194060e390362c97dd9d1e7dd2.jpg"

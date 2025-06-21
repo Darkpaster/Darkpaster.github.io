@@ -1,7 +1,7 @@
 ---
 title: "Решение проблем"
 description: "Об универсальных (почти) способах решениях личных проблем."
-level: 3
+level: 2
 tags: ["мышление", "биология", "нейробиология", "осознанность"]
 related: ["/topics/cognition/brain", "/topics/cognition/healthy-brain"]
 meme: "/assets/memes/a0225b63dc3786e8d36e5238bae19154.jpg"
