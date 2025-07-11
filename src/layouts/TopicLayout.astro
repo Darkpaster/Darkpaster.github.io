@@ -6,18 +6,18 @@ import TopicCard from '@/components/TopicCard.astro';
 import { getCollection } from 'astro:content';
 
 export interface Props {
-  frontmatter: {
-    title: string;
-    description?: string;
-    level: number;
-    tags: string[];
-    related?: string[];
-    meme?: string;
-    category?: string;
-    difficulty?: string;
-    publishedAt?: Date;
-    updatedAt?: Date;
-  };
+    frontmatter: {
+        title: string;
+        description?: string;
+        level: number;
+        tags: string[];
+        related?: string[];
+        meme?: string;
+        category?: string;
+        difficulty?: string;
+        publishedAt?: Date;
+        updatedAt?: Date;
+    };
 }
 
 const { frontmatter } = Astro.props;
@@ -25,12 +25,12 @@ const { frontmatter } = Astro.props;
 // Get related topics
 let relatedTopics: any[] = [];
 if (frontmatter.related) {
-  const allTopics = await getCollection('topics');
-  relatedTopics = allTopics.filter(topic =>
-      frontmatter.related?.some(relatedSlug =>
-          `/topics/${topic.slug}` === relatedSlug || topic.slug === relatedSlug.replace('/topics/', '')
-      )
-  );
+    const allTopics = await getCollection('topics');
+    relatedTopics = allTopics.filter(topic =>
+        frontmatter.related?.some(relatedSlug =>
+            `/topics/${topic.slug}` === relatedSlug || topic.slug === relatedSlug.replace('/topics/', '')
+        )
+    );
 }
 
 // Calculate reading time (rough estimate)
@@ -38,324 +38,617 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
 ---
 
 <BaseLayout
-    title={frontmatter.title}
-    description={frontmatter.description}
-    image={frontmatter.meme}
+        title={frontmatter.title}
+        description={frontmatter.description}
+        image={frontmatter.meme}
 >
-  <article class="article-container">
-    <!-- Header -->
-    <header class="article-header">
-      <div class="badge-container">
-        <span class="badge badge-primary">Уровень {frontmatter.level}</span>
-        {frontmatter.difficulty && (
-            <span class="badge badge-secondary">{frontmatter.difficulty}</span>
-        )}
-        {frontmatter.category && (
-            <span class="badge badge-accent">{frontmatter.category}</span>
-        )}
-        <span class="badge badge-outline">~{readingTime} мин. чтения</span>
-      </div>
+    <div class="page-container">
+        <!-- Navigation Sidebar -->
+        <nav class="toc-sidebar" id="toc-sidebar">
+            <div class="toc-header">
+                <h3>Содержание</h3>
+                <button class="toc-mobile-toggle" id="toc-mobile-toggle">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="toc-content" id="toc-content">
+                <ul class="toc-list" id="toc-list">
+                    <!-- Table of contents will be generated here -->
+                </ul>
+            </div>
+        </nav>
 
-      <h1 class="article-title">
-        {frontmatter.title}
-      </h1>
+        <!-- Main Content -->
+        <main class="main-content">
+            <article class="article-container">
+                <!-- Header -->
+                <header class="article-header">
+                    <div class="badge-container">
+                        <span class="badge badge-primary">Уровень {frontmatter.level}</span>
+                        {frontmatter.difficulty && (
+                                <span class="badge badge-secondary">{frontmatter.difficulty}</span>
+                        )}
+                        {frontmatter.category && (
+                                <span class="badge badge-accent">{frontmatter.category}</span>
+                        )}
+                        <span class="badge badge-outline">~{readingTime} мин. чтения</span>
+                    </div>
 
-      {frontmatter.description && (
-          <p class="article-description">
-            {frontmatter.description}
-          </p>
-      )}
+                    <h1 class="article-title">
+                        {frontmatter.title}
+                    </h1>
 
-      <!-- Tags -->
-      <div class="tags-container">
-        {frontmatter.tags.map(tag => (
-            <span class="badge badge-outline">{tag}</span>
-        ))}
-      </div>
+                    {frontmatter.description && (
+                            <p class="article-description">
+                                {frontmatter.description}
+                            </p>
+                    )}
 
-      <!-- Dates -->
-      {(frontmatter.publishedAt || frontmatter.updatedAt) && (
-          <div class="dates-container">
-            {frontmatter.publishedAt && (
-                <span>Опубликовано: {frontmatter.publishedAt.toLocaleDateString('ru-RU')}</span>
-            )}
-            {frontmatter.updatedAt && frontmatter.updatedAt !== frontmatter.publishedAt && (
-                <span class="updated-date">Обновлено: {frontmatter.updatedAt.toLocaleDateString('ru-RU')}</span>
-            )}
-          </div>
-      )}
-    </header>
+                    <!-- Tags -->
+                    <div class="tags-container">
+                        {frontmatter.tags.map(tag => (
+                                <span class="badge badge-outline">{tag}</span>
+                        ))}
+                    </div>
 
-    <!-- Featured meme -->
-    {frontmatter.meme && (
-        <div class="meme-container">
-          <MemeEmbed
-              src={frontmatter.meme}
-              alt={`Мем для темы: ${frontmatter.title}`}
-              caption="Иллюстрация к теме"
-          />
-        </div>
-    )}
+                    <!-- Dates -->
+                    {(frontmatter.publishedAt || frontmatter.updatedAt) && (
+                            <div class="dates-container">
+                                {frontmatter.publishedAt && (
+                                        <span>Опубликовано: {frontmatter.publishedAt.toLocaleDateString('ru-RU')}</span>
+                                )}
+                                {frontmatter.updatedAt && frontmatter.updatedAt !== frontmatter.publishedAt && (
+                                        <span class="updated-date">Обновлено: {frontmatter.updatedAt.toLocaleDateString('ru-RU')}</span>
+                                )}
+                            </div>
+                    )}
+                </header>
 
-    <!-- Content -->
-    <div class="content-container">
-      <slot />
+                <!-- Featured meme -->
+                {frontmatter.meme && (
+                        <div class="meme-container">
+                            <MemeEmbed
+                                    src={frontmatter.meme}
+                                    alt={`Мем для темы: ${frontmatter.title}`}
+                                    caption="Иллюстрация к теме"
+                            />
+                        </div>
+                )}
+
+                <!-- Main content -->
+                <div class="content-container">
+                    <slot />
+                </div>
+
+                <!-- Related topics -->
+                {relatedTopics.length > 0 && (
+                        <section class="related-section">
+                            <h2 class="related-title">Связанные темы</h2>
+                            <div class="related-grid">
+                                {relatedTopics.map(topic => (
+                                        <TopicCard
+                                                title={topic.data.title}
+                                                description={topic.data.description}
+                                                slug={`/topics/${topic.slug}`}
+                                                tags={topic.data.tags}
+                                                level={topic.data.level}
+                                                meme={topic.data.meme}
+                                        />
+                                ))}
+                            </div>
+                        </section>
+                )}
+
+                <!-- Navigation -->
+                <nav class="nav-section">
+                    <div class="nav-container">
+                        <a href="/" class="nav-btn nav-btn-outline">
+                            ← К дереву тем
+                        </a>
+                        <a href="/graph" class="nav-btn nav-btn-primary">
+                            Граф знаний →
+                        </a>
+                    </div>
+                </nav>
+            </article>
+        </main>
     </div>
-
-    <!-- Related topics -->
-    {relatedTopics.length > 0 && (
-        <section class="related-section">
-          <h2 class="related-title">Связанные темы</h2>
-          <div class="related-grid">
-            {relatedTopics.map(topic => (
-                <TopicCard
-                    title={topic.data.title}
-                    description={topic.data.description}
-                    slug={`/topics/${topic.slug}`}
-                    tags={topic.data.tags}
-                    level={topic.data.level}
-                    meme={topic.data.meme}
-                />
-            ))}
-          </div>
-        </section>
-    )}
-
-    <!-- Navigation -->
-    <nav class="nav-section">
-      <div class="nav-container">
-        <a href="/" class="nav-btn nav-btn-outline">
-          ← К дереву тем
-        </a>
-        <a href="/graph" class="nav-btn nav-btn-primary">
-          Граф знаний →
-        </a>
-      </div>
-    </nav>
-  </article>
 </BaseLayout>
 
 <style>
-  .article-container {
-    max-width: 56rem;
-    margin: 0 auto;
-  }
-
-  .article-header {
-    margin-bottom: 2rem;
-  }
-
-  .badge-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.875rem;
-    color: rgba(var(--base-content), 0.7);
-    margin-bottom: 1rem;
-  }
-
-  .article-title {
-    font-size: 2.25rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-  }
-
-  .article-description {
-    font-size: 1.25rem;
-    color: rgba(var(--base-content), 0.8);
-    line-height: 1.625;
-    margin-bottom: 1.5rem;
-  }
-
-  .tags-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .dates-container {
-    font-size: 0.875rem;
-    color: rgba(var(--base-content), 0.6);
-  }
-
-  .updated-date {
-    margin-left: 1rem;
-  }
-
-  .meme-container {
-    margin-bottom: 2rem;
-  }
-
-  .content-container {
-    color: var(--base-content);
-    max-width: none;
-    font-size: 1.125rem;
-    line-height: 1.7777778;
-  }
-
-  .related-section {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--base-300);
-  }
-
-  .related-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-  }
-
-  .related-grid {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 1rem;
-  }
-
-  .nav-section {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--base-300);
-  }
-
-  .nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .nav-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--rounded-btn);
-    height: 3rem;
-    padding: 0 1rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.25s ease-in-out;
-    border: 1px solid transparent;
-  }
-
-  .nav-btn-outline {
-    border-color: var(--neutral);
-    background-color: transparent;
-    color: var(--base-content);
-  }
-
-  .nav-btn-outline:hover {
-    border-color: var(--neutral-focus);
-    background-color: var(--neutral);
-    color: var(--neutral-content);
-  }
-
-  .nav-btn-primary {
-    background-color: var(--primary);
-    color: var(--primary-content);
-  }
-
-  .nav-btn-primary:hover {
-    background-color: var(--primary-focus);
-  }
-
-  /* Адаптивные стили */
-  @media (min-width: 768px) {
-    .related-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .page-container {
+        display: flex;
+        min-height: 100vh;
+        max-width: 100%;
+        margin: 0 auto;
     }
-  }
 
-  @media (min-width: 1024px) {
+
+    /* Main Content */
+    .main-content {
+        flex: 1;
+        min-width: 0;
+        padding: 2rem;
+    }
+
+    .article-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .article-header {
+        margin-bottom: 2rem;
+    }
+
+    .badge-container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+        color: rgba(var(--base-content), 0.7);
+        margin-bottom: 1rem;
+    }
+
     .article-title {
-      font-size: 3rem;
+        font-size: 2.25rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        line-height: 1.2;
     }
-  }
 
-  /* Prose стили для контента */
-  .content-container :global(h1),
-  .content-container :global(h2),
-  .content-container :global(h3),
-  .content-container :global(h4),
-  .content-container :global(h5),
-  .content-container :global(h6) {
-    color: var(--base-content);
-    font-weight: 700;
-    line-height: 1.25;
-  }
+    .article-description {
+        font-size: 1.25rem;
+        color: rgba(var(--base-content), 0.8);
+        line-height: 1.625;
+        margin-bottom: 1.5rem;
+    }
 
-  .content-container :global(h1) {
-    font-size: 2.25em;
-    margin-top: 0;
-    margin-bottom: 0.8888889em;
-  }
+    .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
 
-  .content-container :global(h2) {
-    font-size: 1.5em;
-    margin-top: 2em;
-    margin-bottom: 1em;
-  }
+    .dates-container {
+        font-size: 0.875rem;
+        color: rgba(var(--base-content), 0.6);
+    }
 
-  .content-container :global(h3) {
-    font-size: 1.25em;
-    margin-top: 1.6em;
-    margin-bottom: 0.6em;
-  }
+    .updated-date {
+        margin-left: 1rem;
+    }
 
-  .content-container :global(p) {
-    margin-top: 1.25em;
-    margin-bottom: 1.25em;
-  }
+    .meme-container {
+        margin-bottom: 2rem;
+    }
 
-  .content-container :global(ul),
-  .content-container :global(ol) {
-    margin-top: 1.25em;
-    margin-bottom: 1.25em;
-    padding-left: 1.625em;
-  }
+    .content-container {
+        color: var(--base-content);
+        max-width: none;
+        font-size: 1.125rem;
+        line-height: 1.7777778;
+    }
 
-  .content-container :global(li) {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-  }
+    .related-section {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--base-300);
+    }
 
-  .content-container :global(blockquote) {
-    font-weight: 500;
-    font-style: italic;
-    color: var(--base-content);
-    border-left-width: 0.25rem;
-    border-left-color: var(--base-300);
-    quotes: "\201C""\201D""\2018""\2019";
-    margin-top: 1.6em;
-    margin-bottom: 1.6em;
-    padding-left: 1em;
-  }
+    .related-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+    }
 
-  .content-container :global(code) {
-    color: var(--base-content);
-    background-color: var(--base-200);
-    padding: 0.125rem 0.25rem;
-    border-radius: 0.25rem;
-    font-size: 0.875em;
-    font-weight: 600;
-  }
+    .related-grid {
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        gap: 1rem;
+    }
 
-  .content-container :global(pre) {
-    color: var(--base-content);
-    background-color: var(--base-300);
-    overflow-x: auto;
-    font-size: 0.875em;
-    line-height: 1.7142857;
-    margin-top: 1.7142857em;
-    margin-bottom: 1.7142857em;
-    border-radius: 1em;
-    padding: 1rem;
-  }
+    .nav-section {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--base-300);
+    }
 
-  .content-container :global(pre code) {
-    background-color: transparent;
-    padding: 0;
-  }
+    .nav-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--rounded-btn);
+        height: 3rem;
+        padding: 0 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.25s ease-in-out;
+        border: 1px solid transparent;
+    }
+
+    .nav-btn-outline {
+        border-color: var(--neutral);
+        background-color: transparent;
+        color: var(--base-content);
+    }
+
+    .nav-btn-outline:hover {
+        border-color: var(--neutral-focus);
+        background-color: var(--neutral);
+        color: var(--neutral-content);
+    }
+
+    .nav-btn-primary {
+        background-color: var(--primary);
+        color: var(--primary-content);
+    }
+
+    .nav-btn-primary:hover {
+        background-color: var(--primary-focus);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .page-container {
+            flex-direction: column;
+        }
+
+        .toc-sidebar {
+            width: 100%;
+            min-width: unset;
+            height: auto;
+            position: static;
+            border-right: none;
+            border-bottom: 1px solid var(--base-300);
+            padding: 1rem;
+        }
+
+        .toc-mobile-toggle {
+            display: block;
+        }
+
+        .toc-content {
+            display: none;
+        }
+
+        .toc-sidebar.expanded .toc-content {
+            display: block;
+        }
+
+        .toc-sidebar.expanded .toc-mobile-toggle svg {
+            transform: rotate(180deg);
+        }
+
+        .main-content {
+            padding: 1rem;
+        }
+
+        .article-title {
+            font-size: 1.875rem;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 1199px) {
+        .toc-sidebar {
+            width: 250px;
+            min-width: 250px;
+        }
+    }
+
+    @media (min-width: 1200px) {
+        .related-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    /* Prose styles for content */
+    .content-container :global(h1),
+    .content-container :global(h2),
+    .content-container :global(h3),
+    .content-container :global(h4),
+    .content-container :global(h5),
+    .content-container :global(h6) {
+        color: var(--base-content);
+        font-weight: 700;
+        line-height: 1.25;
+        scroll-margin-top: 2rem;
+    }
+
+    .content-container :global(h1) {
+        font-size: 2.25em;
+        margin-top: 0;
+        margin-bottom: 0.8888889em;
+    }
+
+    .content-container :global(h2) {
+        font-size: 1.5em;
+        margin-top: 2em;
+        margin-bottom: 1em;
+    }
+
+    .content-container :global(h3) {
+        font-size: 1.25em;
+        margin-top: 1.6em;
+        margin-bottom: 0.6em;
+    }
+
+    .content-container :global(p) {
+        margin-top: 1.25em;
+        margin-bottom: 1.25em;
+    }
+
+    .content-container :global(ul),
+    .content-container :global(ol) {
+        margin-top: 1.25em;
+        margin-bottom: 1.25em;
+        padding-left: 1.625em;
+    }
+
+    .content-container :global(li) {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
+
+    .content-container :global(blockquote) {
+        font-weight: 500;
+        font-style: italic;
+        color: var(--base-content);
+        border-left-width: 0.25rem;
+        border-left-color: var(--base-300);
+        quotes: "\201C""\201D""\2018""\2019";
+        margin-top: 1.6em;
+        margin-bottom: 1.6em;
+        padding-left: 1em;
+    }
+
+    .content-container :global(code) {
+        color: var(--base-content);
+        background-color: var(--base-200);
+        padding: 0.125rem 0.25rem;
+        border-radius: 0.25rem;
+        font-size: 0.875em;
+        font-weight: 600;
+    }
+
+    .content-container :global(pre) {
+        color: var(--base-content);
+        background-color: var(--base-300);
+        overflow-x: auto;
+        font-size: 0.875em;
+        line-height: 1.7142857;
+        margin-top: 1.7142857em;
+        margin-bottom: 1.7142857em;
+        border-radius: 1em;
+        padding: 1rem;
+    }
+
+    .content-container :global(pre code) {
+        background-color: transparent;
+        padding: 0;
+    }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tocSidebar = document.getElementById('toc-sidebar');
+        const tocList = document.getElementById('toc-list');
+        const tocMobileToggle = document.getElementById('toc-mobile-toggle');
+        const contentContainer = document.querySelector('.content-container');
+
+        if (!tocSidebar || !tocList || !contentContainer) return;
+
+        // Generate hierarchical table of contents
+        function generateTOC() {
+            const headings = contentContainer.querySelectorAll('h1, h2, h3, h4, h5, h6');
+
+            if (headings.length === 0) {
+                tocSidebar.style.display = 'none';
+                return;
+            }
+
+            const tocStructure = buildTOCStructure(headings);
+            tocList.innerHTML = '';
+            renderTOCItems(tocStructure, tocList);
+        }
+
+        function buildTOCStructure(headings) {
+            const structure = [];
+            const stack = [{ level: 0, children: structure }];
+
+            headings.forEach((heading, index) => {
+                // Create unique ID for heading if it doesn't exist
+                if (!heading.id) {
+                    heading.id = `heading-${index}`;
+                }
+
+                const level = parseInt(heading.tagName.charAt(1));
+                const text = heading.textContent.trim();
+
+                const item = {
+                    id: heading.id,
+                    text: text,
+                    level: level,
+                    children: []
+                };
+
+                // Find the correct parent in the stack
+                while (stack.length > 1 && stack[stack.length - 1].level >= level) {
+                    stack.pop();
+                }
+
+                // Add to parent's children
+                stack[stack.length - 1].children.push(item);
+
+                // Add to stack for potential children
+                stack.push(item);
+            });
+
+            return structure;
+        }
+
+        function renderTOCItems(items, container) {
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.className = `toc-item level-${item.level}`;
+
+                const itemContent = document.createElement('div');
+                itemContent.className = 'toc-item-content';
+
+
+                // Add toggle button if item has children
+                if (item.children && item.children.length > 0) {
+                    console.log(item)
+                    const toggleBtn = document.createElement('button');
+                    toggleBtn.className = 'toc-toggle';
+                    toggleBtn.innerHTML = `
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9l6 6 6-6"/>
+                        </svg>
+                    `;
+
+                    toggleBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleTOCItem(li);
+                    });
+
+                    itemContent.appendChild(toggleBtn);
+                } else {
+                    // Add spacer for items without children
+                    const spacer = document.createElement('div');
+                    spacer.style.width = '20px';
+                    spacer.style.marginRight = '0.5rem';
+                    itemContent.appendChild(spacer);
+                }
+
+                // Add link
+                const link = document.createElement('a');
+                link.className = 'toc-link';
+                link.href = `#${item.id}`;
+                link.textContent = item.text;
+                link.setAttribute('data-target', item.id);
+
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    scrollToHeading(item.id);
+
+                    // Close mobile menu
+                    if (window.innerWidth <= 768) {
+                        tocSidebar.classList.remove('expanded');
+                    }
+                });
+
+                itemContent.appendChild(link);
+                li.appendChild(itemContent);
+
+                // Add children if they exist
+                if (item.children && item.children.length > 0) {
+                    const childrenContainer = document.createElement('ul');
+                    childrenContainer.className = 'toc-children';
+                    renderTOCItems(item.children, childrenContainer);
+                    li.appendChild(childrenContainer);
+                }
+
+                container.appendChild(li);
+            });
+        }
+
+        function toggleTOCItem(item) {
+            const toggle = item.querySelector('.toc-toggle');
+            const children = item.querySelector('.toc-children');
+
+            if (!toggle || !children) return;
+
+            const isCollapsed = children.classList.contains('collapsed');
+
+            if (isCollapsed) {
+                children.classList.remove('collapsed');
+                toggle.classList.remove('collapsed');
+            } else {
+                children.classList.add('collapsed');
+                toggle.classList.add('collapsed');
+            }
+        }
+
+        function scrollToHeading(targetId) {
+            const target = document.getElementById(targetId);
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Handle mobile toggle
+        if (tocMobileToggle) {
+            tocMobileToggle.addEventListener('click', function() {
+                tocSidebar.classList.toggle('expanded');
+            });
+        }
+
+        // Highlight active section
+        function highlightActiveSection() {
+            const headings = contentContainer.querySelectorAll('h1, h2, h3, h4, h5, h6');
+            const tocLinks = tocList.querySelectorAll('.toc-link');
+
+            let activeHeading = null;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            // Find the current active heading
+            for (let i = headings.length - 1; i >= 0; i--) {
+                const heading = headings[i];
+                const rect = heading.getBoundingClientRect();
+                const offsetTop = rect.top + scrollTop;
+
+                if (scrollTop >= offsetTop - 150) {
+                    activeHeading = heading;
+                    break;
+                }
+            }
+
+            // Update active link
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (activeHeading && link.getAttribute('data-target') === activeHeading.id) {
+                    link.classList.add('active');
+
+                    // Ensure parent sections are expanded
+                    let parentItem = link.closest('.toc-item');
+                    while (parentItem) {
+                        const parentChildren = parentItem.querySelector('.toc-children');
+                        if (parentChildren && parentChildren.classList.contains('collapsed')) {
+                            toggleTOCItem(parentItem);
+                        }
+                        parentItem = parentItem.parentElement.closest('.toc-item');
+                    }
+                }
+            });
+        }
+
+        // Initialize
+        generateTOC();
+
+        // Listen for scroll events
+        let scrollTimeout;
+        window.addEventListener('scroll', function() {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(highlightActiveSection, 100);
+        });
+
+        // Initial highlight
+        setTimeout(highlightActiveSection, 100);
+    });
+</script>

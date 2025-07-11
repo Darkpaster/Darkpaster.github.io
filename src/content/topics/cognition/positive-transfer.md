@@ -875,14 +875,3 @@ publishedAt: 2024-01-10
 9. MIT. (2018). Interdisciplinary engineering: Performance and innovation outcomes. Cambridge: MIT Press.
 
 10. Patel, A. D. (2008). Music, language, and the brain. Oxford University Press.
-
-
-[Продолжение списка литературы - всего 127 источников]
-
----
-
-**Общий объем диссертации**: 187 страниц  
-**Количество источников**: 127  
-**Таблицы**: 15  
-**Рисунки**: 23  
-**Приложения**: 7

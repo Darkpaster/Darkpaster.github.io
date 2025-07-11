@@ -3,7 +3,7 @@ title: "Почему вам не должно быть всё равно на д
 description: "Безразличие к незнакомым представителям нашего вида усугубляет все общественные проблемы."
 level: 2
 tags: ["общество", "мышление", "обучение"]
-related: ["/topics/cognition/rationality", "/topics/biology/free-will", "/topics/cognition/cognitive-biases", "/topics/society/studing", "/topics/biology/motivation", "/topics/society/symbolic-stagnation", "/topics/society/problem-list"]
+related: ["/topics/cognition/rationality", "/topics/biology/free-will", "/topics/cognition/cognitive-biases", "/topics/society/studing", "/topics/biology/motivation", "/topics/society/problem-list"]
 meme: "/assets/memes/maxresdefault.jpg"
 category: "society"
 difficulty: "intermediate"

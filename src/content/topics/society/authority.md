@@ -2,13 +2,15 @@
 title: "Власть и глупость, как одно целое"
 description: "Почему власть и глупость всегда идут рука об руку?"
 level: 2
-tags: ["общество", "стагнация", "мышление"]
-related: ["/topics/society/problem-list", "/topics/cognition/cognitive-biases"]
+tags: ["общество", "стагнация", "мышление", "власть"]
+related: ["/topics/society/problem-list", "/topics/cognition/cognitive-biases", "/topics/society/capitalism"]
 meme: "/assets/memes/makiaveli-1347785572.png"
 category: "society"
 difficulty: "intermediate"
 publishedAt: 2024-01-15
 ---
+
+
 # Парадокс власти: почему некомпетентные лидеры побеждают
 
 Мы живем в эпоху, когда некомпетентные люди регулярно занимают высшие посты в политике, бизнесе и других сферах, в то время как действительно способные специалисты остаются в тени. Это не случайность, а закономерность, имеющая глубокие психологические и социальные корни.

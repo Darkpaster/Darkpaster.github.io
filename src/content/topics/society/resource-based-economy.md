@@ -4,7 +4,7 @@ description: "О том, почему необходимо перейти на �
 level: 3
 tags: ["общество", "стагнация", "мышление", "экономика", "культура", "технологии"]
 related: ["/topics/society/problem-list", "/topics/society/science-resistance"]
-meme: "/assets/memes/71a128e7f495987e0ac6f90f3d939662.jpg"
+meme: "/assets/memes/vk9rxflnaom-jpg-893920110.webp"
 category: "society"
 difficulty: "intermediate"
 publishedAt: 2024-01-15
