@@ -285,7 +285,12 @@ body {
 
 a {
     text-decoration: none;
-    color: var(--base-content)
+    color: var(--primary-focus);
+}
+
+a:hover {
+    color: var(--primary)
+
 }
 
 .prose a {

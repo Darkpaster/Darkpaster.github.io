@@ -4,7 +4,7 @@ description: "Полное руководство по поддержанию з
 level: 2
 tags: ["мышление", "тренировки", "здоровье"]
 related: ["/topics/cognition/brain", "/topics/cognition/solving-personal-problems", "/topics/cognition/rationality"]
-meme: "/assets/memes/i.webp"
+meme: "/assets/memes/healthy-brain.jpg"
 category: "cognition"
 difficulty: "intermediate"
 publishedAt: 2024-01-10

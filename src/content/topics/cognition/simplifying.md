@@ -162,9 +162,9 @@ publishedAt: 2024-01-10
 ## Источники:
 
 
-1. Impact of Availability on Gambling: A Longitudinal Study (2000)
-2. The role of positive mental imagery on autobiographical memory specificity: A training study (2016)
-3. A randomized controlled trial of an internet-delivered transdiagnostic intervention for intolerance of uncertainty (2022)
+1. [Impact of Availability on Gambling: A Longitudinal Study](https://pubmed.ncbi.nlm.nih.gov/11143830/) (2000)
+2. [The effects of imagery on problem-solving ability and autobiographical memory](https://www.sciencedirect.com/science/article/abs/pii/S0005791611000632) (2012)
+3. [A randomized controlled trial of an internet-delivered transdiagnostic intervention for intolerance of uncertainty](https://pubmed.ncbi.nlm.nih.gov/38569713/) (2022)
 4. Predictive value for accuracy and subjective probability for confidence (2006)
 5. The cross-cultural differences in metacognitive beliefs among healthcare workers (2017)
 6. Intolerance of Uncertainty: A transdiagnostic construct? (2015)
