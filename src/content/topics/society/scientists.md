@@ -2,8 +2,8 @@
 title: "Научное сообщество"
 description: "Что не так с научным сообществом и почему настоящих учёных пока ещё не существует?"
 level: 3
-tags: ["общество", "стагнация"]
-related: ["/topics/cognition/rationality", "/topics/society/problem-list", "/topics/society/science-resistance", "/topics/society/youAllIsMyBusiness", "/topics/cognition/science"]
+tags: ["общество", "наука", "стагнация"]
+related: ["/topics/cognition/rationality", "/topics/society/problem-list", "/topics/society/research-reproducibility", "/topics/society/science-resistance", "/topics/society/youAllIsMyBusiness", "/topics/cognition/science"]
 meme: "/assets/memes/unnamed.jpg"
 category: "society"
 difficulty: "intermediate"

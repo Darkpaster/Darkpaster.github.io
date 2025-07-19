@@ -1,6 +1,6 @@
 ---
 title: "Власть и глупость, как одно целое"
-description: "Почему власть и глупость всегда идут рука об руку?"
+description: "Почему высокий интеллект мешает править и почему некомпетентные лидеры так долго остаются на постах?"
 level: 2
 tags: ["общество", "стагнация", "мышление", "власть"]
 related: ["/topics/society/problem-list", "/topics/cognition/cognitive-biases", "/topics/society/capitalism"]

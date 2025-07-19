@@ -1,6 +1,6 @@
 ---
 title: "Почему вам не должно быть всё равно на других людей?"
-description: "Безразличие к незнакомым представителям нашего вида усугубляет все общественные проблемы."
+description: "Почему безразличие к чужому мышлению разрушает цивилизацию: правда о том, как ваши убеждения влияют на весь мир."
 level: 2
 tags: ["общество", "мышление", "обучение"]
 related: ["/topics/cognition/rationality", "/topics/biology/free-will", "/topics/cognition/cognitive-biases", "/topics/society/studing", "/topics/biology/motivation", "/topics/society/problem-list"]
