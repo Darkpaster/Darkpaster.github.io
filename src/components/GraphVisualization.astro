@@ -2,7 +2,6 @@
 ---
 import { getCollection } from 'astro:content';
 
-// Get all topics for graph data
 const allTopics = await getCollection('topics', ({ data }) => !data.draft);
 
 // Create nodes and links for D3.js

@@ -15,7 +15,6 @@ const metaTopics = await getCollection('topics', ({ data }) =>
         description="Цели, принципы и методология проекта HumanityOS - альтернативной системы понимания мира"
 >
     <div class="container">
-        <!-- Hero Section -->
         <section class="hero">
             <div class="hero-icon"> О проекте "HumanityOS" </div>
             <h1 class="hero-title"> <br> "За всю историю человечества война была только одна — с глупостью."</h1>
@@ -25,7 +24,6 @@ const metaTopics = await getCollection('topics', ({ data }) =>
             </p>
         </section>
 
-        <!-- Mission Section -->
         <section class="section">
             <div class="card">
                 <div class="card-body">
@@ -58,7 +56,6 @@ const metaTopics = await getCollection('topics', ({ data }) =>
             </div>
         </section>
 
-        <!-- Principles Section -->
         <section class="section">
             <h2 class="section-title">📋 Принципы работы</h2>
             <div class="grid-2">
@@ -104,7 +101,6 @@ const metaTopics = await getCollection('topics', ({ data }) =>
             </div>
         </section>
 
-        <!-- Categories Section -->
         <section class="section">
             <h2 class="section-title">📚 Области знаний</h2>
             <div class="grid-3">
@@ -150,7 +146,6 @@ const metaTopics = await getCollection('topics', ({ data }) =>
             </div>
         </section>
 
-        <!-- How to Use Section -->
         <section class="section">
             <div class="card">
                 <div class="card-body">
@@ -192,7 +187,6 @@ const metaTopics = await getCollection('topics', ({ data }) =>
             </div>
         </section>
 
-        <!-- Meta Topics -->
         {metaTopics.length > 0 && (
                 <section class="section">
                     <h2 class="section-title">📖 Статьи о проекте</h2>
@@ -213,7 +207,6 @@ const metaTopics = await getCollection('topics', ({ data }) =>
                 </section>
         )}
 
-        <!-- Contact Section -->
         <section class="hero">
             <div class="card">
                 <div class="card-body">
@@ -221,6 +214,7 @@ const metaTopics = await getCollection('topics', ({ data }) =>
                     <p class="contact-text">
                         Проект развивается благодаря сообществу. Если у вас есть идеи,
                         замечания или желание внести вклад - мы всегда открыты для сотрудничества.
+                        Пишите в ТГ @otest13
                     </p>
                     <div class="badges">
                         <div class="badge">
@@ -306,7 +300,8 @@ const metaTopics = await getCollection('topics', ({ data }) =>
 
         /* Cards */
         .card {
-            background-color: hsl(var(--b1));
+            background-color: var(--base-200);
+            color: var(--base-content);
             border-radius: 0.5rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -357,9 +352,10 @@ const metaTopics = await getCollection('topics', ({ data }) =>
         }
 
         .mission-card {
+            background-color: var(--base-300);
+            color: var(--base-content);
             text-align: center;
             padding: 1rem;
-            background-color: hsl(var(--b2));
             border-radius: 0.5rem;
         }
 

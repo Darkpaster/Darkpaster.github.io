@@ -60,10 +60,9 @@
         transform: rotate(180deg);
     }
 
-    /* Адаптивные стили */
     @media (max-width: 768px) {
         .random-quote {
-            display: none; /* Скрываем на мобильных устройствах */
+            display: none;
         }
     }
 
@@ -80,7 +79,6 @@
 </style>
 
 <script>
-    // Массив всех цитат из вашей коллекции
     const quotes = [
         // ЗНАНИЕ И НЕВЕЖЕСТВО
         "Чудо, что любопытство выживает после формального образования — Эйнштейн",
@@ -228,7 +226,6 @@
         }
     }
 
-    // Инициализация при загрузке
     document.addEventListener('DOMContentLoaded', () => {
         displayRandomQuote();
 
@@ -238,7 +235,6 @@
         }
     });
 
-    // Для Astro - повторная инициализация при навигации
     document.addEventListener('astro:page-load', () => {
         displayRandomQuote();
 

@@ -3,7 +3,7 @@ title: "Проблемы современного общества"
 description: "Большой и много-охватывающий каталог системных проблем современного общества."
 level: 4
 tags: ["общество", "стагнация", "мышление", "экономика", "политика", "культура", "технологии"]
-related: ["/topics/cognition/cognitive-biases", "/topics/cognition/language", "/topics/cognition/knowledge-accuracy", "/topics/cognition/solving-personal-problems", "/topics/society/capitalism", "/topics/society/scientists", "/topics/society/authority", "/topics/society/resource-based-economy", "/topics/cognition/simplifying", "/topics/society/science-resistance", "/topics/cognition/fallacies"]
+related: ["/topics/cognition/cognitive-biases", "/topics/cognition/language", "/topics/cognition/knowledge-accuracy", "/topics/cognition/solving-personal-problems", "/topics/society/capitalism", "/topics/society/discrimination", "/topics/society/scientists", "/topics/society/authority", "/topics/society/resource-based-economy", "/topics/cognition/simplifying", "/topics/society/science-resistance", "/topics/cognition/fallacies"]
 meme: "/assets/memes/scale_1200.jpg"
 category: "society"
 difficulty: "intermediate"

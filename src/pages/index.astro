@@ -4,12 +4,10 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import TopicCard from '@/components/TopicCard.astro';
 import { getCollection } from 'astro:content';
 
-// Get all topics
 const allTopics: any[] = await getCollection('topics', ({ data }) => {
 	return !data.draft;
 });
 
-// Sort topics by level and then by title
 const sortedTopics = allTopics.sort((a, b) => {
 	if (a.data.level !== b.data.level) {
 		return a.data.level - b.data.level;
@@ -17,7 +15,6 @@ const sortedTopics = allTopics.sort((a, b) => {
 	return a.data.title.localeCompare(b.data.title, 'ru');
 });
 
-// Group topics by category for featured sections
 const topicsByCategory = allTopics.reduce((acc, topic) => {
 	const category = topic.data.category || 'other';
 	if (!acc[category]) {
@@ -27,7 +24,6 @@ const topicsByCategory = allTopics.reduce((acc, topic) => {
 	return acc;
 }, {} as Record<string, typeof allTopics>);
 
-// Get featured topics (level 1-2 topics from each category)
 const featuredTopics = Object.values(topicsByCategory)
 	.flat()
 	.filter(topic => topic.data.level <= 2)
@@ -44,7 +40,6 @@ const stats = {
 	title="HumanityOS - Главная"
 	description="Система знаний и размышлений: критический анализ современного мира и предложения по его улучшению"
 >
-	<!-- Hero Section -->
 	<section class="hero">
 		<div class="hero-content">
 			<div class="hero-content-inner">
@@ -70,7 +65,6 @@ const stats = {
 		</div>
 	</section>
 
-	<!-- Stats -->
 	<section class="stats-section">
 		<div class="stats">
 			<div class="stat">
@@ -108,7 +102,6 @@ const stats = {
 		</div>
 	</section>
 
-	<!-- Featured Topics -->
 	<section id="featured" class="featured-section">
 		<div class="section-header">
 			<h2 class="section-title">🌟 Рекомендуемое для начала</h2>
@@ -133,7 +126,6 @@ const stats = {
 		</div>
 	</section>
 
-	<!-- Categories Overview -->
 	<section class="categories-section">
 		<h2 class="section-title">📚 Категории знаний</h2>
 
@@ -162,9 +154,8 @@ const stats = {
 								</button>
 							</div>
 
-							<!-- Hidden topics list -->
 							<div id={`category-${category}`} class="category-topics hidden">
-								{topics.slice(0, 5).map(topic => (
+								{topics.slice(0, 8).map(topic => (
 									<a
 										href={`/topics/${topic.slug}`}
 										class="category-topic-link"
@@ -173,9 +164,9 @@ const stats = {
 										<span class="topic-title">{topic.data.title}</span>
 									</a>
 								))}
-								{topics.length > 5 && (
+								{topics.length > 8 && (
 									<div class="more-topics-text">
-										И еще {topics.length - 5} тем...
+										И ещё {topics.length - 8} тем...
 									</div>
 								)}
 							</div>
@@ -186,7 +177,6 @@ const stats = {
 		</div>
 	</section>
 
-	<!-- All Topics -->
 	<section id="all-topics">
 		<h2 class="section-title">📖 Все темы</h2>
 
@@ -211,10 +201,9 @@ const stats = {
 	/* Hero Section */
 	.hero {
 		min-height: 60vh;
-		background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 50%, rgba(245, 158, 11, 0.1) 100%);
 		border-radius: 1rem;
 		margin-bottom: 3rem;
-		background-image: url(/src/assets/backgrounds/shutterstock-1558058690-4073813708.webp);
+		background-image: url(/assets/backgrounds/shutterstock-1558058690-4073813708.webp);
 		background-size: cover;
 		background-position: center;
 		display: flex;
@@ -573,6 +562,5 @@ const stats = {
 		}
 	}
 
-	// Make function global
 	(window as any).toggleCategory = toggleCategory;
 </script>

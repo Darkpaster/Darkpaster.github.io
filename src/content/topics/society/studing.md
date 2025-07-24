@@ -3,7 +3,7 @@ title: "Как менять (обучать) людей?"
 description: "Справочник на тему андрагогики с основными методами эффективного обучения."
 level: 4
 tags: ["общество", "мышление", "обучение"]
-related: ["/topics/cognition/rationality", "/topics/society/youAllIsMyBusiness", "/topics/cognition/brain", "/topics/cognition/positive-transfer"]
+related: ["/topics/cognition/rationality", "/topics/cognition/language", "/topics/society/youAllIsMyBusiness", "/topics/cognition/brain", "/topics/cognition/positive-transfer"]
 meme: "/assets/memes/12d4659ce3965afabbb214f2da182672.jpg"
 category: "society"
 difficulty: "intermediate"

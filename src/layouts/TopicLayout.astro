@@ -22,7 +22,6 @@ export interface Props {
 
 const { frontmatter } = Astro.props;
 
-// Get related topics
 let relatedTopics: any[] = [];
 if (frontmatter.related) {
     const allTopics = await getCollection('topics');
@@ -33,7 +32,6 @@ if (frontmatter.related) {
     );
 }
 
-// Calculate reading time (rough estimate)
 const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1000) / 660);
 ---
 
@@ -43,7 +41,6 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
         image={frontmatter.meme}
 >
     <div class="page-container">
-        <!-- Navigation Sidebar -->
         <nav class="toc-sidebar" id="toc-sidebar">
             <div class="toc-header">
                 <h3>Содержание</h3>
@@ -55,15 +52,12 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
             </div>
             <div class="toc-content" id="toc-content">
                 <ul class="toc-list" id="toc-list">
-                    <!-- Table of contents will be generated here -->
                 </ul>
             </div>
         </nav>
 
-        <!-- Main Content -->
         <main class="main-content">
             <article class="article-container">
-                <!-- Header -->
                 <header class="article-header">
                     <div class="badge-container">
                         <span class="badge badge-primary">Уровень {frontmatter.level}</span>
@@ -86,14 +80,12 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
                             </p>
                     )}
 
-                    <!-- Tags -->
                     <div class="tags-container">
                         {frontmatter.tags.map(tag => (
                                 <span class="badge badge-outline">{tag}</span>
                         ))}
                     </div>
 
-                    <!-- Dates -->
                     {(frontmatter.publishedAt || frontmatter.updatedAt) && (
                             <div class="dates-container">
                                 {frontmatter.publishedAt && (
@@ -106,7 +98,6 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
                     )}
                 </header>
 
-                <!-- Featured meme -->
                 {frontmatter.meme && (
                         <div class="meme-container">
                             <MemeEmbed
@@ -117,12 +108,10 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
                         </div>
                 )}
 
-                <!-- Main content -->
                 <div class="content-container">
                     <slot />
                 </div>
 
-                <!-- Related topics -->
                 {relatedTopics.length > 0 && (
                         <section class="related-section">
                             <h2 class="related-title">Связанные темы</h2>
@@ -141,7 +130,6 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
                         </section>
                 )}
 
-                <!-- Navigation -->
                 <nav class="nav-section">
                     <div class="nav-container">
                         <a href="/" class="nav-btn nav-btn-outline">
