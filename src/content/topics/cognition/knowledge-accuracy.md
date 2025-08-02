@@ -2,7 +2,7 @@
 title: "Точность знаний"
 description: "Почему мы часто переоцениваем глубину своих знаний и другие аспекты когнитивных способностей?"
 level: 3
-tags: ["мышление", "когнитивные искажения", "статистика", "исследования"]
+tags: ["мышление", "когнитивные искажения"]
 related: ["/topics/cognition/cognitive-biases", "/topics/cognition/fallacies", "/topics/cognition/brain", "/topics/cognition/rationality"]
 meme: "/assets/memes/competence.png"
 category: "cognition"

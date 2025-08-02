@@ -2,7 +2,7 @@
 title: "Что такое мозг и как им пользоваться?"
 description: "О том, какие процессы происходят в мозге во время мышления и обучения, как наши действия влияют на его формирование, как им управлять и т.д."
 level: 2
-tags: ["мышление"]
+tags: ["мышление", "мозг", "нейробиология"]
 related: ["/topics/cognition/rationality", "/topics/cognition/healthy-brain"]
 meme: "/assets/memes/brain.jpg"
 category: "cognition"

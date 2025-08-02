@@ -2,7 +2,7 @@
 title: "Бихевиоризм"
 description: "О наиболее научной области в психологии."
 level: 3
-tags: ["мышление", "биология", "нейробиология", "общество"]
+tags: ["мышление", "биология", "нейробиология", "психология", "общество", "методология"]
 related: ["/topics/biology/evolution", "/topics/cognition/brain", "/topics/biology/free-will", "/topics/society/youAllIsMyBusiness", "/topics/society/studing"]
 meme: "/assets/memes/7ed28bfcb93ca53c50de00d75283de01.jpg"
 category: "cognition"

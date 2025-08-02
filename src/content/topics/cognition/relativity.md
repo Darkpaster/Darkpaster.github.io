@@ -2,7 +2,7 @@
 title: "Относительность"
 description: "О фундаментальном аспекте рационального мышления, а не просто теории Эйнштейна, — относительности."
 level: 2
-tags: ["мышление", "осознанность", "теория относительности", "восприятие"]
+tags: ["мышление", "осознанность", "теория относительности", "восприятие", "нейробиология", "общая семантика"]
 related: ["/topics/cognition/brain", "/topics/cognition/rationality", "/topics/cognition/science", "/topics/cognition/general-semantic", "/topics/philosophy/objectivity", "/topics/cognition/cognitive-biases", "/topics/cognition/knowledge-accuracy"]
 meme: "/assets/memes/2024-11-26_00-41.png"
 category: "cognition"

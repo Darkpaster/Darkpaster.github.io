@@ -2,7 +2,7 @@
 title: "Сопротивление науке"
 description: "Анализ того, как на протяжении всей истории человечества общество сопротивлялось науке и инновациям."
 level: 2
-tags: ["общество", "стагнация", "мышление"]
+tags: ["общество", "стагнация", "мышление", "когнитивные искажения", "наука"]
 related: ["/topics/cognition/cognitive-biases", "/topics/society/problem-list", "/topics/cognition/simplifying", "/topics/society/capitalism", "/topics/cognition/knowledge-accuracy"]
 meme: "/assets/memes/gosoboronzakaz-dlya-zapreshhyonnoj-sektyi-saentologov-843812098.jpg"
 category: "society"

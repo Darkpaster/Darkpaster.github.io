@@ -2,7 +2,7 @@
 title: "Поиск простых ответов"
 description: "Исследование механизмов стремления к более простым и удобным ответам."
 level: 3
-tags: ["мышление", "когнитивные искажения", "статистика", "исследования"]
+tags: ["мышление", "когнитивные искажения", "психология"]
 related: ["/topics/cognition/cognitive-biases", "/topics/cognition/fallacies", "/topics/cognition/brain", "/topics/cognition/rationality"]
 meme: "/assets/memes/competence.png"
 category: "cognition"

@@ -2,7 +2,7 @@
 title: "Классификация информации"
 description: "Разностороннее рассмотрение классификаций информации и их критериев, а также предложение новой модели."
 level: 5
-tags: ["мышление", "редукционизм", "информация", "классификация", "философия", "нейробиология"]
+tags: ["мышление", "редукционизм", "онтология", "информация", "классификация", "философия", "нейробиология"]
 related: ["/topics/philosophy/objectivity", "/topics/cognition/general-semantic", "/topics/cognition/brain"]
 meme: "/assets/memes/131_Infoclasses-scaled.jpg"
 category: "philosophy"

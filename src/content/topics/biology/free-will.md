@@ -2,7 +2,7 @@
 title: "Свобода воли"
 description: "Научный взгляд на то, какие факторы влияют на наше поведение и существует ли 'осознанный' выбор?"
 level: 3
-tags: ["свобода воли", "биология", "нейробиология", "мышление", "общество"]
+tags: ["свобода воли", "биология", "нейробиология", "мышление", "общество", "когнитивные искажения", "психология", "осознанность"]
 related: ["/topics/cognition/general-semantic", "/topics/biology/evolution", "/topics/society/problem-list", "/topics/cognition/brain", "/topics/cognition/cognitive-biases", "/topics/cognition/rationality", "/topics/cognition/relativity", "/topics/philosophy/objectivity", "/topics/cognition/knowledge-accuracy", "/topics/cognition/science"]
 meme: "/assets/memes/photo_5_2025-06-15_14-48-26.jpg"
 category: "philosophy"

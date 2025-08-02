@@ -2,7 +2,7 @@
 title: "О проекте"
 description: "Цели, принципы и методология проекта 'HumanityOS'"
 level: 1
-tags: ["META", "проект", "методология", "цели"]
+tags: ["проект", "методология", "цели"]
 category: "meta"
 difficulty: "beginner"
 publishedAt: 2024-01-01

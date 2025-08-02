@@ -2,7 +2,7 @@
 title: "Как следить за своим мозгом?"
 description: "Полное руководство по поддержанию здорового мышления и психического состояния."
 level: 2
-tags: ["мышление", "тренировки", "здоровье"]
+tags: ["мышление", "тренировки", "здоровье", "мозг"]
 related: ["/topics/cognition/brain", "/topics/cognition/solving-personal-problems", "/topics/cognition/rationality"]
 meme: "/assets/memes/healthy-brain.jpg"
 category: "cognition"

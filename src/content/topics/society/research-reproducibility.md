@@ -2,7 +2,7 @@
 title: "Надёжность исследований"
 description: "Результаты исследований ставят под сомнение достоверность множества исследований, особенно в медицине."
 level: 3
-tags: ["общество", "исследования"]
+tags: ["общество", "исследования", "наука", "стагнация"]
 related: ["/topics/society/problem-list", "/topics/society/science-resistance", "/topics/society/scientists", "/topics/society/youAllIsMyBusiness", "/topics/cognition/science"]
 meme: "/assets/memes/research-cycle.png"
 category: "society"

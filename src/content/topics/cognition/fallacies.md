@@ -2,7 +2,7 @@
 title: "Логические ошибки"
 description: "Руководство по большинству известных ошибок и уловок в мыслительных процессах."
 level: 3
-tags: ["мышление"]
+tags: ["мышление", "коммуникация"]
 related: ["/topics/cognition/cognitive-biases", "/topics/cognition/rationality", "/topics/cognition/brain"]
 meme: "/assets/memes/formal-logic.jpeg"
 category: "cognition"

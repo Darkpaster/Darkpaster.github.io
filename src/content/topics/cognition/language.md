@@ -2,7 +2,7 @@
 title: "Язык как инструмент влияния на поведение"
 description: "Чем на самом деле является язык и каким он бывает?"
 level: 4
-tags: ["язык", "мышление", "коммуникация", "биология"]
+tags: ["язык", "мышление", "коммуникация", "когнитивные искажения", "стагнация", "биология", "общество"]
 related: ["/topics/cognition/general-semantic", "/topics/cognition/cognitive-biases", "/topics/cognition/rationality", "/topics/biology/free-will"]
 meme: "/assets/memes/photo_2025-03-27_22-52-34.jpg"
 category: "cognition"

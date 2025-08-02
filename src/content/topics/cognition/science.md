@@ -2,7 +2,7 @@
 title: "Наука, научный метод и научное мышление"
 description: "Данная работа исследует фундаментальные основы научного познания, анализируя природу науки, структуру научного метода и принципы научного мышления."
 level: 4
-tags: ["мышление", "наука", "исследования"]
+tags: ["мышление", "наука", "методология"]
 related: ["/topics/cognition/brain", "/topics/cognition/healthy-brain", "/topics/cognition/rationality", "/topics/society/scientists", "/topics/cognition/fallacies", "/topics/cognition/cognitive-biases", "/topics/cognition/positive-transfer", "/topics/cognition/relativity"]
 meme: "/assets/memes/Scientific-Method-1024x1024.jpg"
 category: "cognition"
