@@ -3,7 +3,7 @@ title: "Дискриминация"
 description: "Что говорит генетика о человеческом единстве? Биологические основы человеческого разнообразия: Почему дискриминация не имеет научного оправдания."
 level: 3
 tags: ["общество", "дискриминация", "мышление", "стагнация", "культура"]
-related: ["/topics/society/problem-list", "/topics/society/science-resistance", "/topics/cognition/simplifying", "/topics/society/youAllIsMyBusiness"]
+related: ["/topics/society/problem-list", "/topics/society/science-resistance", "/topics/cognition/simplifying", "/topics/society/you-all-is-my-business"]
 meme: "/assets/memes/127_Zhenskaya_Logika.jpg"
 category: "society"
 difficulty: "intermediate"

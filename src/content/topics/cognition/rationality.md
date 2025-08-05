@@ -3,7 +3,7 @@ title: "Что такое рациональность?"
 description: "О том, какие есть стереотипы о рациональных людях и чем на самом деле рациональность является."
 level: 2
 tags: ["мышление", "методология", "байесовская вероятность", "философия"]
-related: ["/topics/cognition/brain", "/topics/cognition/healthy-brain", "/topics/society/youAllIsMyBusiness", "/topics/cognition/solving-personal-problems", "/topics/cognition/relativity", "/topics/cognition/science", "/topics/cognition/fallacies", "/topics/cognition/cognitive-biases", "/topics/cognition/positive-transfer"]
+related: ["/topics/cognition/brain", "/topics/cognition/healthy-brain", "/topics/society/you-all-is-my-business", "/topics/cognition/solving-personal-problems", "/topics/cognition/relativity", "/topics/cognition/science", "/topics/cognition/fallacies", "/topics/cognition/cognitive-biases", "/topics/cognition/positive-transfer"]
 meme: "/assets/memes/80003fae70e4c74126aa2dad735fd7b7.jpg"
 category: "cognition"
 difficulty: "intermediate"

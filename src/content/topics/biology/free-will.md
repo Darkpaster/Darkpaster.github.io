@@ -6,7 +6,7 @@ tags: ["свобода воли", "биология", "нейробиологи�
 related: ["/topics/cognition/general-semantic", "/topics/biology/evolution", "/topics/society/problem-list", "/topics/cognition/brain", "/topics/cognition/cognitive-biases", "/topics/cognition/rationality", "/topics/cognition/relativity", "/topics/philosophy/objectivity", "/topics/cognition/knowledge-accuracy", "/topics/cognition/science"]
 meme: "/assets/memes/photo_5_2025-06-15_14-48-26.jpg"
 category: "philosophy"
-difficulty: "intermediate"
+difficulty: "advanced"
 publishedAt: 2024-01-10
 ---
 
