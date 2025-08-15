@@ -1,85 +1,10 @@
+---
+import {getLocale} from "astro-i18n-aut";
 
-<div class="random-quote" id="randomQuote">
-    <span class="quote-text" id="quoteText"></span>
-    <button class="quote-refresh" id="refreshQuote" title="Новая цитата">
-        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-        </svg>
-    </button>
-</div>
+const currentLanguage: string = getLocale(Astro.url);
 
-
-<style>
-    .random-quote {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        max-width: 700px;
-        margin-left: 1rem;
-        padding: 0.5rem 0.75rem;
-        background-color: rgba(var(--base-300), 0.3);
-        border-radius: var(--rounded-btn);
-        border-left: 3px solid var(--primary);
-    }
-
-    .quote-text {
-        font-size: 0.875rem;
-        font-style: italic;
-        color: var(--base-content);
-        opacity: 0.85;
-        line-height: 1.3;
-        flex: 1;
-        min-width: 0;
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-    }
-
-    .quote-refresh {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 2rem;
-        height: 2rem;
-        padding: 0;
-        border: none;
-        background: transparent;
-        border-radius: 50%;
-        color: var(--base-content);
-        opacity: 0.6;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        flex-shrink: 0;
-    }
-
-    .quote-refresh:hover {
-        opacity: 1;
-        background-color: rgba(var(--base-content), 0.1);
-        transform: rotate(180deg);
-    }
-
-    @media (max-width: 768px) {
-        .random-quote {
-            display: none;
-        }
-    }
-
-    @media (max-width: 1200px) {
-        .random-quote {
-            max-width: 350px;
-        }
-
-        .quote-text {
-            font-size: 0.8rem;
-            -webkit-line-clamp: 1;
-        }
-    }
-</style>
-
-<script>
-    const quotes = [
+const quotes = {
+    ru: [
         // ЗНАНИЕ И НЕВЕЖЕСТВО
         "Чудо, что любопытство выживает после формального образования — Эйнштейн",
         "Любопытство важнее знаний. Знания ограничены, тогда как любопытство охватывает целый мир — Эйнштейн",
@@ -213,10 +138,232 @@
         "Критическое мышление — это иммунная система разума",
         "Те, кто контролирует определения, контролируют реальность",
         "Иметь власть над языком — быть его упрямым рабом — Жак Фреско",
-    ];
+    ],
+    en: [
+        // KNOWLEDGE AND IGNORANCE
+        "It is a miracle that curiosity survives formal education — Einstein",
+        "Curiosity is more important than knowledge. Knowledge is limited, whereas curiosity embraces the whole world — Einstein",
+        "You can never solve a problem on the level on which it was created — Einstein",
+        "Everybody is a genius. But if you judge a fish by its ability to climb a tree, it will live its whole life believing it is stupid — Einstein",
+        "I know that I know nothing, but others don't even know that — Socrates",
+        "No one is your friend, no one is your enemy, but everyone is your teacher — Socrates",
+        "Our confidence in the meaningfulness of the world relies on our ability to ignore our own ignorance — Kahneman",
+        "Do not fear to be eccentric in opinion, for every opinion now accepted was once eccentric — Bertrand Russell",
+        "Education is what remains after one has forgotten everything learned in school — Mark Twain",
+        "It's easier to fool people than to convince them they have been fooled — Mark Twain",
+        "What people believe does not feel to them like belief. They simply think the world is that way — Yudkowsky",
+        "Be silent, or say something better than silence — Pythagoras",
+        "The day I said the three hardest words of my life: 'I don't know' — Jacque Fresco",
+        "The answer to any question is learning — Jacque Fresco",
+
+        // POWER AND CONTROL
+        "Give a man power and you will know who he is — Napoleon",
+        "Power is controlled by its need to control — William Burroughs",
+        "How fortunate for governments that people never think — Hitler",
+        "It's not the people who vote that count, it's the people who count the votes — Stalin",
+        "Most people do not really want freedom, because freedom involves responsibility — Sigmund Freud",
+        "A man is not free until he knows it",
+        "Nature created neither slaves nor masters. I want neither to rule nor to be ruled — Jeremy Hammond",
+        "Struggle is a never-ending process. Freedom is never really won",
+        "Humanity is enslaved by organized criminal groups calling themselves 'states' — Pavel Durov",
+        "Our attention is our most valuable resource — Pavel Durov",
+        "For millennia people were born giants, and society turned them into dwarfs — Pavel Durov",
+        "Hierarchy is the mother of all oppression — Murray Bookchin",
+        "Freedom without socialism is privilege and injustice — Mikhail Bakunin",
+        "If voting changed anything, they'd make it illegal — Emma Goldman",
+        "Patriotism is the conviction that this country is better than all others because you were born in it — Emma Goldman",
+
+        // CRITIQUE OF THE SYSTEM
+        "Capitalism defeated communism. Now it is on its way to defeating democracy — David Korten",
+        "It's easier to imagine the end of the world than the end of capitalism — Slavoj Žižek",
+        "Capitalism seems inevitable. So did the divine right of kings — Ursula Le Guin",
+        "The problem is not that we cannot feed the poor, but that we cannot satisfy the rich — Jacque Fresco",
+        "People find their soul in commodities — in cars, smartphones, brands — Herbert Marcuse",
+        "The majority doesn't know what is happening, and doesn't even know that it doesn't know — Noam Chomsky",
+        "Slavery was never abolished, it just expanded to include all races — Charles Bukowski",
+
+        // INFORMATION AND MANIPULATION
+        "The purpose of propaganda is to make one group forget that another group is human — Aldous Huxley",
+        "Politics is language designed to make lies sound truthful — George Orwell",
+        "The medium is the message — Marshall McLuhan",
+        "Media reports seem credible only until they cover something you know from personal experience — Pavel Durov",
+        "The most dangerous poison is informational — Pavel Durov",
+        "The internet is the greatest spying machine in history — Julian Assange",
+        "People can literally be poisoned by false ideas and false teachings — Alfred Korzybski",
+        "The conscious and intelligent manipulation of the organized habits and opinions of the masses is an important element of democratic society — Edward Bernays",
+        "The masses have never thirsted for the truth. They turn away from facts they don't like — Gustave Le Bon",
+        "We become what we behold. We shape our tools and thereafter our tools shape us — Marshall McLuhan",
+
+        // SCIENCE AND RESPONSIBILITY
+        "Science is the culture of doubt, not of dogma — Richard Feynman",
+        "We are a way for the cosmos to know itself. But we are also its way to destroy itself — Carl Sagan",
+        "You cannot say: 'I just want to make money.' You are responsible for the world you create — Aaron Swartz",
+        "Science is but a perversion of itself unless it has as its ultimate goal the betterment of humanity — Nikola Tesla",
+        "Science advances one funeral at a time — Max Planck",
+
+        // HUMAN NATURE
+        "Man is the cruelest animal — Nietzsche",
+        "The world is a dangerous place, not because some people do evil, but because some see it and do nothing — Einstein",
+        "One death is a tragedy. A million deaths is a statistic — Stalin",
+        "To be an immaculate member of a flock of sheep, one must above all be a sheep — Einstein",
+        "Anti-social behavior is a trait of intelligence in a world full of conformists — Nikola Tesla",
+        "You are made similar so you can be controlled — Jacque Fresco",
+        "Being entirely honest with oneself is a good exercise — Sigmund Freud",
+        "Most of the time, it is not what happens that hurts people — it is their expectations — Jacque Fresco",
+        "Man can do what he wills, but he cannot will what he wills — Arthur Schopenhauer",
+        "All truth passes through three stages: first it is ridiculed, then violently opposed, and finally accepted as self-evident — Arthur Schopenhauer",
+
+        // CHANGE AND ALTERNATIVES
+        "If you think the world cannot be changed, it only means you are not one of those who will change it — Jacque Fresco",
+        "The world will change — the question is whether you let it break you — Ernesto Che Guevara",
+        "To change a system, build a new one that makes the old obsolete — Buckminster Fuller",
+        "The more you develop, the more you lose touch with ordinary people — Jacque Fresco",
+        "The true measure of intelligence is the ability to change",
+        "The higher we soar, the smaller we appear to those who cannot fly — Nietzsche",
+        "The word 'radical' comes from the Latin word for 'root'. So if you want to get to the root of something, you must be radical — Gore Vidal",
+        "Pessimism of the intellect, optimism of the will — Antonio Gramsci",
+        "The crisis consists precisely in the fact that the old is dying and the new cannot be born — Antonio Gramsci",
+
+        // EDUCATION AND SELF-EDUCATION
+        "Educate the children and it won't be necessary to punish the adults — Pythagoras",
+        "The only education I believe in is self-education",
+        "Reading good books is like having a conversation with the finest people of past centuries — René Descartes",
+        "School has become the religion of modern society — Ivan Illich",
+        "Education is not preparation for life; education is life itself — John Dewey",
+        "If the only tool you have is a hammer, every problem looks like a nail — Abraham Maslow",
+
+        // ECOLOGY AND RESPONSIBILITY
+        "The planet is not dying — it is being killed. And the killers have names and addresses — Jeremy Hammond",
+
+        // TECHNOLOGY AND FREEDOM
+        "I deliberately avoid expensive habits. Once you have expensive habits, you become a slave to money — Richard Stallman",
+        "Today it is important to secure the right to freely use a computer in order to protect other human rights — Richard Stallman",
+        "Communication is overrated. An hour of solitude is more productive than a week of conversations — Pavel Durov",
+        "There are no difficult tasks in this world. Only many easy ones that seem scary when combined — Pavel Durov",
+
+        // PHILOSOPHY OF LIFE
+        "If you want to live a happy life, tie it to a goal, not to people or things — Einstein",
+        "Happiness is realizing that literally nothing in the world can be a reason for your unhappiness",
+        "People don't need happiness. They need certainty about tomorrow and an objective view of reality — Jacque Fresco",
+        "Do not let loneliness drive you to associate with idiots and toxic people. It's foolish to drink poison just because you are thirsty",
+        "Want to help others? Help yourself. Want to help yourself? Help others",
+        "I don't care that they stole my idea… I care that they didn't have any of their own — Nikola Tesla",
+        "I have not failed. I've just found 10,000 ways that won't work — Edison",
+
+        // WISDOM AND IRONY
+        "My way of joking is to tell the truth. There is nothing funnier — Mr. Freeman",
+        "If you see a good move, look for a better one — Emanuel Lasker",
+        "I'm sure the universe is full of intelligent life. It's just too intelligent to come here — Arthur Clarke",
+        "Why pay money to trace your family tree? Go into politics and your opponents will do it for you — Jeremy Hammond",
+
+        // MODERN CRITICS
+        "The only constant is change — Zygmunt Bauman",
+        "The spectacle is not a collection of images, but a social relation among people mediated by images — Guy Debord",
+        "We live in a world where there is more and more information, and less and less meaning — Jean Baudrillard",
+
+        // ADDITIONAL QUOTES
+        "This is the world that has been pulled over your eyes to blind you from the truth. A prison for your mind — The Matrix",
+        "The more causes you can perceive, the freer you are",
+        "You have human rights, but they are handwritten",
+        "The pawn is the only piece with a personal goal. And it can become anything it wants",
+        "When the game is over, the king and pawn go back into the same box",
+        "I am grateful to all those who said 'no' to me. Because of them, I did it myself",
+        "Do not curse the darkness. Light at least one candle",
+        "If you don't like people, try to be the exception",
+        "Critical thinking is the immune system of the mind",
+        "Those who control definitions control reality",
+        "To have power over language is to be its stubborn slave — Jacque Fresco",
+    ]
+};
+
+const refreshTooltips: { [key: string]: string } = {
+    ru: "Новая цитата",
+    en: "New quote"
+};
+---
+
+<div class="random-quote" id="randomQuote">
+    <span class="quote-text" id="quoteText"></span>
+    <button class="quote-refresh" id="refreshQuote" title={refreshTooltips[currentLanguage]}>
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+        </svg>
+    </button>
+</div>
+
+<style>
+    .random-quote {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        max-width: 700px;
+        margin-left: 1rem;
+        padding: 0.5rem 0.75rem;
+        background-color: rgba(var(--base-300), 0.3);
+        border-radius: var(--rounded-btn);
+        border-left: 3px solid var(--primary);
+    }
+
+    .quote-text {
+        font-size: 0.875rem;
+        font-style: italic;
+        color: var(--base-content);
+        opacity: 0.85;
+        line-height: 1.3;
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .quote-refresh {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
+        border: none;
+        background: transparent;
+        border-radius: 50%;
+        color: var(--base-content);
+        opacity: 0.6;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+    }
+
+    .quote-refresh:hover {
+        opacity: 1;
+        background-color: rgba(var(--base-content), 0.1);
+        transform: rotate(180deg);
+    }
+
+    @media (max-width: 768px) {
+        .random-quote {
+            display: none;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .random-quote {
+            max-width: 350px;
+        }
+
+        .quote-text {
+            font-size: 0.8rem;
+            -webkit-line-clamp: 1;
+        }
+    }
+</style>
+
+<script define:vars={{ quotes, currentLanguage }}>
 
     function getRandomQuote() {
-        return quotes[Math.floor(Math.random() * quotes.length)];
+        return quotes[currentLanguage][Math.floor(Math.random() * quotes[currentLanguage].length)];
     }
 
     function displayRandomQuote() {

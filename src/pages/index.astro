@@ -1,18 +1,20 @@
-<!-- index.astro -->
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import TopicCard from '@/components/TopicCard.astro';
 import { getCollection } from 'astro:content';
+import { getLocale } from "astro-i18n-aut";
+
+const currentLang = getLocale(Astro.url);
 
 const allTopics: any[] = await getCollection('topics', ({ data }) => {
-	return !data.draft;
+	return !data.draft && data.lang === currentLang;
 });
 
 const sortedTopics = allTopics.sort((a, b) => {
 	if (a.data.level !== b.data.level) {
 		return a.data.level - b.data.level;
 	}
-	return a.data.title.localeCompare(b.data.title, 'ru');
+	return a.data.title.localeCompare(b.data.title, currentLang === 'ru' ? 'ru' : 'en');
 });
 
 const topicsByCategory = allTopics.reduce((acc, topic) => {
@@ -34,31 +36,84 @@ const stats = {
 	categories: Object.keys(topicsByCategory).length,
 	avgLevel: Math.round(allTopics.reduce((sum, topic) => sum + topic.data.level, 0) / allTopics.length * 10) / 10
 };
+
+const texts = currentLang === 'ru' ? {
+	heroTitle: 'HumanityOS',
+	heroSubtitle: 'Альтернативная система знаний о мире: критический анализ современности и предложения по рациональному улучшению ключевых систем',
+	startLearning: 'Начать изучение',
+	aboutProject: 'О проекте',
+	knowledgeGraph: 'Граф знаний',
+	totalTopics: 'Всего тем',
+	deepAnalysis: 'Глубокий анализ',
+	categories: 'Категорий',
+	systematization: 'Систематизация',
+	avgComplexity: 'Ср. сложность',
+	outOf5Levels: 'Из 5 уровней',
+	recommendedStart: '🌟 Рекомендуемое для начала',
+	allTopics: 'Все темы →',
+	knowledgeCategories: '📚 Категории знаний',
+	allTopicsSection: '📖 Все темы',
+	expand: 'Развернуть',
+	collapse: 'Свернуть',
+	moreTopics: 'И ещё {} тем...',
+	categories_info: {
+		cognition: { name: 'Познание', desc: 'Мышление, восприятие, язык' },
+		society: { name: 'Общество', desc: 'Социальные системы и структуры' },
+		technology: { name: 'Технологии', desc: 'Инновации и их влияние' },
+		philosophy: { name: 'Философия', desc: 'Фундаментальные вопросы' },
+		meta: { name: 'META', desc: 'О проекте и методологии' }
+	}
+} : {
+	heroTitle: 'HumanityOS',
+	heroSubtitle: 'Alternative knowledge system about the world: critical analysis of modernity and proposals for rational improvement of key systems',
+	startLearning: 'Start Learning',
+	aboutProject: 'About Project',
+	knowledgeGraph: 'Knowledge Graph',
+	totalTopics: 'Total Topics',
+	deepAnalysis: 'Deep Analysis',
+	categories: 'Categories',
+	systematization: 'Systematization',
+	avgComplexity: 'Avg Complexity',
+	outOf5Levels: 'Out of 5 levels',
+	recommendedStart: '🌟 Recommended for Start',
+	allTopics: 'All Topics →',
+	knowledgeCategories: '📚 Knowledge Categories',
+	allTopicsSection: '📖 All Topics',
+	expand: 'Expand',
+	collapse: 'Collapse',
+	moreTopics: 'And {} more topics...',
+	categories_info: {
+		cognition: { name: 'Cognition', desc: 'Thinking, perception, language' },
+		society: { name: 'Society', desc: 'Social systems and structures' },
+		technology: { name: 'Technology', desc: 'Innovation and their impact' },
+		philosophy: { name: 'Philosophy', desc: 'Fundamental questions' },
+		meta: { name: 'META', desc: 'About project and methodology' }
+	}
+};
 ---
 
 <BaseLayout
-	title="HumanityOS - Главная"
-	description="Система знаний и размышлений: критический анализ современного мира и предложения по его улучшению"
+	title={`HumanityOS - ${currentLang === 'ru' ? 'Главная' : 'Home'}`}
+	description={currentLang === 'ru' ? 'Система знаний и размышлений: критический анализ современного мира и предложения по его улучшению' : 'Knowledge and reflection system: critical analysis of the modern world and proposals for its improvement'}
 >
 	<section class="hero">
 		<div class="hero-content">
 			<div class="hero-content-inner">
 				<h1 class="hero-title">
-					HumanityOS
+					{texts.heroTitle}
 				</h1>
 				<p class="hero-subtitle">
-					Альтернативная система знаний о мире: критический анализ современности
-					и предложения по рациональному улучшению ключевых систем
+					{texts.heroSubtitle}
 				</p>
 				<div class="hero-buttons">
 					<a href="#featured" class="btn btn-primary btn-large">
-						Начать изучение
+						{texts.startLearning}
 					</a>
-					<a href="/about" class="btn btn-outline btn-large">
-						О проекте
+					<a href=`${currentLang === 'ru' ? '/ru/' : '/'}about` class="btn btn-outline btn-large">
+						{texts.aboutProject}
 					</a>
-					<a href="/graph" class="btn btn-secondary btn-large">
-						Граф знаний
+					<a href=`${currentLang === 'ru' ? '/ru/' : '/'}graph` class="btn btn-secondary btn-large">
+						{texts.knowledgeGraph}
 					</a>
 				</div>
 			</div>
@@ -73,9 +128,9 @@ const stats = {
 						<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
 					</svg>
 				</div>
-				<div class="stat-title">Всего тем</div>
+				<div class="stat-title">{texts.totalTopics}</div>
 				<div class="stat-value stat-value-primary">{stats.totalTopics}</div>
-				<div class="stat-desc">Глубокий анализ</div>
+				<div class="stat-desc">{texts.deepAnalysis}</div>
 			</div>
 
 			<div class="stat">
@@ -84,9 +139,9 @@ const stats = {
 						<path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
 					</svg>
 				</div>
-				<div class="stat-title">Категорий</div>
+				<div class="stat-title">{texts.categories}</div>
 				<div class="stat-value stat-value-secondary">{stats.categories}</div>
-				<div class="stat-desc">Систематизация</div>
+				<div class="stat-desc">{texts.systematization}</div>
 			</div>
 
 			<div class="stat">
@@ -95,18 +150,18 @@ const stats = {
 						<path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
 					</svg>
 				</div>
-				<div class="stat-title">Ср. сложность</div>
+				<div class="stat-title">{texts.avgComplexity}</div>
 				<div class="stat-value stat-value-accent">{stats.avgLevel}</div>
-				<div class="stat-desc">Из 5 уровней</div>
+				<div class="stat-desc">{texts.outOf5Levels}</div>
 			</div>
 		</div>
 	</section>
 
 	<section id="featured" class="featured-section">
 		<div class="section-header">
-			<h2 class="section-title">🌟 Рекомендуемое для начала</h2>
+			<h2 class="section-title">{texts.recommendedStart}</h2>
 			<a href="#all-topics" class="btn btn-ghost">
-				Все темы →
+				{texts.allTopics}
 			</a>
 		</div>
 
@@ -115,7 +170,7 @@ const stats = {
 				<TopicCard
 					title={topic.data.title}
 					description={topic.data.description}
-					slug={`/topics/${topic.slug}`}
+					slug={`/${currentLang}/topics/${topic.slug}`}
 					tags={topic.data.tags}
 					level={topic.data.level}
 					meme={topic.data.meme}
@@ -127,30 +182,35 @@ const stats = {
 	</section>
 
 	<section class="categories-section">
-		<h2 class="section-title">📚 Категории знаний</h2>
+		<h2 class="section-title">{texts.knowledgeCategories}</h2>
 
 		<div class="categories-grid">
 			{Object.entries(topicsByCategory).map(([category, topics]) => {
-				const categoryInfo = {
-					cognition: { icon: '🧠', name: 'Познание', desc: 'Мышление, восприятие, язык' },
-					society: { icon: '🏛️', name: 'Общество', desc: 'Социальные системы и структуры' },
-					technology: { icon: '⚙️', name: 'Технологии', desc: 'Инновации и их влияние' },
-					philosophy: { icon: '💭', name: 'Философия', desc: 'Фундаментальные вопросы' },
-					meta: { icon: '📋', name: 'META', desc: 'О проекте и методологии' }
-				}[category] || { icon: '📁', name: category, desc: 'Разное' };
+				const categoryInfo = texts.categories_info[category as keyof typeof texts.categories_info] ||
+					{ name: category, desc: currentLang === 'ru' ? 'Разное' : 'Other' };
+
+				const categoryIcons = {
+					cognition: '🧠',
+					society: '🏛️',
+					technology: '⚙️',
+					philosophy: '💭',
+					meta: '📋'
+				} as const;
+
+				const icon = categoryIcons[category as keyof typeof categoryIcons] || '📁';
 
 				return (
 					<div class="category-card">
 						<div class="card-body">
 							<h3 class="card-title">
-								<span class="category-icon">{categoryInfo.icon}</span>
+								<span class="category-icon">{icon}</span>
 								{categoryInfo.name}
 							</h3>
 							<p class="category-desc">{categoryInfo.desc}</p>
 							<div class="card-actions">
-								<span class="badge badge-outline">{topics.length} тем</span>
+								<span class="badge badge-outline">{topics.length} {currentLang === 'ru' ? 'тем' : 'topics'}</span>
 								<button class="btn btn-primary btn-small" onclick={`toggleCategory('${category}')`}>
-									Развернуть
+									{texts.expand}
 								</button>
 							</div>
 
@@ -166,7 +226,7 @@ const stats = {
 								))}
 								{topics.length > 8 && (
 									<div class="more-topics-text">
-										И ещё {topics.length - 8} тем...
+										{texts.moreTopics.replace('{}', String(topics.length - 8))}
 									</div>
 								)}
 							</div>
@@ -178,7 +238,7 @@ const stats = {
 	</section>
 
 	<section id="all-topics">
-		<h2 class="section-title">📖 Все темы</h2>
+		<h2 class="section-title">{texts.allTopicsSection}</h2>
 
 		<div class="topics-grid">
 			{sortedTopics.map(topic => (
@@ -265,7 +325,6 @@ const stats = {
 		align-items: center;
 		padding: 1.5rem;
 		text-align: center;
-		//border-bottom: 1px solid #e5e7eb;
 	}
 
 	.stat:last-child {
@@ -342,7 +401,6 @@ const stats = {
 	.category-card {
 		background-color: var(--base-200);
 		box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-		//border: 1px solid #e5e7eb;
 		border-radius: 0.5rem;
 		transition: border-color 0.2s;
 	}
@@ -519,7 +577,6 @@ const stats = {
 
 		.stat {
 			border-bottom: none;
-			//border-right: 1px solid #e5e7eb;
 		}
 
 		.stat:last-child {
@@ -551,13 +608,16 @@ const stats = {
 
 		if (element && button) {
 			const isHidden = element.classList.contains('hidden');
+			const currentLang = window.location.pathname.includes('/en/') ? 'en' : 'ru';
+			const expandText = currentLang === 'ru' ? 'Развернуть' : 'Expand';
+			const collapseText = currentLang === 'ru' ? 'Свернуть' : 'Collapse';
 
 			if (isHidden) {
 				element.classList.remove('hidden');
-				button.textContent = 'Свернуть';
+				button.textContent = collapseText;
 			} else {
 				element.classList.add('hidden');
-				button.textContent = 'Развернуть';
+				button.textContent = expandText;
 			}
 		}
 	}

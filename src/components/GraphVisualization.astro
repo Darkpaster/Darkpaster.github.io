@@ -1,8 +1,55 @@
-<!-- graphVisualization.astro -->
 ---
 import { getCollection } from 'astro:content';
+import {getLocale} from "astro-i18n-aut";
 
-const allTopics = await getCollection('topics', ({ data }) => !data.draft);
+const currentLang = getLocale(Astro.url);
+
+const allTopics: any[] = await getCollection('topics', ({ data }) => {
+    return !data.draft && data.lang === currentLang;
+    });
+
+const t = {
+    en: {
+    resetZoom: 'Reset Zoom',
+    centerGraph: 'Center Graph',
+    showLinks: 'Show Links:',
+    showTagLinks: 'Show Tag Links:',
+    allCategories: 'All Categories',
+    cognition: '🧠 Cognition',
+    society: '🏛️ Society',
+    technology: '⚙️ Technology',
+    philosophy: '💭 Philosophy',
+    meta: '📋 META',
+    legend: 'Legend:',
+    level12: 'Level 1-2',
+    level3: 'Level 3',
+    level45: 'Level 4-5',
+    nodeSize: 'Node size = number of connections',
+    connections: 'Connections',
+    level: 'Level'
+    },
+    ru: {
+    resetZoom: 'Сбросить масштаб',
+    centerGraph: 'Центрировать',
+    showLinks: 'Показать связи:',
+    showTagLinks: 'Показать связи по тегам:',
+    allCategories: 'Все категории',
+    cognition: '🧠 Познание',
+    society: '🏛️ Общество',
+    technology: '⚙️ Технологии',
+    philosophy: '💭 Философия',
+    meta: '📋 META',
+    legend: 'Легенда:',
+    level12: 'Уровень 1-2',
+    level3: 'Уровень 3',
+    level45: 'Уровень 4-5',
+    nodeSize: 'Размер узла = количество связей',
+    connections: 'Связей',
+    level: 'Уровень'
+    }
+    };
+
+const translations = t[currentLang] || t.ru;
 
 // Create nodes and links for D3.js
 const nodes = allTopics.map(topic => ({
@@ -10,27 +57,51 @@ const nodes = allTopics.map(topic => ({
     title: topic.data.title,
     level: topic.data.level,
     category: topic.data.category || 'other',
-    tags: topic.data.tags,
-    url: `/topics/${topic.slug}`
-}));
+    tags: topic.data.tags || [],
+    url: `/topics/${topic.slug}`,
+    }));
 
 const links = [];
+const tagLinks = [];
+
+// Regular related links
 allTopics.forEach(topic => {
     if (topic.data.related) {
-        topic.data.related.forEach(relatedPath => {
-            const relatedSlug = relatedPath.replace('/topics/', '');
-            const targetExists = nodes.find(n => n.id === relatedSlug);
-            if (targetExists) {
-                links.push({
-                    source: topic.slug,
-                    target: relatedSlug
+    topic.data.related.forEach(relatedPath => {
+    const relatedSlug = relatedPath.replace('/topics/', '');
+    const targetExists = nodes.find(n => n.id === relatedSlug);
+    if (targetExists) {
+        links.push({
+            source: topic.slug,
+            target: relatedSlug,
+            type: 'related'
+            });
+        }
+    });
+    }
+    });
+
+// Tag-based links
+allTopics.forEach((topic, i) => {
+    allTopics.forEach((otherTopic, j) => {
+        if (i >= j) return; // Avoid duplicates
+
+        const commonTags = topic.data.tags?.filter(tag =>
+            otherTopic.data.tags?.includes(tag)
+            ) || [];
+
+        if (commonTags.length > 0) {
+            tagLinks.push({
+                source: topic.slug,
+                target: otherTopic.slug,
+                type: 'tag',
+                commonTags: commonTags
                 });
             }
         });
-    }
-});
+    });
 
-const graphData = { nodes, links };
+const graphData = { nodes, links, tagLinks };
 ---
 
 <style>
@@ -66,7 +137,7 @@ const graphData = { nodes, links };
         font-size: 0.875rem;
         border: 1px solid var(--base-content);
         background-color: var(--base-200);
-        color: var(--color-base-content);
+        color: var(--base-content);
         border-radius: var(--border-radius-sm);
         cursor: pointer;
         transition: all 0.2s ease;
@@ -283,23 +354,30 @@ const graphData = { nodes, links };
 
 <div class="graph-container">
     <div class="controls">
-        <button id="reset-zoom" class="control-btn">Сбросить масштаб</button>
-        <button id="center-graph" class="control-btn">Центрировать</button>
+        <button id="reset-zoom" class="control-btn">{translations.resetZoom}</button>
+        <button id="center-graph" class="control-btn">{translations.centerGraph}</button>
 
         <div class="form-control">
             <label class="label">
-                <span class="label-text">Показать связи:</span>
+                <span class="label-text">{translations.showLinks}</span>
                 <input type="checkbox" id="show-links" class="toggle" checked />
             </label>
         </div>
 
+        <div class="form-control">
+            <label class="label">
+                <span class="label-text">{translations.showTagLinks}</span>
+                <input type="checkbox" id="show-tag-links" class="toggle" />
+            </label>
+        </div>
+
         <select id="category-filter" class="select">
-            <option value="">Все категории</option>
-            <option value="cognition">🧠 Познание</option>
-            <option value="society">🏛️ Общество</option>
-            <option value="technology">⚙️ Технологии</option>
-            <option value="philosophy">💭 Философия</option>
-            <option value="meta">📋 META</option>
+            <option value="">{translations.allCategories}</option>
+            <option value="cognition">{translations.cognition}</option>
+            <option value="society">{translations.society}</option>
+            <option value="technology">{translations.technology}</option>
+            <option value="philosophy">{translations.philosophy}</option>
+            <option value="meta">{translations.meta}</option>
         </select>
     </div>
 
@@ -317,28 +395,15 @@ const graphData = { nodes, links };
     </div>
 
     <div class="legend">
-        <!--<h3 class="legend-title">Легенда:</h3>-->
         <div class="legend-items">
-            <!--<div class="legend-item">-->
-            <!--    <div class="legend-color success"></div>-->
-            <!--    <span>Уровень 1-2</span>-->
-            <!--</div>-->
-            <!--<div class="legend-item">-->
-            <!--    <div class="legend-color warning"></div>-->
-            <!--    <span>Уровень 3</span>-->
-            <!--</div>-->
-            <!--<div class="legend-item">-->
-            <!--    <div class="legend-color error"></div>-->
-            <!--    <span>Уровень 4-5</span>-->
-            <!--</div>-->
             <div class="legend-item">
-                <span style="margin-left: 1rem; ">Размер узла = количество связей</span>
+                <span style="margin-left: 1rem;">{translations.nodeSize}</span>
             </div>
         </div>
     </div>
 </div>
 
-<script define:vars={{ graphData }}>
+<script define:vars={{ graphData, translations }}>
     // D3.js implementation for knowledge graph
     import('https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js').then(() => {
         const container = d3.select('.graph-svg-container');
@@ -350,7 +415,6 @@ const graphData = { nodes, links };
 
         svg.attr('viewBox', [0, 0, width, height]);
 
-        // Color scale for categories
         const categoryColors = {
             cognition: '#0ea5e9',
             society: '#10b981',
@@ -360,16 +424,13 @@ const graphData = { nodes, links };
             other: '#64748b'
         };
 
-        // Calculate connection count for each node
-        function calculateConnectionCounts(nodes, links) {
+        function calculateConnectionCounts(nodes, links, tagLinks, showTagLinks) {
             const connectionCount = {};
 
-            // Initialize counts
             nodes.forEach(node => {
                 connectionCount[node.id] = 0;
             });
 
-            // Count connections
             links.forEach(link => {
                 const sourceId = typeof link.source === 'string' ? link.source : link.source.id;
                 const targetId = typeof link.target === 'string' ? link.target : link.target.id;
@@ -382,17 +443,27 @@ const graphData = { nodes, links };
                 }
             });
 
+            if (showTagLinks) {
+                tagLinks.forEach(link => {
+                    const sourceId = typeof link.source === 'string' ? link.source : link.source.id;
+                    const targetId = typeof link.target === 'string' ? link.target : link.target.id;
+
+                    if (connectionCount[sourceId] !== undefined) {
+                        connectionCount[sourceId]++;
+                    }
+                    if (connectionCount[targetId] !== undefined) {
+                        connectionCount[targetId]++;
+                    }
+                });
+            }
+
             return connectionCount;
         }
 
-        // Get radius based on connection count
         const getRadius = (connectionCount) => {
-            // Minimum radius of 5, maximum of 20
-            // Scale based on connection count
             return Math.max(5, 5 + (connectionCount * 0.5));
         };
 
-        // Level-based color intensity
         const getLevelColor = (level, category) => {
             const baseColor = categoryColors[category] || categoryColors.other;
             const opacity = Math.max(0.4, 1 - (level - 1) * 0.15);
@@ -400,20 +471,57 @@ const graphData = { nodes, links };
         };
 
         let currentData = JSON.parse(JSON.stringify(graphData));
+        let showTagLinks = false;
+        let showRegularLinks = true;
+
+        function getCombinedLinks() {
+            let combinedLinks = [];
+
+            if (showRegularLinks) {
+                combinedLinks = combinedLinks.concat(currentData.links);
+            }
+
+            if (showTagLinks) {
+                combinedLinks = combinedLinks.concat(currentData.tagLinks);
+            }
+
+            return combinedLinks;
+        }
 
         function initializeGraph() {
             svg.selectAll('*').remove();
 
-            // Calculate connection counts for current data
-            const connectionCounts = calculateConnectionCounts(currentData.nodes, currentData.links);
+            // NEW: Add arrowhead marker definitions
+            svg.append('defs').selectAll('marker')
+                .data(['related', 'tag']) // One for each link type
+                .join('marker')
+                .attr('id', d => `arrowhead-${d}`)
+                .attr('viewBox', '0 -5 10 10')
+                .attr('refX', 8) // Position of the marker along the line
+                .attr('refY', 0)
+                .attr('markerWidth', 6)
+                .attr('markerHeight', 6)
+                .attr('orient', 'auto')
+                .append('path')
+                .attr('d', 'M0,-5L10,0L0,5')
+                .attr('fill', d => d === 'tag' ? '#ff6b6b' : '#586f91'); // Match link colors
 
-            // Add connection count to nodes
+
+            const combinedLinks = getCombinedLinks();
+
+            const connectionCounts = calculateConnectionCounts(
+                currentData.nodes,
+                currentData.links,
+                currentData.tagLinks,
+                showTagLinks
+            );
+
             currentData.nodes.forEach(node => {
                 node.connectionCount = connectionCounts[node.id] || 0;
             });
 
             const simulation = d3.forceSimulation(currentData.nodes)
-                .force('link', d3.forceLink(currentData.links).id(d => d.id).distance(80))
+                .force('link', d3.forceLink(combinedLinks).id(d => d.id).distance(80))
                 .force('charge', d3.forceManyBody().strength(-300))
                 .force('center', d3.forceCenter(width / 2, height / 2))
                 .force('collision', d3.forceCollide().radius(d => getRadius(d.connectionCount) + 2));
@@ -421,11 +529,15 @@ const graphData = { nodes, links };
             // Links
             const link = svg.append('g')
                 .selectAll('line')
-                .data(currentData.links)
+                .data(combinedLinks)
                 .join('line')
-                .attr('stroke', '#586f91')
-                .attr('stroke-opacity', 0.3)
-                .attr('stroke-width', 1);
+                .attr('stroke', d => d.type === 'tag' ? '#ff6b6b' : '#586f91')
+                .attr('stroke-opacity', d => d.type === 'tag' ? 0.4 : 0.3)
+                .attr('stroke-width', d => d.type === 'tag' ? 1.5 : 1)
+                .attr('stroke-dasharray', d => d.type === 'tag' ? '3,3' : 'none')
+                // NEW: Apply the correct marker to each link
+                .attr('marker-end', d => `url(#arrowhead-${d.type})`);
+
 
             // Nodes
             const node = svg.append('g')
@@ -474,7 +586,6 @@ const graphData = { nodes, links };
             node
                 .on('mouseover', (event, d) => {
                     showTooltip(event, d);
-                    // Highlight connected nodes
                     highlightConnected(d.id, true);
                 })
                 .on('mouseout', (event, d) => {
@@ -507,7 +618,13 @@ const graphData = { nodes, links };
             });
 
             d3.select('#show-links').on('change', function() {
-                link.style('visibility', this.checked ? 'visible' : 'hidden');
+                showRegularLinks = this.checked;
+                initializeGraph();
+            });
+
+            d3.select('#show-tag-links').on('change', function() {
+                showTagLinks = this.checked;
+                initializeGraph();
             });
 
             d3.select('#category-filter').on('change', function() {
@@ -516,11 +633,29 @@ const graphData = { nodes, links };
 
             // Update positions
             simulation.on('tick', () => {
-                link
-                    .attr('x1', d => d.source.x)
-                    .attr('y1', d => d.source.y)
-                    .attr('x2', d => d.target.x)
-                    .attr('y2', d => d.target.y);
+                // MODIFIED: Adjust link endpoints to stop at the node's edge
+                link.each(function(d) {
+                    const targetNode = d.target;
+                    const sourceNode = d.source;
+
+                    const targetRadius = getRadius(targetNode.connectionCount) + 2; // Add node stroke width
+
+                    const dx = targetNode.x - sourceNode.x;
+                    const dy = targetNode.y - sourceNode.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    // Avoid division by zero
+                    if (dist === 0) return;
+
+                    const newTargetX = targetNode.x - (dx / dist) * targetRadius;
+                    const newTargetY = targetNode.y - (dy / dist) * targetRadius;
+
+                    d3.select(this)
+                        .attr('x1', sourceNode.x)
+                        .attr('y1', sourceNode.y)
+                        .attr('x2', newTargetX)
+                        .attr('y2', newTargetY);
+                });
 
                 node
                     .attr('cx', d => d.x)
@@ -539,11 +674,11 @@ const graphData = { nodes, links };
             const tooltipTags = document.getElementById('tooltip-tags');
 
             tooltipTitle.textContent = d.title;
-            tooltipCategory.textContent = `${d.category || 'other'} • Уровень ${d.level}`;
-            tooltipConnections.textContent = `Связей: ${d.connectionCount}`;
+            tooltipCategory.textContent = `${d.category || 'other'} • ${translations.level} ${d.level}`;
+            tooltipConnections.textContent = `${translations.connections}: ${d.connectionCount}`;
 
             tooltipTags.innerHTML = '';
-            d.tags.slice(0, 4).forEach(tag => {
+            (d.tags || []).slice(0, 4).forEach(tag => {
                 const span = document.createElement('span');
                 span.className = 'badge badge-xs badge-outline';
                 span.textContent = tag;
@@ -560,42 +695,53 @@ const graphData = { nodes, links };
             tooltip.classed('hidden', true);
         }
 
+        // MODIFIED: This function now highlights only OUTGOING links
         function highlightConnected(nodeId, highlight) {
-            const connectedIds = new Set([nodeId]);
+            const combinedLinks = getCombinedLinks();
 
-            currentData.links.forEach(link => {
-                const sourceId = typeof link.source === 'string' ? link.source : link.source.id;
-                const targetId = typeof link.target === 'string' ? link.target : link.target.id;
+            // Node highlighting logic remains the same (show neighbors)
+            if (highlight) {
+                const connectedIds = new Set([nodeId]);
+                combinedLinks.forEach(link => {
+                    const sourceId = typeof link.source === 'string' ? link.source : link.source.id;
+                    const targetId = typeof link.target === 'string' ? link.target : link.target.id;
 
-                if (sourceId === nodeId) connectedIds.add(targetId);
-                if (targetId === nodeId) connectedIds.add(sourceId);
-            });
+                    if (sourceId === nodeId) connectedIds.add(targetId);
+                    if (targetId === nodeId) connectedIds.add(sourceId);
+                });
 
-            svg.selectAll('circle')
-                .attr('opacity', d => highlight ? (connectedIds.has(d.id) ? 1 : 0.3) : 1);
+                svg.selectAll('circle')
+                    .attr('opacity', d => (connectedIds.has(d.id) ? 1 : 0.3));
+            } else {
+                svg.selectAll('circle').attr('opacity', 1);
+            }
 
+            // Link highlighting logic is changed
             svg.selectAll('line')
-                .attr('opacity', d => {
-                    if (!highlight) return 0.9;
+                .attr('stroke-opacity', d => {
+                    if (!highlight) {
+                        return d.type === 'tag' ? 0.4 : 0.3; // Reset to default opacity
+                    }
 
                     const sourceId = typeof d.source === 'string' ? d.source : d.source.id;
-                    const targetId = typeof d.target === 'string' ? d.target : d.target.id;
 
-                    return (sourceId === nodeId || targetId === nodeId) ? 1 : 0.1;
+                    // Highlight only links originating from the hovered node
+                    return (sourceId === nodeId) ? 1 : 0.1;
                 });
         }
+
 
         function filterByCategory(category) {
             if (category === '') {
                 currentData = JSON.parse(JSON.stringify(graphData));
             } else {
+                const filteredNodes = graphData.nodes.filter(n => n.category === category);
+                const nodeIds = new Set(filteredNodes.map(n => n.id));
+
                 currentData = {
-                    nodes: graphData.nodes.filter(n => n.category === category),
-                    links: graphData.links.filter(l => {
-                        const sourceMatch = graphData.nodes.find(n => n.id === l.source && n.category === category);
-                        const targetMatch = graphData.nodes.find(n => n.id === l.target && n.category === category);
-                        return sourceMatch && targetMatch;
-                    })
+                    nodes: filteredNodes,
+                    links: graphData.links.filter(l => nodeIds.has(l.source) && nodeIds.has(l.target)),
+                    tagLinks: graphData.tagLinks.filter(l => nodeIds.has(l.source) && nodeIds.has(l.target))
                 };
             }
             initializeGraph();

@@ -16,6 +16,7 @@ const topicsCollection = defineCollection({
         category: z.enum(['cognition', 'society', 'meta', 'technology', 'philosophy']).optional(),
         difficulty: z.enum(['beginner', 'intermediate', 'advanced']).optional(),
         readingTime: z.number().optional(),
+        lang: z.string(),
     }),
 });
 

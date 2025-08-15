@@ -17,6 +17,7 @@
     "@astrojs/tailwind": "^6.0.2",
     "@mdx-js/react": "^3.1.0",
     "astro": "^5.8.0",
+    "astro-i18n-aut": "^0.7.3",
     "gray-matter": "^4.0.3",
     "rehype-katex": "^7.0.0",
     "remark-math": "^6.0.0"

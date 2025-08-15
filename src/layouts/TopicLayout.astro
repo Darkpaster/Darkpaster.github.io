@@ -17,14 +17,21 @@ export interface Props {
         difficulty?: string;
         publishedAt?: Date;
         updatedAt?: Date;
+        lang?: string;
     };
+    lang?: string; // Переданный язык
 }
 
-const { frontmatter } = Astro.props;
+const { frontmatter, lang: passedLang } = Astro.props;
+
+// Определяем язык из переданного параметра или frontmatter
+const lang = passedLang || frontmatter.lang || 'en';
+
+const topics = await getCollection('topics', ({ data }) => data.lang === lang && !data.draft);
 
 let relatedTopics: any[] = [];
 if (frontmatter.related) {
-    const allTopics = await getCollection('topics');
+    const allTopics = await getCollection('topics', ({ data }) => data.lang === lang && !data.draft);
     relatedTopics = allTopics.filter(topic =>
         frontmatter.related?.some(relatedSlug =>
             `/topics/${topic.slug}` === relatedSlug || topic.slug === relatedSlug.replace('/topics/', '')
@@ -32,18 +39,42 @@ if (frontmatter.related) {
     );
 }
 
+// Используем стандартный Astro.slots для рендеринга, так как contextToUse может не иметь slots
 const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1000) / 660);
+
+const texts = lang === 'ru' ? {
+    contents: 'Содержание',
+    level: 'Уровень',
+    readingTime: 'мин. чтения',
+    published: 'Опубликовано:',
+    updated: 'Обновлено:',
+    illustration: 'Иллюстрация к теме',
+    relatedTopics: 'Связанные темы',
+    backToHome: '← На главную',
+    toKnowledgeGraph: 'Граф знаний →'
+} : {
+    contents: 'Contents',
+    level: 'Level',
+    readingTime: 'min read',
+    published: 'Published:',
+    updated: 'Updated:',
+    illustration: 'Topic illustration',
+    relatedTopics: 'Related Topics',
+    backToHome: '← Back to Home',
+    toKnowledgeGraph: 'Knowledge Graph →'
+};
 ---
 
 <BaseLayout
         title={frontmatter.title}
         description={frontmatter.description}
         image={frontmatter.meme}
+        lang={lang}
 >
     <div class="page-container">
         <nav class="toc-sidebar" id="toc-sidebar">
             <div class="toc-header">
-                <h3>Содержание</h3>
+                <h3>{texts.contents}</h3>
                 <button class="toc-mobile-toggle" id="toc-mobile-toggle">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M6 9l6 6 6-6"/>
@@ -60,14 +91,14 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
             <article class="article-container">
                 <header class="article-header">
                     <div class="badge-container">
-                        <span class="badge badge-primary">Уровень {frontmatter.level}</span>
+                        <span class="badge badge-primary">{texts.level} {frontmatter.level}</span>
                         {frontmatter.difficulty && (
                                 <span class="badge badge-secondary">{frontmatter.difficulty}</span>
                         )}
                         {frontmatter.category && (
                                 <span class="badge badge-accent">{frontmatter.category}</span>
                         )}
-                        <span class="badge badge-outline">~{readingTime} мин. чтения</span>
+                        <span class="badge badge-outline">~{readingTime} {texts.readingTime}</span>
                     </div>
 
                     <h1 class="article-title">
@@ -89,10 +120,10 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
                     {(frontmatter.publishedAt || frontmatter.updatedAt) && (
                             <div class="dates-container">
                                 {frontmatter.publishedAt && (
-                                        <span>Опубликовано: {frontmatter.publishedAt.toLocaleDateString('ru-RU')}</span>
+                                        <span>{texts.published} {frontmatter.publishedAt.toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'en-US')}</span>
                                 )}
                                 {frontmatter.updatedAt && frontmatter.updatedAt !== frontmatter.publishedAt && (
-                                        <span class="updated-date">Обновлено: {frontmatter.updatedAt.toLocaleDateString('ru-RU')}</span>
+                                        <span class="updated-date">{texts.updated} {frontmatter.updatedAt.toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'en-US')}</span>
                                 )}
                             </div>
                     )}
@@ -102,8 +133,8 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
                         <div class="meme-container">
                             <MemeEmbed
                                     src={frontmatter.meme}
-                                    alt={`Мем для темы: ${frontmatter.title}`}
-                                    caption="Иллюстрация к теме"
+                                    alt={`${lang === 'ru' ? 'Мем для темы' : 'Meme for topic'}: ${frontmatter.title}`}
+                                    caption={texts.illustration}
                             />
                         </div>
                 )}
@@ -114,13 +145,13 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
 
                 {relatedTopics.length > 0 && (
                         <section class="related-section">
-                            <h2 class="related-title">Связанные темы</h2>
+                            <h2 class="related-title">{texts.relatedTopics}</h2>
                             <div class="related-grid">
                                 {relatedTopics.map(topic => (
                                         <TopicCard
                                                 title={topic.data.title}
                                                 description={topic.data.description}
-                                                slug={`/topics/${topic.slug}`}
+                                                slug={`/${lang}/topics/${topic.slug}`}
                                                 tags={topic.data.tags}
                                                 level={topic.data.level}
                                                 meme={topic.data.meme}
@@ -132,11 +163,11 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
 
                 <nav class="nav-section">
                     <div class="nav-container">
-                        <a href="/" class="nav-btn nav-btn-outline">
-                            ← На главную
+                        <a href={`/${lang}`} class="nav-btn nav-btn-outline">
+                            {texts.backToHome}
                         </a>
-                        <a href="/graph" class="nav-btn nav-btn-primary">
-                            Граф знаний →
+                        <a href={`${lang}/graph`} class="nav-btn nav-btn-primary">
+                            {texts.toKnowledgeGraph}
                         </a>
                     </div>
                 </nav>
@@ -146,6 +177,7 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
 </BaseLayout>
 
 <style>
+    /* Все стили остаются теми же */
     .page-container {
         display: flex;
         min-height: 100vh;
@@ -153,8 +185,6 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
         margin: 0 auto;
     }
 
-
-    /* Main Content */
     .main-content {
         flex: 1;
         min-width: 0;
@@ -221,9 +251,7 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
         line-height: 1.7777778;
     }
 
-
-
-        .related-section {
+    .related-section {
         margin-top: 3rem;
         padding-top: 2rem;
         border-top: 1px solid var(--base-300);
@@ -431,6 +459,7 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
 </style>
 
 <script>
+    // Тот же скрипт для TOC
     document.addEventListener('DOMContentLoaded', function() {
         const tocSidebar = document.getElementById('toc-sidebar');
         const tocList = document.getElementById('toc-list');
@@ -439,7 +468,6 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
 
         if (!tocSidebar || !tocList || !contentContainer) return;
 
-        // Generate hierarchical table of contents
         function generateTOC() {
             const headings = contentContainer.querySelectorAll('h1, h2, h3, h4, h5, h6');
 
@@ -458,7 +486,6 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
             const stack = [{ level: 0, children: structure }];
 
             headings.forEach((heading, index) => {
-                // Create unique ID for heading if it doesn't exist
                 if (!heading.id) {
                     heading.id = `heading-${index}`;
                 }
@@ -473,15 +500,11 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
                     children: []
                 };
 
-                // Find the correct parent in the stack
                 while (stack.length > 1 && stack[stack.length - 1].level >= level) {
                     stack.pop();
                 }
 
-                // Add to parent's children
                 stack[stack.length - 1].children.push(item);
-
-                // Add to stack for potential children
                 stack.push(item);
             });
 
@@ -496,10 +519,7 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
                 const itemContent = document.createElement('div');
                 itemContent.className = 'toc-item-content';
 
-
-                // Add toggle button if item has children
                 if (item.children && item.children.length > 0) {
-                    console.log(item)
                     const toggleBtn = document.createElement('button');
                     toggleBtn.className = 'toc-toggle';
                     toggleBtn.innerHTML = `
@@ -516,14 +536,12 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
 
                     itemContent.appendChild(toggleBtn);
                 } else {
-                    // Add spacer for items without children
                     const spacer = document.createElement('div');
                     spacer.style.width = '20px';
                     spacer.style.marginRight = '0.5rem';
                     itemContent.appendChild(spacer);
                 }
 
-                // Add link
                 const link = document.createElement('a');
                 link.className = 'toc-link';
                 link.href = `#${item.id}`;
@@ -534,7 +552,6 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
                     e.preventDefault();
                     scrollToHeading(item.id);
 
-                    // Close mobile menu
                     if (window.innerWidth <= 768) {
                         tocSidebar.classList.remove('expanded');
                     }
@@ -543,7 +560,6 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
                 itemContent.appendChild(link);
                 li.appendChild(itemContent);
 
-                // Add children if they exist
                 if (item.children && item.children.length > 0) {
                     const childrenContainer = document.createElement('ul');
                     childrenContainer.className = 'toc-children';
@@ -582,14 +598,12 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
             }
         }
 
-        // Handle mobile toggle
         if (tocMobileToggle) {
             tocMobileToggle.addEventListener('click', function() {
                 tocSidebar.classList.toggle('expanded');
             });
         }
 
-        // Highlight active section
         function highlightActiveSection() {
             const headings = contentContainer.querySelectorAll('h1, h2, h3, h4, h5, h6');
             const tocLinks = tocList.querySelectorAll('.toc-link');
@@ -597,7 +611,6 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
             let activeHeading = null;
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-            // Find the current active heading
             for (let i = headings.length - 1; i >= 0; i--) {
                 const heading = headings[i];
                 const rect = heading.getBoundingClientRect();
@@ -609,13 +622,11 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
                 }
             }
 
-            // Update active link
             tocLinks.forEach(link => {
                 link.classList.remove('active');
                 if (activeHeading && link.getAttribute('data-target') === activeHeading.id) {
                     link.classList.add('active');
 
-                    // Ensure parent sections are expanded
                     let parentItem = link.closest('.toc-item');
                     while (parentItem) {
                         const parentChildren = parentItem.querySelector('.toc-children');
@@ -628,17 +639,14 @@ const readingTime = Math.ceil(((await Astro.slots.render('default')).length || 1
             });
         }
 
-        // Initialize
         generateTOC();
 
-        // Listen for scroll events
         let scrollTimeout;
         window.addEventListener('scroll', function() {
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(highlightActiveSection, 100);
         });
 
-        // Initial highlight
         setTimeout(highlightActiveSection, 100);
     });
 </script>

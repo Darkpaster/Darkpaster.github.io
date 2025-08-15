@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import TopicLayout from '../../layouts/TopicLayout.astro';
+
+export async function getStaticPaths() {
+    const topics = await getCollection('topics', ({ data }) => !data.draft);
+
+    return topics.map(topic => {
+        return {
+            params: {
+                slug: topic.slug,
+            },
+            props: { topic },
+        };
+    });
+}
+
+const { topic } = Astro.props;
+const { Content } = await topic.render();
+
+// Просто передаем язык из данных контента
+const contentLang = topic.data.lang || 'en';
+---
+
+<TopicLayout frontmatter={topic.data} lang={contentLang}>
+    <Content />
+</TopicLayout>

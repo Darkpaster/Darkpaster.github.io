@@ -3,10 +3,20 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import GraphVisualization from '@/components/GraphVisualization.astro';
 import { getCollection } from 'astro:content';
+import { getLocale } from "astro-i18n-aut";
 
-const allTopics = await getCollection('topics', ({ data }) => !data.draft);
+const currentLang = getLocale(Astro.url);
 
-const graphData = {
+const allTopics = await getCollection('topics', ({ data }) => !data.draft && data.lang === currentLang);
+
+type EdgeType = { source: string, target: string, type: string }
+
+interface GraphDataType {
+    nodes: unknown;
+    edges: EdgeType[];
+}
+
+const graphData: GraphDataType = {
     nodes: allTopics.map(topic => ({
         id: topic.slug,
         label: topic.data.title,
@@ -43,7 +53,7 @@ allTopics.forEach(topic => {
                 otherTopic.data.tags.includes(tag)
             );
             if (commonTags.length >= 2) {
-                const edgeExists = graphData.edges.some(edge =>
+                const edgeExists = graphData.edges.some((edge: EdgeType) =>
                     (edge.source === topic.slug && edge.target === otherTopic.slug) ||
                     (edge.source === otherTopic.slug && edge.target === topic.slug)
                 );
@@ -60,43 +70,94 @@ allTopics.forEach(topic => {
     });
 });
 
-// Statistics
 const stats = {
     totalNodes: graphData.nodes.length,
     totalEdges: graphData.edges.length,
     categories: [...new Set(graphData.nodes.map(n => n.category))].length,
     avgConnections: Math.round(graphData.edges.length * 2 / graphData.nodes.length * 10) / 10
 };
+
+const texts = currentLang === 'ru' ? {
+    title: 'Граф знаний - HumanityOS',
+    description: 'Интерактивная визуализация связей между концепциями и темами в системе знаний',
+    pageTitle: '🕸️ Граф знаний',
+    pageDescription: 'Интерактивная карта связей между концепциями и идеями (бета)',
+    nodes: 'Узлов',
+    connections: 'Связей',
+    categories: 'Категорий',
+    avgConnections: 'Ср. связей',
+    legend: '📖 Легенда',
+    nodeColors: '🎨 Цвета узлов (по категориям)',
+    tips: '💡 Подсказки:',
+    tipsList: [
+        'Кликните на узел для просмотра информации',
+        'Перетаскивайте узлы для изменения расположения',
+        'Используйте колесо мыши для масштабирования',
+        'Размер узла зависит от количества связей'
+    ],
+    categories_info: {
+        cognition: '🧠 Познание',
+        society: '🏛️ Общество',
+        technology: '⚙️ Технологии',
+        philosophy: '💭 Философия',
+        meta: '📋 META'
+    }
+} : {
+    title: 'Knowledge Graph - HumanityOS',
+    description: 'Interactive visualization of connections between concepts and themes in the knowledge system',
+    pageTitle: '🕸️ Knowledge Graph',
+    pageDescription: 'Interactive map of connections between concepts and ideas (beta)',
+    nodes: 'Nodes',
+    connections: 'Connections',
+    categories: 'Categories',
+    avgConnections: 'Avg Connections',
+    legend: '📖 Legend',
+    nodeColors: '🎨 Node colors (by categories)',
+    tips: '💡 Tips:',
+    tipsList: [
+        'Click on a node to view information',
+        'Drag nodes to change layout',
+        'Use mouse wheel to zoom',
+        'Node size depends on number of connections'
+    ],
+    categories_info: {
+        cognition: '🧠 Cognition',
+        society: '🏛️ Society',
+        technology: '⚙️ Technology',
+        philosophy: '💭 Philosophy',
+        meta: '📋 META'
+    }
+};
 ---
 
 <BaseLayout
-        title="Граф знаний - HumanityOS"
-        description="Интерактивная визуализация связей между концепциями и темами в системе знаний"
+        title={texts.title}
+        description={texts.description}
 >
     <div class="container">
         <!-- Header -->
         <section class="header-section">
-            <h1 class="main-title">🕸️ Граф знаний</h1>
+            <h1 class="main-title">{texts.pageTitle}</h1>
             <p class="main-description">
-                Интерактивная карта связей между концепциями и идеями (бета)
+                {texts.pageDescription}
             </p>
 
             <!-- Stats -->
             <div class="stats-container">
                 <div class="stat-item">
-                    <div class="stat-title">Узлов</div>
+                    <div class="stat-title">{texts.nodes}</div>
                     <div class="stat-value stat-primary">{stats.totalNodes}</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-title">Связей</div>
+                    <div class="stat-title">{texts.connections}</div>
                     <div class="stat-value stat-secondary">{stats.totalEdges}</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-title">Категорий</div>
+                    <div class="stat-title">{texts.categories}</div>
                     <div class="stat-value stat-accent">{stats.categories}</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-title">Ср. связей</div>
+                    <div class="stat-title">{texts.avgConnections}</div>
                     <div class="stat-value stat-info">{stats.avgConnections}</div>
                 </div>
             </div>
@@ -107,44 +168,42 @@ const stats = {
         <section>
             <div class="legend-card">
                 <div class="legend-body">
-                    <h2 class="legend-title">📖 Легенда</h2>
+                    <h2 class="legend-title">{texts.legend}</h2>
 
                     <div class="legend-grid">
                         <div>
-                            <h3 class="legend-subtitle">🎨 Цвета узлов (по категориям)</h3>
+                            <h3 class="legend-subtitle">{texts.nodeColors}</h3>
                             <div class="legend-items">
                                 <div class="legend-item">
                                     <div class="color-dot color-blue"></div>
-                                    <span>🧠 Познание</span>
+                                    <span>{texts.categories_info.cognition}</span>
                                 </div>
                                 <div class="legend-item">
                                     <div class="color-dot color-green"></div>
-                                    <span>🏛️ Общество</span>
+                                    <span>{texts.categories_info.society}</span>
                                 </div>
                                 <div class="legend-item">
                                     <div class="color-dot color-yellow"></div>
-                                    <span>⚙️ Технологии</span>
+                                    <span>{texts.categories_info.technology}</span>
                                 </div>
                                 <div class="legend-item">
                                     <div class="color-dot color-purple"></div>
-                                    <span>💭 Философия</span>
+                                    <span>{texts.categories_info.philosophy}</span>
                                 </div>
                                 <div class="legend-item">
                                     <div class="color-dot color-red"></div>
-                                    <span>📋 META</span>
+                                    <span>{texts.categories_info.meta}</span>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="tips-section">
-                        <p class="tips-title"><strong>💡 Подсказки:</strong></p>
+                        <p class="tips-title"><strong>{texts.tips}</strong></p>
                         <ul class="tips-list">
-                            <li>Кликните на узел для просмотра информации</li>
-                            <li>Перетаскивайте узлы для изменения расположения</li>
-                            <li>Используйте колесо мыши для масштабирования</li>
-                            <li>Размер узла зависит от количества связей</li>
+                            {texts.tipsList.map(tip => (
+                                    <li>{tip}</li>
+                            ))}
                         </ul>
                     </div>
                 </div>
@@ -215,190 +274,6 @@ const stats = {
         .stat-accent { color: var(--accent, #10b981); }
         .stat-info { color: var(--info, #06b6d4); }
 
-        /* Controls Section */
-        .controls-section {
-            margin-bottom: 24px;
-        }
-
-        .controls-card {
-            background: var(--base-100, #ffffff);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .controls-body {
-            padding: 24px;
-        }
-
-        .controls-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .form-label {
-            display: block;
-        }
-
-        .label-text {
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        .select-input, .text-input {
-            padding: 8px 12px;
-            border: 1px solid var(--border, #d1d5db);
-            border-radius: 6px;
-            font-size: 0.875rem;
-            background: var(--base-100, #ffffff);
-        }
-
-        .select-input:focus, .text-input:focus {
-            outline: none;
-            border-color: var(--primary, #3b82f6);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .button-group {
-            display: flex;
-            gap: 8px;
-            margin-left: auto;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s ease;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border, #d1d5db);
-            color: var(--text, #374151);
-        }
-
-        .btn-outline:hover {
-            background: var(--base-200, #f2f2f2);
-        }
-
-        .btn-primary {
-            background: var(--primary, #3b82f6);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark, #2563eb);
-        }
-
-        /* Graph Section */
-        .graph-section {
-            margin-bottom: 24px;
-        }
-
-        .graph-card {
-            background: var(--base-100, #ffffff);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .graph-card-body {
-            padding: 0;
-        }
-
-        .graph-container {
-            width: 100%;
-            height: 600px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 8px;
-            background: var(--base-200, #f2f2f2);
-            background-image: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
-        }
-
-        .loading-state {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 2px solid var(--border, #d1d5db);
-            border-top-color: var(--primary, #3b82f6);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            font-size: 0.875rem;
-        }
-
-        .graph-canvas {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            cursor: grab;
-        }
-
-        .graph-canvas:active {
-            cursor: grabbing;
-        }
-
-        /* Node Info Panel */
-        .node-info-panel {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            max-width: 384px;
-            background: var(--base-100, #ffffff);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .node-info-body {
-            padding: 16px;
-        }
-
-        .node-info-title {
-            font-size: 1.125rem;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
-
-        .node-details {
-            font-size: 0.875rem;
-            margin-bottom: 16px;
-        }
-
-        .node-details > div {
-            margin-bottom: 8px;
-        }
-
-        .node-actions {
-            display: flex;
-            justify-content: flex-end;
-        }
-
         /* Legend */
         .legend-card {
             background: var(--base-100, #ffffff);
@@ -451,22 +326,6 @@ const stats = {
         .color-purple { background-color: #8b5cf6; }
         .color-red { background-color: #ef4444; }
 
-        .connection-line {
-            width: 24px;
-            height: 2px;
-        }
-
-        .connection-solid {
-            background-color: var(--primary, #3b82f6);
-        }
-
-        .connection-dashed {
-            background-color: var(--secondary, #f59e0b);
-            opacity: 0.6;
-            background-image: linear-gradient(90deg, transparent 50%, var(--secondary, #f59e0b) 50%);
-            background-size: 4px 2px;
-        }
-
         .tips-section {
             margin-top: 24px;
             font-size: 0.875rem;
@@ -484,39 +343,6 @@ const stats = {
 
         .tips-list li {
             margin-bottom: 4px;
-        }
-
-        /* Badges */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 8px;
-            font-size: 0.75rem;
-            font-weight: 500;
-            border-radius: 4px;
-            margin-right: 4px;
-            margin-bottom: 4px;
-        }
-
-        .badge-primary {
-            background-color: var(--primary, #3b82f6);
-            color: white;
-        }
-
-        .badge-secondary {
-            background-color: var(--secondary, #f59e0b);
-            color: white;
-        }
-
-        .badge-outline {
-            background-color: transparent;
-            border: 1px solid var(--border, #d1d5db);
-            color: var(--text, #374151);
-        }
-
-        /* Utility Classes */
-        .hidden {
-            display: none !important;
         }
 
         /* Responsive Design */
@@ -538,40 +364,9 @@ const stats = {
                 gap: 8px;
             }
 
-            .controls-wrapper {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .button-group {
-                margin-left: 0;
-                justify-content: stretch;
-            }
-
-            .btn {
-                flex: 1;
-            }
-
             .legend-grid {
                 grid-template-columns: 1fr;
             }
-
-            .node-info-panel {
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                right: auto;
-                max-width: calc(100vw - 32px);
-                z-index: 1000;
-            }
         }
     </style>
-
-
-    <!-- Include D3.js for graph visualization -->
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>-->
-
-
-
-    </BaseLayout>
+</BaseLayout>
