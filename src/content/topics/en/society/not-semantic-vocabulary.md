@@ -3,7 +3,7 @@ title: "Non-semantic vocabulary"
 description: "A list of popular non-semantic words, phrases, and expressions, as well as their translations into relatively accurate language."
 level: 4
 tags: ["thinking", "general semantics", "perception", "society", "awareness", "language", "speech"]
-related: ["/topics/en/philosophy/objectivity", "/topics/en/cognition/language", "/topics/en/society/you-are-all-my-business", "/topics/en/society/problem-list", "/topics/en/cognition/relativity", "/topics/en/philosophy/information"]
+related: ["/topics/en/philosophy/objectivity", "/topics/en/cognition/language", "/topics/en/society/you-are-all-my-business", "/topics/en/society/problem-list", "/topics/en/cognition/relativity"]
 meme: "/assets/memes/en/language_meme_2.jpg"
 category: "society"
 difficulty: "advanced"

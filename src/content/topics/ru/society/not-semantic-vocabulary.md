@@ -3,7 +3,7 @@ title: "Не-семантический словарь"
 description: "Список популярных не-семантических слов, фраз и выражений, а также их перевод на относительно точный язык."
 level: 4
 tags: ["мышление", "общая семантика", "восприятие", "общество", "осознанность", "язык", "речь"]
-related: ["/topics/ru/philosophy/objectivity", "/topics/ru/cognition/language", "/topics/ru/society/you-are-all-my-business", "/topics/ru/society/problem-list", "/topics/ru/cognition/relativity", "/topics/ru/philosophy/information"]
+related: ["/topics/ru/philosophy/objectivity", "/topics/ru/cognition/language", "/topics/ru/society/you-are-all-my-business", "/topics/ru/society/problem-list", "/topics/ru/cognition/relativity"]
 meme: "/assets/memes/ru/language_meme_2.jpg"
 category: "society"
 difficulty: "advanced"

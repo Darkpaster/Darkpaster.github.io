@@ -13,15 +13,15 @@ lang: "en"
 
 # Mindfulness and Essentialism: A Universal Solution to Personal Problems
 
-Every day, millions of people buy productivity books, sign up for motivation trainings, and search for ways to force themselves into action. But why do most of these attempts fail? The problem isn't a lack of techniques or willpower—it lies in misunderstanding human consciousness and the inability to separate what's essential from what's secondary.
+Every day, millions of people buy productivity books, sign up for motivation trainings, and search for ways to force themselves into action. But why do most of these attempts fail? The problem isn't a lack of techniques or willpower — it lies in misunderstanding human consciousness and the inability to separate what's essential from what's secondary.
 
 ---
 
 ## Why Conventional Productivity Advice Fails
 
-Open any popular productivity book and you'll find standard recommendations: break tasks into subtasks, make to-do lists, prioritize. All these approaches ignore the main element—the person themselves. They boil down to "just do it," but if people could "just get started," they wouldn't seek help.
+Open any popular productivity book and you'll find standard recommendations: break tasks into subtasks, make to-do lists, prioritize. All these approaches ignore the main element — the person themselves. They boil down to "just do it," but if people could "just get started," they wouldn't seek help.
 
-The problem lies in psychological inertia and misdirected focus. People often confuse **busyness** with **productivity**. Chaotic task completion doesn't lead to success. True effectiveness isn't about doing more—it's about achieving meaningful results.
+The problem lies in psychological inertia and misdirected focus. People often confuse **busyness** with **productivity**. Chaotic task completion doesn't lead to success. True effectiveness isn't about doing more — it's about achieving meaningful results.
 
 ---
 

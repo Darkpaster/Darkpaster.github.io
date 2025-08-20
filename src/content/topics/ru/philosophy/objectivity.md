@@ -3,7 +3,7 @@ title: "Что такое объективность?"
 description: "О том, чем является объективность и почему её не существует."
 level: 4
 tags: ["мышление", "редукционизм", "философия", "общая семантика", "нейробиология", "онтология", "осознанность"]
-related: ["/topics/ru/cognition/rationality", "/topics/ru/cognition/science", "/topics/ru/cognition/general-semantic", "/topics/ru/philosophy/information", "/topics/ru/cognition/knowledge-accuracy", "/topics/ru/biology/free-will", "/topics/ru/cognition/brain"]
+related: ["/topics/ru/cognition/rationality", "/topics/ru/cognition/science", "/topics/ru/cognition/general-semantic", "/topics/ru/cognition/knowledge-accuracy", "/topics/ru/biology/free-will", "/topics/ru/cognition/brain"]
 meme: "/assets/memes/ru/brain_mechanism.jpg"
 category: "philosophy"
 difficulty: "advanced"

@@ -3,7 +3,7 @@ title: "What is objectivity?"
 description: "What objectivity is and why it does not exist."
 level: 4
 tags: ["thinking", "reductionism", "philosophy", "general semantics", "neurobiology", "ontology", "awareness"]
-related: ["/topics/en/cognition/rationality", "/topics/en/cognition/science", "/topics/en/cognition/general-semantic", "/topics/en/philosophy/information", "/topics/en/cognition/knowledge-accuracy", "/topics/en/biology/free-will", "/topics/en/cognition/brain"]
+related: ["/topics/en/cognition/rationality", "/topics/en/cognition/science", "/topics/en/cognition/general-semantic", "/topics/en/cognition/knowledge-accuracy", "/topics/en/biology/free-will", "/topics/en/cognition/brain"]
 meme: "/assets/memes/en/brain_mechanism.jpg"
 category: "philosophy"
 difficulty: "advanced"

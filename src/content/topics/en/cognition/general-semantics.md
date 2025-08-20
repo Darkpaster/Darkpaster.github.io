@@ -3,7 +3,7 @@ title: "General Semantics"
 description: "What is general semantics and why is it important for a stable, sane society?"
 level: 2
 tags: ["thinking", "general semantics", "perception", "society", "awareness", "theory of relativity"]
-related: ["/topics/en/cognition/brain", "/topics/en/cognition/rationality", "/topics/en/philosophy/objectivity", "/topics/en/cognition/language", "/topics/en/philosophy/information", "/topics/en/cognition/knowledge-accuracy"]
+related: ["/topics/en/cognition/brain", "/topics/en/cognition/rationality", "/topics/en/philosophy/objectivity", "/topics/en/cognition/language", "/topics/en/cognition/knowledge-accuracy"]
 meme: "/assets/memes/en/structural_differential.jpg"
 category: "cognition"
 difficulty: "intermediate"
