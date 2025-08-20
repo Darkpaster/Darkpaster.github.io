@@ -1,4 +1,5 @@
 ---
+import {getLocale} from "astro-i18n-aut";
 export interface Props {
     title: string;
     description?: string;
@@ -20,6 +21,8 @@ const {
     category,
     difficulty
 } = Astro.props;
+
+const currentLang = getLocale(Astro.url);
 
 const levelColors = {
     1: 'badge-success',
@@ -96,7 +99,7 @@ const categoryIcons = {
 
         <div class="card-actions">
             <a href={slug} class="read-button">
-                Читать
+                {currentLang === 'en' ? 'Read' : 'Читать'}
             </a>
         </div>
     </div>

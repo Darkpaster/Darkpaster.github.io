@@ -13,7 +13,7 @@ lang: "en"
 
 # **Guide to colloquial expressions (beta)**
 
-This dictionary describes the meaning (semantic core) of common, non-literal conversational Russian phrases and expressions. The interpretation of these meanings depends on intonation, the context of the dialogue, and the relationship between the speakers.
+This dictionary describes the meaning (semantic core) of common, non-literal conversational phrases and expressions. The interpretation of these meanings depends on intonation, the context of the dialogue, and the relationship between the speakers.
 
 **A Note on Methodology:** The phrasing "It seems to me that..." reflects a core principle of general semantics: language is not a reflection of objective truth but a map of an individual's perception. This helps avoid equating words with reality and reduces the likelihood of unconscious, knee-jerk reactions.
 

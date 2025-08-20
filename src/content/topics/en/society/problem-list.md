@@ -63,7 +63,7 @@ _Example:_ Buying a book gives a sense of acquiring knowledge before reading. Pe
 _Example:_ The first version of an event heard in news remains "true" even after multiple refutations. Research shows people remember precisely the initial, often inaccurate information.
 
 **14. Cultural Blindness to Cognitive Biases**  
-_Example:_ The "Müller-Lyer optical illusion" (arrows with opposite-direction tips) doesn't work on people raised in cultures without rectangular architecture—their brains haven't learned to interpret perspective this way.
+_Example:_ The "Müller-Lyer optical illusion" (arrows with opposite-direction tips) doesn't work on people raised in cultures without rectangular architecture — their brains haven't learned to interpret perspective this way.
 
 **15. Illusion of Competence Through Tools**  
 _Example:_ Students with calculators understand mathematical concepts worse but assess their abilities more confidently. GPS makes people unable to navigate without it but creates false geographic competence.
@@ -98,7 +98,7 @@ _Example:_ People easily donate $100 to save one known child but ignore statisti
 _Example:_ In the 1970s, most Americans considered racial segregation natural because their surroundings shared this opinion. Each group overestimated their support size and underestimated moral protest.
 
 **25. Choice Paradox in Reverse**  
-_Example:_ In the USSR, people queued for the only available product not because of its quality, but because lack of alternatives also paralyzes decisions—the brain can't assess value without comparison.
+_Example:_ In the USSR, people queued for the only available product not because of its quality, but because lack of alternatives also paralyzes decisions — the brain can't assess value without comparison.
 
 ---
 
@@ -165,7 +165,7 @@ _Example:_ Each generation considers normal the technological and social changes
 ### Power and Control
 
 **44. Power Metamodel Through "Noise"**  
-_Example:_ Modern governments don't prohibit criticism—they create so much informational noise (fakes, conspiracies, disputes) that citizens get lost and stop seeking truth, focusing on entertainment.
+_Example:_ Modern governments don't prohibit criticism — they create so much informational noise (fakes, conspiracies, disputes) that citizens get lost and stop seeking truth, focusing on entertainment.
 
 **45. Anonymity as a Threat to Complex Systems**  
 _Example:_ Internet trolling exists only thanks to anonymity, but it also protects dissidents and whistleblowers. Any solution to this paradox destroys either freedom or responsibility.
@@ -335,7 +335,7 @@ _Example:_ It's individually irrational to study politics (one vote decides noth
 _Example:_ Scientific method says smoking causes cancer (statistics), personal experience shows grandfather-smoker who lived 90 years, intuition suggests "everything's harmful in large doses." Which criterion is true?
 
 **92. Mathematical Reality Distortions**  
-_Example:_ The phrase "0.01% side effect risk" seems negligible, but vaccinating a billion people means serious problems for 100,000 people—statistics hide absolute numbers.
+_Example:_ The phrase "0.01% side effect risk" seems negligible, but vaccinating a billion people means serious problems for 100,000 people — statistics hide absolute numbers.
 
 **93. "System False Objectivity" Effect**  
 _Example:_ Hiring algorithms seem impartial, but if trained on historical data where fewer women were hired for technical positions, AI will discriminate against women "objectively."
@@ -355,7 +355,7 @@ _Example:_ Every decade psychology introduces new "disorders" and "syndromes," t
 _Example:_ "Follow your dream" advice works for individuals, but if everyone simultaneously quits stable jobs for startups, the economy collapses. Individual wisdom becomes collective madness.
 
 **98. "Deferred Responsibility" Syndrome**  
-_Example:_ Fukushima disaster: dozens of organizations participated in NPP creation, but when accident occurred, no one bore personal responsibility—everyone referred to fulfilling their narrow function.
+_Example:_ Fukushima disaster: dozens of organizations participated in NPP creation, but when accident occurred, no one bore personal responsibility — everyone referred to fulfilling their narrow function.
 
 **99. Expertise Paradox in Interdisciplinary Issues**  
 _Example:_ Climate change requires knowledge in physics, chemistry, economics, psychology, and politics simultaneously. But physicists don't understand economics, economists don't understand physics. Experts on entire complex don't exist.
@@ -372,7 +372,7 @@ _Example:_ Media presents conflict between climatologists (99% agree on anthropo
 ### Systemic Cycles and Patterns
 
 **103. Cyclical Patterns of Systemic Self-Harm**  
-_Example:_ Cities optimize for cars (wide roads, parking), making walking inconvenient, forcing people to drive more, requiring even bigger roads—self-reinforcing degradation cycle.
+_Example:_ Cities optimize for cars (wide roads, parking), making walking inconvenient, forcing people to drive more, requiring even bigger roads — self-reinforcing degradation cycle.
 
 **104. "Unfinished Action" Syndrome on Civilization Scale**  
 _Example:_ Nuclear waste from 1960s NPPs still has no permanent storage solution. Civilization began using atomic energy without solving waste problems for tens of thousands of years ahead.
@@ -577,7 +577,7 @@ _Example:_ Switching to electric cars increases electricity consumption, most of
 _Example:_ Ecotourism brings money for nature reserve protection, but tourist presence disrupts ecosystems. To preserve nature, it must be turned into a commodity.
 
 **146. The Paradox of "Ecological Consciousness Through Consumption"**  
-_Example:_ Buying "eco-products" gives a sense of caring for nature but increases overall consumption volume. Green consumerism is worse than regular—it removes guilt from purchases.
+_Example:_ Buying "eco-products" gives a sense of caring for nature but increases overall consumption volume. Green consumerism is worse than regular — it removes guilt from purchases.
 
 **147. The Effect of "Nature Therapy Through Its Destruction"**  
 _Example:_ The popularity of "forest bathing" and eco-therapy leads to overcrowding of natural recreation areas, destroying the very ecosystems meant to heal people.
@@ -669,7 +669,7 @@ _Example:_ Algorithms create "personal" news feeds, but all users with similar i
 _Example:_ People know fictional TV characters better than their neighbors. Media characters influence behavior more than real people.
 
 **166. Information Diet with Cognitive Obesity Syndrome**  
-_Example:_ Attempts to limit information consumption (digital detox) lead to anxiety about missing something important. Information diets work like food diets—they create binges.
+_Example:_ Attempts to limit information consumption (digital detox) lead to anxiety about missing something important. Information diets work like food diets — they create binges.
 
 **167. The Paradox of "Expertise in the Wikipedia Era"**  
 _Example:_ Everyone can instantly find any information, but can't distinguish reliable sources from unreliable ones. Information accessibility doesn't equal competence in its use.

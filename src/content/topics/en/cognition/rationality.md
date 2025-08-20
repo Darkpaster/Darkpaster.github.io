@@ -29,13 +29,13 @@ Rationality encompasses two interconnected aspects:
 
 **Systematic improvement of the accuracy of one's beliefs.**
 
-This is the art of building maps that accurately reflect reality. When you open your eyes and look around a room, you notice a laptop on the table and a bookshelf against the wall. False beliefs are like a map of the world that doesn't correspond to the territory—if you have an incorrect model of the bookshelf's location in your head, it will be difficult for you to find the book you need.
+This is the art of building maps that accurately reflect reality. When you open your eyes and look around a room, you notice a laptop on the table and a bookshelf against the wall. False beliefs are like a map of the world that doesn't correspond to the territory — if you have an incorrect model of the bookshelf's location in your head, it will be difficult for you to find the book you need.
 
 ### Instrumental Rationality
 
 **Systematic achievement of desired outcomes.**
 
-This is the art of steering reality—the ability to make the future what you want it to be. Instrumental rationality helps you choose actions that will lead to consequences ranking higher on your preference scale.
+This is the art of steering reality — the ability to make the future what you want it to be. Instrumental rationality helps you choose actions that will lead to consequences ranking higher on your preference scale.
 
 **Rationality is the art of forming true beliefs and making winning decisions.**
 
@@ -45,7 +45,7 @@ This is the art of steering reality—the ability to make the future what you wa
 
 Just as martial arts can be studied independently of physical strength, rationality can be mastered with a healthy brain. This is not a matter of innate abilities, but a matter of training the machine that exists in each of our heads.
 
-Our brains are prone to systematic errors—for example, scope neglect or incorrect probability assessment. Rationality is designed to correct such errors or find ways to work around them.
+Our brains are prone to systematic errors — for example, scope neglect or incorrect probability assessment. Rationality is designed to correct such errors or find ways to work around them.
 
 ### 2. Rationality is Not Tied to Verbal Reasoning
 
@@ -59,8 +59,8 @@ The modern concept of rationality is general enough to include:
 
 Rationality is based on two golden standards:
 
-- **Probability theory**—a set of laws underlying rational beliefs
-- **Decision theory**—a set of laws underlying rational actions
+- **Probability theory** — a set of laws underlying rational beliefs
+- **Decision theory** — a set of laws underlying rational actions
 
 Beliefs and actions that are rational in a strictly defined mathematical sense are called **Bayesian**.
 
@@ -138,6 +138,6 @@ Rationality is not about abandoning humanity in favor of cold logic. It's the ar
 - More effectively achieve what is truly important to you
 - Preserve all the depth of human emotions and values
 
-Rationality doesn't change your goals—it helps you achieve them. It's a tool that makes you more effective at what you consider important, whether it's love, creativity, helping others, or any other values.
+Rationality doesn't change your goals — it helps you achieve them. It's a tool that makes you more effective at what you consider important, whether it's love, creativity, helping others, or any other values.
 
 In a world where our brains are prone to systematic errors, rationality is a martial art that helps us better understand reality and achieve what we truly want.

@@ -19,7 +19,7 @@ In a world where individualism is often raised to an absolute and the "every man
 
 Eliezer Yudkowsky suggests viewing human civilization as a "boundless playing field," where we are all players, whether we realize it or not. In this metaphor, every decision, every thought, every belief affects not only the individual but also the developmental trajectory of all humanity.
 
-When someone buys a lottery ticket, believing in the mathematically impossible; when a person turns away from scientific facts in favor of convenient delusions; when people make decisions based on emotions rather than rational analysis—all of this makes "the story of humanity a little darker." Every moment of irrationality is a missed opportunity for progress, for a better understanding of the world, for wiser decisions.
+When someone buys a lottery ticket, believing in the mathematically impossible; when a person turns away from scientific facts in favor of convenient delusions; when people make decisions based on emotions rather than rational analysis — all of this makes "the story of humanity a little darker." Every moment of irrationality is a missed opportunity for progress, for a better understanding of the world, for wiser decisions.
 
 ## The Difference Between Condemning Ideas and Burning People
 
@@ -29,7 +29,7 @@ Yudkowsky proposes a simple principle: "Let's argue against bad ideas, but let's
 
 This is one of the key principles of rationality: factual disagreements should be resolved through experiments, mathematics, and honest debate, not through violence and prohibition. You should win by persuading people, not by "destroying" your opponents.
 
-![Критерий оценки чужих мнений](/assets/memes/Graham_pyramid.jpg)
+![Критерий оценки чужих мнений](/assets/memes/en/Graham_pyramid.jpg)
 
 ## Emotions vs. Care: Why We Confuse Feelings with Values
 
@@ -90,6 +90,6 @@ This choice does not have to be dictated by emotion. A rational understanding th
 
 The question of whether we should care what others think has no simple answer. But understanding that we are all playing the same game on the same field, that our thoughts and decisions affect the common trajectory of humanity, makes this question more significant.
 
-We can choose care—not as an emotional reaction, but as a rational position. We can learn to see in other people not competitors or enemies, but fellow minds who, like us, are trying to make sense of a complex world.
+We can choose care — not as an emotional reaction, but as a rational position. We can learn to see in other people not competitors or enemies, but fellow minds who, like us, are trying to make sense of a complex world.
 
 And most importantly, we can do this without forgetting the importance of freedom of thought and without turning into those who "burn people for wrong thoughts." Criticizing ideas and caring for people are not only compatible things but also necessary elements of a healthy society.

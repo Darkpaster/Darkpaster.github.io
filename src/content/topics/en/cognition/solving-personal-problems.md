@@ -35,25 +35,25 @@ The universe is a deterministic system where everything has causes. Most people 
 
 It's critically important to understand: **you are not your brain, memory, thoughts, or emotions**. Consciousness is what observes all these processes. This distinction between observer and observed underlies all effective self-development practices. When people identify with their stream of thoughts and emotions, they live on autopilot. The ability to detach brings profound calm and control.
 
-![Decision makes us](/assets/memes/en/decision_makes_us.jpg)
+![Decision makes us](/assets/memes/en/choice_makes_us.jpg)
 
 ---
 
 ## Neuroplasticity and Training the Brain
 
-Human personality is encoded in a quadrillion synaptic connections. Neurons that fire together wire together. Every thought increases its likelihood of recurring. The brain of someone with psychological problems is trained to respond to external factors with stress and anxiety. Thinking about problems can't solve them—we must work not with the mind's content, but with the mind itself.
+Human personality is encoded in a quadrillion synaptic connections. Neurons that fire together wire together. Every thought increases its likelihood of recurring. The brain of someone with psychological problems is trained to respond to external factors with stress and anxiety. Thinking about problems can't solve them — we must work not with the mind's content, but with the mind itself.
 
 ---
 
 ## Consumer Mindset as the Root Problem
 
-Consumerism is dependence on external validation: the need for recognition, love, any external factors for happiness. A person craving recognition isn't fundamentally different from an alcoholic—both depend on external sources for inner wellbeing. True happiness is awareness, not acquisition. It's understanding that nothing in the world can cause your unhappiness. Happiness is a personal choice.
+Consumerism is dependence on external validation: the need for recognition, love, any external factors for happiness. A person craving recognition isn't fundamentally different from an alcoholic — both depend on external sources for inner wellbeing. True happiness is awareness, not acquisition. It's understanding that nothing in the world can cause your unhappiness. Happiness is a personal choice.
 
 ---
 
 ## The Problem of Mental Health Gradations
 
-People aren't neatly divided into "healthy" and "unhealthy." Mental states exist on a spectrum. Sleep disturbances from intrusive thoughts, concentration problems, depression—these are common issues rarely discussed. The "just do it" approach ignores this complexity and often proves ineffective.
+People aren't neatly divided into "healthy" and "unhealthy." Mental states exist on a spectrum. Sleep disturbances from intrusive thoughts, concentration problems, depression — these are common issues rarely discussed. The "just do it" approach ignores this complexity and often proves ineffective.
 
 ---
 
@@ -82,7 +82,7 @@ Essentialism isn't about doing more — it's about doing the *right* things.
 
 ## Automaticity and the Devaluation of Life
 
-Boredom arises when people see the world through learned categories. Automaticity makes people stop appreciating their surroundings—new experiences bring diminishing pleasure, life turns gray. The solution isn't buying new things, but changing perspective through mindfulness practice and focusing on what truly matters.
+Boredom arises when people see the world through learned categories. Automaticity makes people stop appreciating their surroundings — new experiences bring diminishing pleasure, life turns gray. The solution isn't buying new things, but changing perspective through mindfulness practice and focusing on what truly matters.
 
 ---
 
@@ -106,7 +106,7 @@ Mindfulness and essentialism are two sides of the same coin. **Mindfulness gives
 * **Informal practice:** Manage attention in daily life — during walks, work, conversations.
 * **Essentialism practice:** Constantly ask: "Is this truly necessary?" "Does this advance my core goal?" Create buffers — time/resource reserves for unexpected events.
 
-Starting is difficult, but it becomes habitual—like brushing teeth.
+Starting is difficult, but it becomes habitual — like brushing teeth.
 
 ---
 

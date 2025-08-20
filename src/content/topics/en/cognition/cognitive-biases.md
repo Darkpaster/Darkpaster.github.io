@@ -49,7 +49,7 @@ I have collected all the reality perception biases I know from various sources, 
 -   **How to recognize:**
   -   If it seems that a certain phenomenon is appearing "everywhere," ask yourself if this was preceded by your interest in the topic.
   -   Try to purposefully shift your attention to something else. What else is happening around you that you haven't noticed?
-  -   Compare your perception of a situation with that of another person—they likely noticed completely different details.
+  -   Compare your perception of a situation with that of another person — they likely noticed completely different details.
 
 #### **Illusory Truth Effect**
 
@@ -77,7 +77,7 @@ I have collected all the reality perception biases I know from various sources, 
 -   **How to recognize:**
   -   Ask yourself: "Do I like this because it's genuinely good, or just because it's familiar?"
   -   Try to consciously explore alternatives that you see less often. They might turn out to be just as good as the familiar options.
-  -   Remember this effect when making important decisions—the choice should be based on quality, not familiarity.
+  -   Remember this effect when making important decisions — the choice should be based on quality, not familiarity.
 
 #### **Context Effect**
 
@@ -105,7 +105,7 @@ I have collected all the reality perception biases I know from various sources, 
 -   **How to recognize:**
   -   If you have forgotten something, try to return to the place or state where you memorized it.
   -   Use this effect for studying: create associations between the material and specific smells, sounds, or places.
-  -   Remember that what is "forgotten" is not always lost forever—perhaps you just need the right "key" to access the memory.
+  -   Remember that what is "forgotten" is not always lost forever — perhaps you just need the right "key" to access the memory.
 
 #### **Mood-congruent Memory Bias**
 
@@ -119,7 +119,7 @@ I have collected all the reality perception biases I know from various sources, 
 -   **How to recognize:**
   -   If it seems that your life is dominated by only bad or only good events, check your current mood.
   -   When making important decisions about relationships or work, wait until the emotions subside and try to recall events in a more neutral state.
-  -   Keep a diary of different events in different moods—this will help you get a more objective picture of your life.
+  -   Keep a diary of different events in different moods — this will help you get a more objective picture of your life.
 
 #### **Frequency Illusion / Baader-Meinhof Phenomenon**
 
@@ -145,9 +145,9 @@ I have collected all the reality perception biases I know from various sources, 
   -   **Emotional decisions:** In a calm state, you wonder, "How could I have been so angry over such a small thing?" But in a moment of anger, your anger seems completely justified and rational.
 
 -   **How to recognize:**
-  -   Avoid making important decisions in extreme emotional states—wait for the "storm to pass."
+  -   Avoid making important decisions in extreme emotional states — wait for the "storm to pass."
   -   When planning for the future, think about the state you will be in when you do it and adjust your plans accordingly.
-  -   Remember that other people are also subject to the empathy gap—don't judge them too harshly for decisions made in an emotional state.
+  -   Remember that other people are also subject to the empathy gap — don't judge them too harshly for decisions made in an emotional state.
 
 ### Biases related to unusual things
 
@@ -163,7 +163,7 @@ I have collected all the reality perception biases I know from various sources, 
 -   **How to recognize:**
   -   If you remembered some information better than the rest, ask yourself: is it really more important, or just more unusual?
   -   Use this effect for learning: create strange, funny, or absurd associations with important information.
-  -   Remember that "memorable" does not mean "correct" or "best"—sometimes the most ordinary options turn out to be the most suitable.
+  -   Remember that "memorable" does not mean "correct" or "best" — sometimes the most ordinary options turn out to be the most suitable.
 
 #### **Humor Effect**
 
@@ -253,7 +253,7 @@ I have collected all the reality perception biases I know from various sources, 
 
 #### **Contrast Effect**
 
--   **Description:** Our perception of any object changes radically depending on what we compared it to immediately before evaluating it. Contrast distorts absolute judgment—the same thing can seem better or worse depending on its "neighbors."
+-   **Description:** Our perception of any object changes radically depending on what we compared it to immediately before evaluating it. Contrast distorts absolute judgment — the same thing can seem better or worse depending on its "neighbors."
 
 -   **Examples:**
   -   **Attractiveness of people:** A person of average attractiveness will seem beautiful when surrounded by less attractive people, and vice versa. Modeling agencies use this by showing average people next to not-so-photogenic ones.
@@ -276,7 +276,7 @@ I have collected all the reality perception biases I know from various sources, 
 
 -   **How to recognize:**
   -   If one characteristic seems decisive to you, make a written list of all important factors.
-  -   Ask for the opinions of others—they may notice important aspects that you are overlooking.
+  -   Ask for the opinions of others — they may notice important aspects that you are overlooking.
   -   Imagine yourself one year after making the decision: what will be important then?
 
 #### **Framing Effect**
@@ -361,7 +361,7 @@ I have collected all the reality perception biases I know from various sources, 
   -   **Car:** After buying a car, you suddenly start to consider its brand the most reliable and find minor flaws in all others: "that one has an outdated design, and the other one uses too much gas."
 
 -   **How to recognize:**
-  -   If, after a purchase, you start actively looking for positive reviews of the product or trying to convince friends who didn't ask how great it is—this is probably it.
+  -   If, after a purchase, you start actively looking for positive reviews of the product or trying to convince friends who didn't ask how great it is — this is probably it.
   -   Pay attention if you start criticizing alternatives that seemed perfectly fine to you just yesterday.
   -   This isn't always a bad thing! It's a psychological defense mechanism. But it's useful to understand when it kicks in.
 
@@ -376,7 +376,7 @@ I have collected all the reality perception biases I know from various sources, 
 
 -   **How to recognize:**
   -   If, after making a decision, you suddenly start finding new pros in your choice and cons in the alternatives, this mechanism may have been activated.
-  -   Try to honestly assess the shortcomings of your choice—they haven't disappeared.
+  -   Try to honestly assess the shortcomings of your choice — they haven't disappeared.
   -   Remember that this effect helps you feel more confident in your decisions but can prevent you from learning from your mistakes.
 
 #### **Selective Perception**

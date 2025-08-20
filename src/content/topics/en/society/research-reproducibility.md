@@ -35,7 +35,7 @@ Over the last 20 years, the number of retracted scientific papers in Europe has 
 
 ## The Price of Errors: Billions of Dollars and Human Lives
 
-The consequences of the reproducibility crisis are measured not only in scientific terms but also in money and human destinies. In the United States, unnecessary medical procedures—surgeries that patients do not need but that generate profit for hospitals—cost the healthcare system hundreds of billions of dollars annually.
+The consequences of the reproducibility crisis are measured not only in scientific terms but also in money and human destinies. In the United States, unnecessary medical procedures — surgeries that patients do not need but that generate profit for hospitals — cost the healthcare system hundreds of billions of dollars annually.
 
 Universities receive grants worth hundreds of millions of dollars, but when data fabrication is discovered, the fines are in the tens of millions. Even after paying the fines, the institutions still come out ahead. This creates a perverse system of incentives where dishonesty and manipulation become more profitable than integrity.
 
@@ -47,7 +47,7 @@ But the highest price is human. Every unreliable study in medicine potentially a
 
 The modern academic system places immense pressure on scientists. A career depends on the number of publications in prestigious journals, securing grants, and scientific recognition. In such conditions, the temptation to "tweak" results or present data in a more favorable light becomes almost irresistible.
 
-Negative results—when a hypothesis is not confirmed—are rarely published, although they are no less valuable to science. This creates a bias: the literature accumulates predominantly "successful" studies, creating a false impression of a method's effectiveness.
+Negative results — when a hypothesis is not confirmed—are rarely published, although they are no less valuable to science. This creates a bias: the literature accumulates predominantly "successful" studies, creating a false impression of a method's effectiveness.
 
 ### The Complexity of Biological Systems
 
@@ -60,7 +60,7 @@ For example, stroke research on healthy young mice shows promising results. But 
 Modern science relies on statistical methods to determine the significance of results. The gold standard is a p-value of less than 5%, which means a 95% confidence that the result is not random. But this value can be "adjusted" in various ways:
 
 - Conducting more tests and selecting the most favorable result
-- Excluding "outliers"—inconvenient data points
+- Excluding "outliers" — inconvenient data points
 - Reformulating the hypothesis after obtaining the results
 
 These manipulations, known as "p-hacking," are not technically fraud but seriously distort the scientific picture.
@@ -74,9 +74,9 @@ In an American laboratory, the effects of various substances on the lungs of mic
 
 ### Success: The Discovery of Insulin as an Example of True Science
 
-Frederick Banting was a surgeon with no lab, no money, and no connections. He only had a hunch about how to save patients with type 1 diabetes—a disease that was a death sentence in the early 20th century. Despite skepticism from his colleagues, he was given a student assistant and a small laboratory.
+Frederick Banting was a surgeon with no lab, no money, and no connections. He only had a hunch about how to save patients with type 1 diabetes — a disease that was a death sentence in the early 20th century. Despite skepticism from his colleagues, he was given a student assistant and a small laboratory.
 
-A few weeks later, they obtained a pancreatic extract that lowered blood sugar levels in dogs. Thus, insulin was discovered—a medicine that does not cure diabetes but saves millions of lives. The patent was sold for a symbolic dollar to make the drug accessible to all.
+A few weeks later, they obtained a pancreatic extract that lowered blood sugar levels in dogs. Thus, insulin was discovered — a medicine that does not cure diabetes but saves millions of lives. The patent was sold for a symbolic dollar to make the drug accessible to all.
 
 ## Hidden Mechanisms: How "Bad" Science Is Made
 
@@ -119,7 +119,7 @@ Despite all the problems, science continues to work. We live longer, treat disea
 
 The problem is not that science doesn't work, but that it is done by people with all their human weaknesses: ambitions, fears, hopes, and mistakes. Acknowledging this fact is the first step toward improving the situation.
 
-The reproducibility crisis is not a death sentence for science, but a call to action. As the physiologist Csaba Szabo wrote: "Science is a complex, diverse, often contradictory—in a word, human—endeavor." And that is precisely why its successes are so valuable—they are achieved in spite of human weaknesses, not because of some superhuman rationality.
+The reproducibility crisis is not a death sentence for science, but a call to action. As the physiologist Csaba Szabo wrote: "Science is a complex, diverse, often contradictory — in a word, human—endeavor." And that is precisely why its successes are so valuable—they are achieved in spite of human weaknesses, not because of some superhuman rationality.
 
 The future of science depends on whether we can create systems that channel human nature constructively, minimizing temptations and maximizing the pursuit of truth. This is a difficult task, but a solvable one. After all, science has repeatedly proven its capacity for self-correction and development.
 

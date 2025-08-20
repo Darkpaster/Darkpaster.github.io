@@ -35,7 +35,7 @@ Modern genetics categorically refutes the existence of discrete biological races
 
 - **There are no clear genetic boundaries** between so-called "racial" groups
 - **Genetic differences are distributed clinally** (gradually) across geographical regions, not in discrete blocks
-- **"Racial purity" is a myth**—all populations are the result of ancient and recent admixture
+- **"Racial purity" is a myth** — all populations are the result of ancient and recent admixture
 
 ## Gender Differences: Science vs. Stereotypes
 
@@ -52,7 +52,7 @@ In cognitive abilities, the differences are also small. A [meta-analysis of cogn
 
 ### Physical Differences
 
-In physical strength, men do indeed surpass women by 40-50% due to greater muscle volume. However, a [study on sex differences in strength training](https://pubmed.ncbi.nlm.nih.gov/40028215/) shows that **relative hypertrophy after strength training is the same**—women build muscle mass just as effectively as men with the same training. An [analysis of muscle hypertrophy](https://peerj.com/articles/19042/) confirms this data.
+In physical strength, men do indeed surpass women by 40-50% due to greater muscle volume. However, a [study on sex differences in strength training](https://pubmed.ncbi.nlm.nih.gov/40028215/) shows that **relative hypertrophy after strength training is the same** — women build muscle mass just as effectively as men with the same training. An [analysis of muscle hypertrophy](https://peerj.com/articles/19042/) confirms this data.
 
 ## Multiple Forms of Discrimination
 
@@ -101,13 +101,13 @@ Science offers concrete ways to combat discrimination:
 ### 1. Education and Awareness
 
 - **Use relative, not absolute, measures** when assessing abilities
-- **Teach critical thinking**—a [study on the effectiveness of training](https://pubmed.ncbi.nlm.nih.gov/37069824/) shows that short training sessions reduce prejudice by 40%
+- **Teach critical thinking** — a [study on the effectiveness of training](https://pubmed.ncbi.nlm.nih.gov/37069824/) shows that short training sessions reduce prejudice by 40%
 - **Disseminate scientific knowledge** about the genetic unity of humanity
 
 ### 2. Structural Changes
 
-- **Apply the "principle of great overlap"**—focus on individual data rather than group averages
-- **Create an inclusive environment**—a [study by the American Psychological Association](https://www.apa.org/monitor/2022/03/news-weight-stigma) shows that special courses for healthcare professionals halve bias
+- **Apply the "principle of great overlap"** — focus on individual data rather than group averages
+- **Create an inclusive environment** — a [study by the American Psychological Association](https://www.apa.org/monitor/2022/03/news-weight-stigma) shows that special courses for healthcare professionals halve bias
 - **Implement blind selection procedures** where possible
 
 ### 3. Legislative Measures
@@ -136,7 +136,7 @@ Discrimination is not a biological inevitability but a social choice based on ig
 
 As geneticist Adam Rutherford noted: "Racism is being expressed in the public sphere more frequently than at any time in my memory, and it is our duty to counter it with facts." We have these facts. All that remains is to find the courage to use them.
 
-We are all Africans. We are all human. We all deserve equal respect and equal opportunities. This is not an ideological statement—it is a scientific fact.
+We are all Africans. We are all human. We all deserve equal respect and equal opportunities. This is not an ideological statement — it is a scientific fact.
 
 ---
 

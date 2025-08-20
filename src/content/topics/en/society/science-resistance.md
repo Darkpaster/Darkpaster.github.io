@@ -19,15 +19,15 @@ _The history of science is not only the triumph of human reason but also a chron
 
 Long before the great astronomical debates, humanity resisted attempts to understand its own body. In the Middle Ages, anatomical studies were practically forbidden. Andreas Vesalius, the founder of modern anatomy, in the 16th century risked his life by secretly dissecting corpses to study human structure.
 
-His main work, "On the Fabric of the Human Body" (1543), refuted many claims of Galen, which had been considered unquestionable truth for over a thousand years. The medical community was furious—how could one doubt ancient authority? Vesalius was accused of heresy, and the Inquisition sentenced him to death. Only the intervention of King Philip II replaced execution with a pilgrimage to the Holy Land, from which the scientist never returned.
+His main work, "On the Fabric of the Human Body" (1543), refuted many claims of Galen, which had been considered unquestionable truth for over a thousand years. The medical community was furious — how could one doubt ancient authority? Vesalius was accused of heresy, and the Inquisition sentenced him to death. Only the intervention of King Philip II replaced execution with a pilgrimage to the Holy Land, from which the scientist never returned.
 
-Even more tragic was the fate of Michael Servetus, who in 1553 described the pulmonary circulation. Protestants and Catholics united against him—Servetus was burned alive in Geneva on the orders of Calvin himself. The accusation stated: "Investigating divine creation is an encroachment on the providence of the Almighty."
+Even more tragic was the fate of Michael Servetus, who in 1553 described the pulmonary circulation. Protestants and Catholics united against him — Servetus was burned alive in Geneva on the orders of Calvin himself. The accusation stated: "Investigating divine creation is an encroachment on the providence of the Almighty."
 
 ## The Universe Does Not Revolve Around Us
 
 Imagine the shock people in the 16th century experienced upon learning that Earth is not the center of the universe. Nicolaus Copernicus cautiously proposed the heliocentric model, but the real storm erupted a century later when Galileo Galilei provided irrefutable evidence.
 
-The reaction was immediate and merciless. The Catholic Church declared the teaching heresy, and in 1633, Galileo himself was forced to recant. "Earth is the center of divine creation," theologians asserted. It took more than three and a half centuries for the Church to officially rehabilitate the great astronomer—this happened only in 1992.
+The reaction was immediate and merciless. The Catholic Church declared the teaching heresy, and in 1633, Galileo himself was forced to recant. "Earth is the center of divine creation," theologians asserted. It took more than three and a half centuries for the Church to officially rehabilitate the great astronomer — this happened only in 1992.
 
 Even more tragic was the fate of Giordano Bruno, who not only supported heliocentrism but also suggested that the Universe is infinite and stars are distant suns with planets. For these "heretical" ideas, he was burned at the stake in 1600. The Inquisition accused him of "the doctrine of the plurality of worlds denying the uniqueness of Earth."
 
@@ -37,7 +37,7 @@ Interestingly, even among astronomers, the idea met resistance. Tycho Brahe, an 
 
 In 1628, the English physician William Harvey published a treatise on blood circulation, proving that the heart works as a pump, circulating blood through a closed system. For fifteen hundred years before that, Galen's theory dominated, stating that blood is produced in the liver and "burns" in the tissues.
 
-The medical establishment rebelled. The Paris Medical Faculty officially prohibited its doctors from applying Harvey's theory under threat of expulsion from the corporation. The London Royal College of Physicians declared him an "enemy of medicine." Colleagues boycotted Harvey—his patient numbers sharply declined because "who would go to a doctor who denies the foundations of medicine?"
+The medical establishment rebelled. The Paris Medical Faculty officially prohibited its doctors from applying Harvey's theory under threat of expulsion from the corporation. The London Royal College of Physicians declared him an "enemy of medicine." Colleagues boycotted Harvey — his patient numbers sharply declined because "who would go to a doctor who denies the foundations of medicine?"
 
 French physicians resisted especially fiercely. Guy Patin, dean of the medical faculty in Paris, wrote: "The system of blood circulation is an English invention, born of their national arrogance. True medicine should rely on ancient authorities, not heretical fabrications."
 
@@ -47,7 +47,7 @@ In the 19th century, the Hungarian physician Ignaz Semmelweis made a discovery t
 
 It seemed a simple and logical solution. But the medical community rejected Semmelweis's proposal with indignation. "Gentlemen cannot have dirty hands!" colleagues fumed. The doctor was expelled from the medical community, and he died in a psychiatric hospital, broken by the misunderstanding of his contemporaries.
 
-Only after Louis Pasteur's work was the germ theory accepted, but it was too late—thousands of women had died due to medical arrogance.
+Only after Louis Pasteur's work was the germ theory accepted, but it was too late — thousands of women had died due to medical arrogance.
 
 A similar fate befell the British physician Joseph Lister, who proposed using antiseptics to prevent postoperative infections. Surgeons of that time literally prided themselves on their bloodstained coats as symbols of professional experience. It took twenty years for antisepsis to become standard practice.
 
@@ -77,31 +77,31 @@ English geologists were especially caustic in their criticism. Roderick Murchiso
 
 ## Origin of Species in Question
 
-1859 became a turning point in biology—Charles Darwin published "On the Origin of Species." The theory of evolution through natural selection not only explained the diversity of life on Earth but radically changed humanity's view of its place in the world.
+1859 became a turning point in biology — Charles Darwin published "On the Origin of Species." The theory of evolution through natural selection not only explained the diversity of life on Earth but radically changed humanity's view of its place in the world.
 
-The reaction was explosive. The clergy and conservative segments of society organized mass protests. The famous phrase "Man descended from apes? Never!" became the battle cry of evolution's opponents. It even led to court trials—in 1925, the "Monkey Trial" took place in Tennessee, where a teacher was tried for teaching evolution in schools.
+The reaction was explosive. The clergy and conservative segments of society organized mass protests. The famous phrase "Man descended from apes? Never!" became the battle cry of evolution's opponents. It even led to court trials — in 1925, the "Monkey Trial" took place in Tennessee, where a teacher was tried for teaching evolution in schools.
 
-Surprisingly, resistance was not only religious. Many scientists of the time rejected evolution on scientific grounds. Lord Kelvin calculated the Earth's age at 24 million years—too short for Darwinian evolution. He did not know about radioactivity, which maintains the temperature of the Earth's interior. Geologist Adam Sedgwick, Darwin's teacher, wrote: "If the theory is true, then the entire moral foundation of society collapses."
+Surprisingly, resistance was not only religious. Many scientists of the time rejected evolution on scientific grounds. Lord Kelvin calculated the Earth's age at 24 million years — too short for Darwinian evolution. He did not know about radioactivity, which maintains the temperature of the Earth's interior. Geologist Adam Sedgwick, Darwin's teacher, wrote: "If the theory is true, then the entire moral foundation of society collapses."
 
 ## Continents in Motion
 
-In 1912, the German meteorologist Alfred Wegener proposed the theory of continental drift. Studying maps, he noticed that continents were like pieces of a giant puzzle—the coastlines of Africa and South America matched remarkably well.
+In 1912, the German meteorologist Alfred Wegener proposed the theory of continental drift. Studying maps, he noticed that continents were like pieces of a giant puzzle — the coastlines of Africa and South America matched remarkably well.
 
 The geological community met the theory with mockery. "What force could move entire continents?" critics ironized. The president of the American Geological Society, Rollin Chamberlin, compared Wegener's idea to a "child's fairy tale." British geophysicist Harold Jeffreys "mathematically proved" the impossibility of continental movement.
 
-Geologists were particularly outraged that the theory was proposed by a meteorologist—a "dilettante who doesn't understand the basics of geology." Wegener could not propose a convincing mechanism, and his idea was rejected for half a century. Only in the 1960s, with the discovery of plate tectonics and mid-ocean ridges, was the theory of continental drift brilliantly confirmed.
+Geologists were particularly outraged that the theory was proposed by a meteorologist — a "dilettante who doesn't understand the basics of geology." Wegener could not propose a convincing mechanism, and his idea was rejected for half a century. Only in the 1960s, with the discovery of plate tectonics and mid-ocean ridges, was the theory of continental drift brilliantly confirmed.
 
 ## Ulcers Not from Stress
 
 In 1982, Australian physicians Barry Marshall and Robin Warren made a shocking discovery: most stomach ulcers are caused not by stress and spicy food, but by the bacterium Helicobacter pylori. This meant ulcers could be treated with antibiotics, not expensive surgeries.
 
-The gastroenterological community rejected the discovery with contempt. "Everyone knows bacteria can't survive in the acidic environment of the stomach," critics asserted. Pharmaceutical companies were also displeased—antibiotics cost pennies compared to drugs for long-term ulcer treatment.
+The gastroenterological community rejected the discovery with contempt. "Everyone knows bacteria can't survive in the acidic environment of the stomach," critics asserted. Pharmaceutical companies were also displeased — antibiotics cost pennies compared to drugs for long-term ulcer treatment.
 
-Marshall and Warren were denied publications and not invited to conferences. In desperation, Marshall experimented on himself—he drank a culture of the bacteria, developed gastritis, and then cured it with antibiotics. Even this did not convince skeptics. It took twenty years for the new approach to become the standard of treatment. In 2005, the scientists received the Nobel Prize.
+Marshall and Warren were denied publications and not invited to conferences. In desperation, Marshall experimented on himself — he drank a culture of the bacteria, developed gastritis, and then cured it with antibiotics. Even this did not convince skeptics. It took twenty years for the new approach to become the standard of treatment. In 2005, the scientists received the Nobel Prize.
 
 ## Invisible Quanta
 
-In 1900, the German physicist Max Planck made a discovery that overturned ideas about the nature of energy. He suggested that energy is emitted not continuously but in discrete portions—quanta.
+In 1900, the German physicist Max Planck made a discovery that overturned ideas about the nature of energy. He suggested that energy is emitted not continuously but in discrete portions — quanta.
 
 The paradox was that Planck himself initially did not believe in the reality of quanta, considering them merely a "mathematical trick." Even Albert Einstein, who developed quantum theory, later rejected its probabilistic interpretation with the famous phrase: "God does not play dice."
 
@@ -141,7 +141,7 @@ Psychologist Leon Festinger demonstrated this in a famous study of a cult predic
 
 ### Confirmation Bias
 
-People tend to seek information that confirms their beliefs and ignore contradicting data. This mechanism is especially strong among experts—the more a person has invested in a certain viewpoint, the harder it is to abandon it.
+People tend to seek information that confirms their beliefs and ignore contradicting data. This mechanism is especially strong among experts — the more a person has invested in a certain viewpoint, the harder it is to abandon it.
 
 Darwin understood this and spent twenty years gathering evidence for evolution before publishing his theory. He knew that half-baked arguments would be easily rejected.
 
@@ -163,7 +163,7 @@ When Copernicus deprived Earth of its central place in the Universe, it was not 
 
 ### Anchoring Effect
 
-The first information received creates an "anchor"—a starting point for all subsequent judgments. If a person first learned an incorrect theory, they will interpret new data through the lens of those initial perceptions.
+The first information received creates an "anchor" — a starting point for all subsequent judgments. If a person first learned an incorrect theory, they will interpret new data through the lens of those initial perceptions.
 
 Aristotelian physics dominated for two thousand years precisely because it became the "anchor" for understanding the world. Even as contradicting observations accumulated, they were explained within the old paradigm.
 
@@ -175,7 +175,7 @@ Linus Pauling, a two-time Nobel laureate, defended his erroneous model of DNA st
 
 ## The Semmelweis Effect
 
-The story of Ignaz Semmelweis gave name to an entire phenomenon—the "Semmelweis effect." This is the reflexive rejection of new knowledge when it contradicts established beliefs and perceptions.
+The story of Ignaz Semmelweis gave name to an entire phenomenon — the "Semmelweis effect." This is the reflexive rejection of new knowledge when it contradicts established beliefs and perceptions.
 
 The effect manifests particularly vividly in the following situations:
 
@@ -207,9 +207,9 @@ Modern resistance to science has acquired new traits:
 
 ## Information Age and New Threats
 
-The internet has radically changed the dynamics of scientific information dissemination. On one hand, knowledge has become more accessible. On the other—false information spreads faster than reliable, and social media algorithms create "echo chambers" where people hear only opinions confirming their beliefs.
+The internet has radically changed the dynamics of scientific information dissemination. On one hand, knowledge has become more accessible. On the other — false information spreads faster than reliable, and social media algorithms create "echo chambers" where people hear only opinions confirming their beliefs.
 
-New phenomena have emerged: "infodemic"—an excess of contradictory information, artificial botnets creating the illusion of public opinion, and "deepfake" technologies making deception more sophisticated.
+New phenomena have emerged: "infodemic" — an excess of contradictory information, artificial botnets creating the illusion of public opinion, and "deepfake" technologies making deception more sophisticated.
 
 ### Paradox of the Information Society
 

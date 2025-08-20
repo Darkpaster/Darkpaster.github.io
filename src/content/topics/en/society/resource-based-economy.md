@@ -15,7 +15,7 @@ lang: "en"
 
 ## The Collapse of the Monetary Illusion: When Dollars Matter More Than the Planet
 
-The modern economic system has encountered a fundamental contradiction. We live on a planet with limited resources, but our economy is built on the premise of infinite growth. The main problem with the capitalist model is that it reduces the entire complexity of planetary resources to one abstract indicator—money.
+The modern economic system has encountered a fundamental contradiction. We live on a planet with limited resources, but our economy is built on the premise of infinite growth. The main problem with the capitalist model is that it reduces the entire complexity of planetary resources to one abstract indicator — money.
 
 The price of a product reflects only the private costs of the producer but ignores the true cost: the depletion of non-renewable fossils, the degradation of ecosystems, the accumulation of toxins in the biosphere. The market is supposed to "automatically" account for these external effects, but in practice, government mechanisms (taxes, quotas) cover only a small fraction of the real damage.
 
@@ -73,7 +73,7 @@ The idea that people work only for money is a myth. What matters to us becomes a
 
 ### Extension as a Principle of Action
 
-Instead of the vague concept of "love," the new system proposes a concrete principle of extension—actions that are equally beneficial to all people. Purifying water, developing vaccines, exchanging technologies, creating publicly accessible infrastructure—these are examples of extensional actions that do not burden recipients with a sense of debt.
+Instead of the vague concept of "love," the new system proposes a concrete principle of extension — actions that are equally beneficial to all people. Purifying water, developing vaccines, exchanging technologies, creating publicly accessible infrastructure — these are examples of extensional actions that do not burden recipients with a sense of debt.
 
 ## Mechanisms of Transition: How Can This Happen?
 
@@ -99,6 +99,6 @@ The internet has already begun to free people from government restrictions on in
 
 ## Conclusion: The Choice Is Ours
 
-Humanity possesses creative potential that far exceeds its propensity for destruction. We are capable of creating paradise or hell on Earth—the only limitations are those we impose ourselves. A resource-oriented economy is not a utopia, but a logical evolution of economic relations in the era of technological abundance.
+Humanity possesses creative potential that far exceeds its propensity for destruction. We are capable of creating paradise or hell on Earth — the only limitations are those we impose ourselves. A resource-oriented economy is not a utopia, but a logical evolution of economic relations in the era of technological abundance.
 
 The transition to a new model is inevitable—the question is only whether it will occur through conscious transformation or through catastrophes and crises. Nature does not support species that have lost their usefulness, and our economic system is no exception. It's time to replace outdated forms with new ones, more adapted to the reality of a limited planet and limitless human potential.
