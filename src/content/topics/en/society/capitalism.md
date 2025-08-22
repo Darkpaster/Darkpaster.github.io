@@ -15,9 +15,7 @@ lang: "en"
 
 ## Introduction
 
-The modern economic system, based on capital and monetary relations, has reached unprecedented levels of production and technological development. In 2024, the global GDP amounted to **\$111.3 trillion**, and the value of the planet's natural resources is estimated at **\$393 trillion**. However, behind the facade of this abundance lies a multitude of systemic paradoxes and deep problems. This system, oriented toward endless growth and profit maximization, generates not only colossal social and economic inequality but also leads to environmental destruction, sophisticated forms of human exploitation, and the implementation of ethically questionable business practices that directly harm society.
-
-This article presents a multidimensional analysis of these systemic failures. We will examine historical cycles of wealth concentration that return us to the "Gilded Age" of the late 19th century and explore how modern forms of slavery and neocolonialism are embedded in global supply chains. The goal of this article is to show that these problems are not random errors but logical consequences of the fundamental principles underlying the modern monetary system.
+The modern economic system, based on capital and monetary relations, has reached unprecedented levels of production and technological development. In 2024, global GDP amounted to **\$111.3 trillion**, and the value of the planet's natural resources is estimated at **\$393 trillion**. However, behind the facade of this abundance lie many systemic paradoxes and deep-rooted problems. This system, focused on endless growth and profit maximization, generates enormous social and economic inequality, leads to environmental destruction, sophisticated forms of human exploitation, and the introduction of ethically questionable business practices that directly harm society.
 
 ## Theoretical Foundations and Methodology
 
@@ -365,6 +363,8 @@ Where does enormous wealth come from today? Increasingly — not from innovation
 - **Inheritance and Monopolies.** Oxfam analysts calculated that **nearly 60% of billionaires' fortunes are created through inheritance, market monopoly, or connections to power**. In 2024, a landmark moment occurred: for the first time since 2009, **every new billionaire under 30 inherited their wealth**. This signals the beginning of the "great wealth transfer" from one generation of the super-rich to another ([Inequality Inc., Oxfam International](https://www.google.com/search?q=https://www.oxfam.org/en/research-reports/inequality-inc)).
 
 - **Monopoly Power.** About 18% of global billionaire wealth comes from control over entire industries. These "monopoly magnates" lead corporations that dictate the rules of the game, set inflated prices for consumers, and suppress competitors.
+
+![corporations](/assets/memes/en/corporations.jpg)
 
 **Corruption here acts as a catalyst.** It allows companies to gain exclusive privileges, create barriers for competitors, and form monopolies, leading to concentration of wealth and power in the hands of a narrow elite.
 

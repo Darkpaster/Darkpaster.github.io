@@ -601,7 +601,21 @@ const texts = currentLang === 'ru' ? {
 	}
 </style>
 
-<script>
+<script define:vars={{lang: currentLang}}>
+	const currentURL = new URL(window.location.href);
+	const pathname = currentURL.pathname;
+
+	if (pathname.includes('/ru') && lang !== 'ru') {
+		const newPath = pathname.replace(/^\/ru/, '') || '/';
+		currentURL.pathname = newPath;
+		window.location.replace(currentURL.toString());
+	} else if (!pathname.includes('/ru') && lang === 'ru') {
+		const newPath = '/ru' + pathname;
+		currentURL.pathname = newPath;
+		window.location.replace(currentURL.toString());
+	}
+
+
 	function toggleCategory(category: string) {
 		const element = document.getElementById(`category-${category}`);
 		const button = event?.target as HTMLButtonElement;

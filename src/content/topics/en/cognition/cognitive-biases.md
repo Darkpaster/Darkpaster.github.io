@@ -4,7 +4,7 @@ description: "List of known distortions of reality perception."
 level: 3
 tags: ["thinking", "psychology"]
 related: ["/topics/en/cognition/fallacies", "/topics/en/cognition/rationality", "/topics/en/cognition/brain", "/topics/en/philosophy/objectivity", "/topics/en/society/symbolic-stagnation"]
-meme: "/assets/memes/ru/Cognitive_biases_diagram_RU.png"
+meme: "/assets/memes/en/Cognitive_biases_diagram_RU.png"
 category: "cognition"
 difficulty: "intermediate"
 publishedAt: 2024-01-10

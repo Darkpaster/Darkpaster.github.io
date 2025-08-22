@@ -108,10 +108,23 @@
             }
 
         function initLanguage() {
-            const savedLocale = localStorage.getItem('locale') || defaultLocale;
-            setLocale(savedLocale, false);
+            const urlLocale = (() => {
+                const pathPart = window.location.pathname.split('/')[1];
+                return availableLocales.includes(pathPart) ? pathPart : defaultLocale;
+                })();
+
+
+            const savedLocale = localStorage.getItem('locale');
+
+            if (savedLocale !== urlLocale) {
+                localStorage.setItem('locale', urlLocale);
+                }
+
+            document.getElementById('lang-current').textContent = urlLocale.toUpperCase();
             }
-        function setLocale(locale, reload = true) {
+
+
+            function setLocale(locale, reload = true) {
             localStorage.setItem('locale', locale);
             document.getElementById('lang-current').textContent = locale.toUpperCase();
             if (reload) {
