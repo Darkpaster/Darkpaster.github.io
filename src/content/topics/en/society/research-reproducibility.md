@@ -1,7 +1,7 @@
 ---
 title: "The Reproducibility Crisis in Science"
 description: "The results of the studies cast doubt on the reliability of many studies, especially in medicine."
-level: 3
+level: 4
 tags: ["society", "researches", "science", "stagnation"]
 related: ["/topics/en/society/problem-list", "/topics/en/society/science-resistance", "/topics/en/society/scientific-community", "/topics/en/society/you-are-all-my-business", "/topics/en/cognition/science"]
 meme: "/assets/memes/en/research-cycle.png"

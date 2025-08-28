@@ -1,7 +1,7 @@
 ---
 title: "Как менять (обучать) людей?"
 description: "Справочник на тему андрагогики с основными методами эффективного обучения."
-level: 4
+level: 3
 tags: ["общество", "мышление", "обучение", "понятийное расстояние"]
 related: ["/topics/ru/cognition/rationality", "/topics/ru/cognition/language", "/topics/ru/society/you-are-all-my-business", "/topics/ru/cognition/brain", "/topics/ru/cognition/positive-transfer"]
 meme: "/assets/memes/ru/Euler_circles.jpg"

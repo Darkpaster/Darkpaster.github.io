@@ -1,7 +1,7 @@
 ---
 title: "Science, scientific method, and scientific thinking"
 description: "This work explores the fundamental foundations of scientific knowledge, analyzing the nature of science, the structure of the scientific method, and the principles of scientific thinking."
-level: 4
+level: 2
 tags: ["thinking", "science", "methodology"]
 related: ["/topics/en/cognition/brain", "/topics/en/cognition/healthy-brain", "/topics/en/cognition/rationality", "/topics/en/society/scientific-community", "/topics/en/cognition/fallacies", "/topics/en/cognition/cognitive-biases", "/topics/en/cognition/positive-transfer", "/topics/en/cognition/relativity"]
 meme: "/assets/memes/en/Scientific-Method-1024x1024.jpg"

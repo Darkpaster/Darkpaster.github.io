@@ -1,7 +1,7 @@
 ---
 title: "Free will"
 description: "A scientific look at what factors influence our behavior and whether there is such a thing as a ‘conscious’ choice."
-level: 3
+level: 4
 tags: ["free will", "biology", "neurobiology", "thinking", "society", "cognitive distortions", "psychology", "awareness"]
 related: ["/topics/en/cognition/general-semantic", "/topics/en/biology/evolution", "/topics/en/society/problem-list", "/topics/en/cognition/brain", "/topics/en/cognition/cognitive-biases", "/topics/en/cognition/rationality", "/topics/en/cognition/relativity", "/topics/en/philosophy/objectivity", "/topics/en/cognition/knowledge-accuracy", "/topics/en/cognition/science"]
 meme: "/assets/memes/en/determined.jpg"
@@ -28,6 +28,8 @@ The result was unexpected: the brain began preparing for action 300 milliseconds
 ![Libet's results](/assets/memes/en/libet_experiment.png)
 
 Graphs showing brain readiness potential, neuronal firing, and dopamine levels increasing before conscious intention and action, highlighting temporal dynamics from the Libet experiment
+
+![graphic](/assets/memes/en/brain_prediction.png)
 
 Subsequent studies only confirmed and expanded Libet's conclusions:
 

@@ -70,11 +70,13 @@ allTopics.forEach(topic => {
     });
 });
 
+const relatedEdges = graphData.edges.filter(edge => edge.type === 'related').length;
+
 const stats = {
     totalNodes: graphData.nodes.length,
-    totalEdges: graphData.edges.length,
+    totalEdges: relatedEdges,
     categories: [...new Set(graphData.nodes.map(n => n.category))].length,
-    avgConnections: Math.round(graphData.edges.length * 2 / graphData.nodes.length * 10) / 10
+    avgConnections: Math.round(relatedEdges * 2 / graphData.nodes.length * 10) / 10
 };
 
 const texts = currentLang === 'ru' ? {

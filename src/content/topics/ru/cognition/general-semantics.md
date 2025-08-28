@@ -1,7 +1,7 @@
 ---
 title: "Общая семантика"
 description: "Что такое общая семантика и почему она важна для устойчивого здравомыслящего общества."
-level: 2
+level: 3
 tags: ["мышление", "общая семантика", "восприятие", "общество", "осознанность", "теория относительности"]
 related: ["/topics/ru/cognition/brain", "/topics/ru/cognition/rationality", "/topics/ru/philosophy/objectivity", "/topics/ru/cognition/language", "/topics/ru/cognition/knowledge-accuracy"]
 meme: "/assets/memes/ru/structural_differential.jpg"

@@ -1,7 +1,7 @@
 ---
 title: "Кризис воспроизводимости исследований"
 description: "Результаты исследований ставят под сомнение достоверность множества исследований, особенно в медицине."
-level: 3
+level: 4
 tags: ["общество", "исследования", "наука", "стагнация"]
 related: ["/topics/ru/society/problem-list", "/topics/ru/society/science-resistance", "/topics/ru/society/scientific-community", "/topics/ru/society/you-are-all-my-business", "/topics/ru/cognition/science"]
 meme: "/assets/memes/ru/research-cycle.png"

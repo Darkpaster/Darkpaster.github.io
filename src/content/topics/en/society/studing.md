@@ -1,7 +1,7 @@
 ---
 title: "How to Change (Teach) People?"
 description: "A guide to andragogy with key methods for effective learning."
-level: 4
+level: 3
 tags: ["society", "thinking", "learning", "conceptual distance"]
 related: ["/topics/en/cognition/rationality", "/topics/en/cognition/language", "/topics/en/society/you-are-all-my-business", "/topics/en/cognition/brain", "/topics/en/cognition/positive-transfer"]
 meme: "/assets/memes/en/Euler_circles.jpg"

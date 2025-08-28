@@ -1,7 +1,7 @@
 ---
 title: "Свобода воли"
 description: "Научный взгляд на то, какие факторы влияют на наше поведение и существует ли 'осознанный' выбор?"
-level: 3
+level: 4
 tags: ["свобода воли", "биология", "нейробиология", "мышление", "общество", "когнитивные искажения", "психология", "осознанность"]
 related: ["/topics/ru/cognition/general-semantic", "/topics/ru/biology/evolution", "/topics/ru/society/problem-list", "/topics/ru/cognition/brain", "/topics/ru/cognition/cognitive-biases", "/topics/ru/cognition/rationality", "/topics/ru/cognition/relativity", "/topics/ru/philosophy/objectivity", "/topics/ru/cognition/knowledge-accuracy", "/topics/ru/cognition/science"]
 meme: "/assets/memes/ru/determined.jpg"
@@ -25,7 +25,11 @@ lang: "ru"
 
 Результат оказался неожиданным: мозг начинал подготовку к действию за 300 миллисекунд до того, как человек осознавал своё решение. Получалось, что чувство свободного выбора — это иллюзия, возникающая уже после того, как мозг принял решение.
 
-![Libet's results](/assets/memes/en/libet_experiment.png)
+![graphic](/assets/memes/ru/brain_prediction.png)
+
+Графики показывают потенциал готовности мозга, нейронную активность и повышение уровня дофамина перед сознательным намерением и действием, подчеркивающие временную динамику эксперимента Либета.
+
+![Libet's results](/assets/memes/ru/libet_experiment.png)
 
 Последующие исследования только подтвердили и расширили выводы Либета:
 
